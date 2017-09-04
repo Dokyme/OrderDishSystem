@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<style type="text/css">
+    @import "login.css";
+</style>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+    <script src="js/jquery-3.2.1.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <title>登陆页面</title>
+</head>
+
+<script>
+    var verifyNum = 0;
+    $("body").onload(function(){
+        $.post("url", {
+            "name":"varify"
+        },
+        function(data,status){
+            var response = JSON.parse(data.toString());
+            $("verify_pic").attr("src",response["url"]);
+            verifyNum=response["number"];
+        })
+    })
+
+    $("verify_pic").onclick(function(){
+        $.post("url",{
+            "name":"varify"
+        },
+        function(data,status){
+            var response=JSON.parse(data.toString());
+            $("verify_pic").attr("src",response["url"]);
+            verifyNum=response["number"];
+        })
+    })
+
+    $("submit").onclick(function(){
+        if($("login_text").attr("value") === verifyNum.toString()){
+            $.post("url",{
+                    "userName":$("username").attr("value"),
+                    "password":$("password").attr("value")
+                },
+                function(data,status){
+                    var response=JSON.parse(data.toString());
+                    if(response["flag"]==="1"){
+
+                    }
+                    else if(response["flag"]==="2"){
+                        $("error_message").attr("value","用户名不存在，请重输！");
+                        clearAll();
+                    }
+                    else{
+                        $("error_message").attr("value","密码错误，请重输！");
+                        clearAll();
+                    }
+                        })
+        }
+        else{
+            $("error_message").attr("value","验证码输入错误，请重输！");
+            $("verify").attr("value","");
+            $("verify_pic").click();
+        }
+    })
+
+    function clearAll(){
+        $("username").attr("value","");
+        $("password").attr("value","");
+        $("verify").attr("value","");
+        $("verify_pic").click();
+    }
+</script>
+
+<body>
+    <div class="background_pic">
+        <img src="image/login_background.jpg">
+    </div>
+    <headline id="headline">
+        餐厅点餐系统
+    </headline>
+    <div id="login_box">
+        <label id="error_message"></label>
+        <p class="login_text">用户名</p>
+        <input id="username" type="text" placeholder="  Username" autofocus required>
+        <p class="login_text">密码</p>
+        <input id="password" type="password" placeholder="  Password" required>
+        <p class="login_text">验证码</p>
+        <input id="verify" type="text">
+        <img id="verify_pic">
+        <input id="submit" type="submit" value="登  陆">
+    </div>
+</body>
+</html>
