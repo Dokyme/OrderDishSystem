@@ -1,2 +1,6 @@
-OrderDishSystemServer/lib/*
-OrderDishSystemServer/build/*
+OrderDishSystemServer/lib
+OrderDishSystemServer/out
+OrderDishSystemServer/build
+OrderDishSystemServer/gradle
+OrderDishSystemServer/gradlew.bat
+OrderDishSystemServer/gradlew
