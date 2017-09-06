@@ -20,6 +20,7 @@ dependencies {
     compile "org.springframework:spring-context:4.3.10.RELEASE"
     compile "org.springframework:spring-web:4.3.10.RELEASE"
     compile "org.springframework:spring-webmvc:4.3.10.RELEASE"
+    compile "org.springframework:spring-test:4.3.10.RELEASE"
     // https://mvnrepository.com/artifact/org.mybatis/mybatis
     compile group: 'org.mybatis', name: 'mybatis', version: '3.4.5'
     // https://mvnrepository.com/artifact/mysql/mysql-connector-java

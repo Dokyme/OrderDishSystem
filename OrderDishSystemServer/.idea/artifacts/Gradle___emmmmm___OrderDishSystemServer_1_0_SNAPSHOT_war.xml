@@ -6,6 +6,12 @@
     </properties>
     <root id="archive" name="OrderDishSystemServer-1.0-SNAPSHOT.war">
       <element id="artifact" artifact-name="Gradle : emmmmm : OrderDishSystemServer-1.0-SNAPSHOT.war (exploded)" />
+      <element id="javaee-facet-resources" facet="OrderDishSystemServer_test/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="OrderDishSystemServer_test" />
+        </element>
+      </element>
     </root>
   </artifact>
 </component>
