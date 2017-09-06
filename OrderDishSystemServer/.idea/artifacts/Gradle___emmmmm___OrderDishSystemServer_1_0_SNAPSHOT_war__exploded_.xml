@@ -20,15 +20,20 @@
           <element id="library" level="project" name="Gradle: org.springframework:spring-webmvc:4.3.10.RELEASE" />
           <element id="library" level="project" name="Gradle: org.springframework:spring-web:4.3.10.RELEASE" />
           <element id="library" level="project" name="Gradle: org.springframework:spring-context:4.3.10.RELEASE" />
+          <element id="library" level="project" name="Gradle: org.springframework:spring-test:4.3.10.RELEASE" />
           <element id="library" level="project" name="Gradle: org.mybatis:mybatis:3.4.5" />
           <element id="library" level="project" name="Gradle: mysql:mysql-connector-java:6.0.6" />
           <element id="library" level="project" name="Gradle: javax.servlet:jstl:1.2" />
+          <element id="library" level="project" name="Gradle: com.fasterxml.jackson.core:jackson-databind:2.9.0" />
+          <element id="library" level="project" name="Gradle: com.fasterxml.jackson.core:jackson-core:2.9.0" />
+          <element id="library" level="project" name="Gradle: com.fasterxml.jackson.core:jackson-annotations:2.9.0" />
+          <element id="library" level="project" name="Gradle: com.github.axet:kaptcha:0.0.9" />
           <element id="library" level="project" name="Gradle: org.springframework:spring-aop:4.3.10.RELEASE" />
           <element id="library" level="project" name="Gradle: org.springframework:spring-beans:4.3.10.RELEASE" />
           <element id="library" level="project" name="Gradle: org.springframework:spring-expression:4.3.10.RELEASE" />
           <element id="library" level="project" name="Gradle: org.springframework:spring-core:4.3.10.RELEASE" />
+          <element id="library" level="project" name="Gradle: com.jhlabs:filters:2.0.235" />
           <element id="library" level="project" name="Gradle: commons-logging:commons-logging:1.2" />
-          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-test/4.3.10.RELEASE/e82664ba39497626cd29298cb16c161d901bfbee/spring-test-4.3.10.RELEASE.jar" />
         </element>
       </element>
     </root>

@@ -1,5 +1,8 @@
 package com.odss.seu.service;
 
+import com.odss.seu.DAO.User;
+import com.odss.seu.service.exception.PasswordWrongException;
+import com.odss.seu.service.exception.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
@@ -9,18 +12,19 @@ import javax.servlet.http.HttpSession;
 public class LoginServiceImpl implements LoginService {
 
     @Override
-    public int login(String username, String password) {
+    public User login(String username, String password) throws RuntimeException {
         if (!username.equals("admin")) {
-            return LoginService.USERNAME_HOT_FOUND;
+            throw new UsernameNotFoundException();
         } else if (!password.equals("123")) {
-            return LoginService.PASSWORD_WRONG;
+            throw new PasswordWrongException();
         } else {
-            return LoginService.SUCCESS;
+            //用户名和密码正确
+            return User.mock();
         }
     }
 
     @Override
-    public int logout(HttpSession session) {
-        return 0;
+    public void logout(HttpSession session) throws RuntimeException {
+
     }
 }

@@ -1,13 +1,11 @@
 package com.odss.seu.service;
 
+import com.odss.seu.DAO.User;
+
 import javax.servlet.http.HttpSession;
 
 public interface LoginService {
 
-    int SUCCESS = 0;
-    int USERNAME_HOT_FOUND = 1;
-    int PASSWORD_WRONG = 2;
-
-    int login(String username, String password);
-    int logout(HttpSession session);
+    User login(String username, String password);
+    void logout(HttpSession session);
 }

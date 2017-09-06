@@ -9,7 +9,7 @@ sourceCompatibility = 1.8
 
 allprojects {
     repositories {
-        maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
     }
 }
 
@@ -27,10 +27,17 @@ dependencies {
     compile group: 'mysql', name: 'mysql-connector-java', version: '6.0.6'
     // https://mvnrepository.com/artifact/javax.servlet/jstl
     compile group: 'javax.servlet', name: 'jstl', version: '1.2'
-
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.0'
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.9.0'
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.9.0'
+    // https://mvnrepository.com/artifact/com.github.axet/kaptcha
+    compile group: 'com.github.axet', name: 'kaptcha', version: '0.0.9'
 }
 
-task copyJars(type:Copy) {
+task copyJars(type: Copy) {
     from configurations.runtime
     into 'lib'
 }
