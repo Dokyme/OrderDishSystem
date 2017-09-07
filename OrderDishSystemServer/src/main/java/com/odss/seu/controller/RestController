@@ -1,0 +1,22 @@
+package com.odss.seu.controller;
+
+
+
+@Controller
+@RequestMapping("/rest")
+public class RestController {
+    private static final String MAX_LONG_AS_STRING="1234567890";
+    private RestRepository restRepository;
+
+    @Autowired
+    public RestController(RestRepository restRepository) {
+        this.restRepository= restRepository;
+    }
+
+    @RequestMapping(method=RequestMethod.GET)
+    public List<Rest> rest(
+        @RequestParam(value="max",defaultValue=MAX_LONG_AS_STRING) long max,
+                @RequestParam(value="count",defaultValue="20") int count){
+        return restRepository.findRest(max,count);
+    }
+}
