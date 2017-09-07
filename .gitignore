@@ -4,3 +4,5 @@ OrderDishSystemServer/build
 OrderDishSystemServer/gradle
 OrderDishSystemServer/gradlew.bat
 OrderDishSystemServer/gradlew
+OrderDishSystemServer/.idea
+OrderDishSystemServer/.gradle
