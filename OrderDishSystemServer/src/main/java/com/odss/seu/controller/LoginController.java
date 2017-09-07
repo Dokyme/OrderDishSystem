@@ -52,6 +52,7 @@ public class LoginController {
                @RequestParam(value = "password") String password,
                @RequestParam(value = "captcha") String captcha,
                HttpSession session) {
+        System.out.println(username + password + captcha);
         AuthenticService.State state = authenticService.check(session);
         if (state != AuthenticService.State.NONE)//检验是否已经登陆过，如果登陆过，说明该用户发送了非法的请求
             throw new InvalidRequestException();
