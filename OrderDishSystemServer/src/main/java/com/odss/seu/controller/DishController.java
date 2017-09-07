@@ -2,12 +2,12 @@ package com.odss.seu.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.odss.seu.vo.Dish;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +19,7 @@ public class DishController {
     public @JsonView
     List<Dish> queryAllDish(@PathVariable Integer typeId) {
         return new ArrayList<>();
+        org.apache.ibatis.session.B
     }
 
     @RequestMapping(method = RequestMethod.POST)

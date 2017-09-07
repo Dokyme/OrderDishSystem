@@ -17,8 +17,8 @@
 
             $("#submit").bind("click", function () {
                 $.ajax({
-                    type: "POST",
-                    url: "/login",
+                    type: "post",
+                    url: "http://localhost:8080/login",
                     contentType: "application/x-www-form-urlencoded",
                     data: {
                         "username": $("#username").attr("value"),
