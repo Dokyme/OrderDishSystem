@@ -6,6 +6,7 @@ import com.odss.seu.service.AuthenticService;
 import com.odss.seu.service.LoginService;
 import com.odss.seu.service.exception.CaptchaWrongException;
 import com.odss.seu.service.exception.InvalidRequestException;
+import com.odss.seu.vo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,18 +46,19 @@ public class LoginController {
         }
         return "login";
     }
-//
-//    @RequestMapping(method = RequestMethod.POST, produces = "application/json")
-//    public @JsonView
-//    User login(@RequestParam(value = "username") String username,
-//               @RequestParam(value = "password") String password,
-//               @RequestParam(value = "captcha") String captcha,
-//               HttpSession session) {
-//        AuthenticService.State state = authenticService.check(session);
-//        if (state != AuthenticService.State.NONE)//检验是否已经登陆过，如果登陆过，说明该用户发送了非法的请求
-//            throw new InvalidRequestException();
-//        if (!session.getAttribute(Constants.KAPTCHA_SESSION_CONFIG_KEY).toString().equals(captcha))//检验登陆验证码
-//            throw new CaptchaWrongException();
-//        return loginService.login(username, password);//返回登陆结果
-//    }
+
+    @RequestMapping(method = RequestMethod.POST, produces = "application/json")
+    public @JsonView
+    User login(@RequestParam(value = "username") String username,
+               @RequestParam(value = "password") String password,
+               @RequestParam(value = "captcha") String captcha,
+               HttpSession session) {
+        System.out.println(username+password+captcha);
+        AuthenticService.State state = authenticService.check(session);
+        if (state != AuthenticService.State.NONE)//检验是否已经登陆过，如果登陆过，说明该用户发送了非法的请求
+            throw new InvalidRequestException();
+        if (!session.getAttribute(Constants.KAPTCHA_SESSION_CONFIG_KEY).toString().equals(captcha))//检验登陆验证码
+            throw new CaptchaWrongException();
+        return loginService.login(username, password);//返回登陆结果
+    }
 }

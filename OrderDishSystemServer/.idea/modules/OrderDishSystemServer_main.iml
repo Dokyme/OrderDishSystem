@@ -17,7 +17,7 @@
           <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/../../src/main/webapp/WEB-INF/web.xml" />
         </descriptors>
         <webroots>
-          <root url="file://D:\Git\Git\warehouse\OrderDishSystem\OrderDishSystemServer\src\main\webapp" relative="/" />
+          <root url="file://C:\Users\zdksc\Desktop\大三实训\OrderDishSystem\OrderDishSystemServer\src\main\webapp" relative="/" />
         </webroots>
       </configuration>
     </facet>
