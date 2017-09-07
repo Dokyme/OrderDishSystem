@@ -6,74 +6,140 @@
     </style>
     <meta charset="UTF-8">
     <script src="js/jquery-3.2.1.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
     <title>新增菜品信息</title>
 </head>
 <script>
+    //将CSS中的长度信息转换为对应的数字
+    function getLengthNum(elementName,attrType){
+        var len = $(elementName).css(attrType);
+        return parseInt(len.substr(0,len.length-2));
+    }
+
     $(document).ready(function () {
         $("#circle_image").css("height",$("#circle_image").css("width"));
+
+        $("#confirm_btn").bind("click",function () {
+            $.post("url",{
+                "dish_category":$("#dish_type_input").attr("value"),
+                "dish_name":$("#dish_name_input").attr("value"),
+                "dish_intro":$("#dish_intro_input").attr("value"),
+                "dish_price":$("#dish_price_input").attr("value"),
+                "dish_sales":$("#dish_sales_input").attr("value")
+            },function(data,status){
+
+            },"json");
+        });
+
+        $("#cancel_btn").bind("click",function () {
+            $(window).attr('location',"dishDataInfo.html");
+        });
+
+        $("#image_show").bind("click",function () {
+            $("#imgUpload").click();
+        })
+
+        $("#imgUpload").change(function(e) {
+            for (var i = 0; i < e.target.files.length; i++) {
+                var file = e.target.files.item(i);
+                var freader = new FileReader();
+                freader.readAsDataURL(file);
+                freader.onload = function(e) {
+                    var src = e.target.result;
+                    $("#image_show").attr("src",src);
+                }
+                $("#circle_image").css("background-color","#000000")
+            }
+        });
+
+        $("#circle_image").css("left",(getLengthNum(".basic_lane","width")*0.5-140).toString()+"px");
+        $("#dish_title").css("left",(getLengthNum(".basic_lane","width")*0.5-120).toString()+"px");
+        $("#dish_name_input").css("left",(getLengthNum(".basic_lane","width")*0.5-120).toString()+"px");
     });
 
     $(window).resize(function () {
-        $("#circle_image").css("height",$("#circle_image").css("width"));
-        var basic_length = $(".basic_lane").css("width");
-        var detailed_length = $(".detailed_lane").css("width");
-        basic_length=basic_length.substr(0,basic_length.length-2);
-        detailed_length=detailed_length.substr(0,detailed_length.length-2);
+        var basic_length = getLengthNum(".basic_lane","width");
+        var detailed_length = getLengthNum(".detailed_lane","width");
         if(basic_length<=300) {
             $(".basic_lane").css("width", "300px");
             $(".detailed_lane").css("left", "300px");
         }
         if(detailed_length<=557)
             $(".detailed_lane").css("width","557px");
+
         var window_length=$(window).width();
         if(window_length>=857){
             $(".basic_lane").css("width", "35%");
             $(".detailed_lane").css("width", "65%");
             $(".detailed_lane").css("left","35%")
         }
-    });
 
-    $("#confirm_btn").onclick(function () {
-        $.post("url",{
-            "name":"info",
-            "type":"dish"
-        },function(data,status){
-
-        },"json");
-    });
-
-    $("#cancel_btn").onclick(function () {
-
+        $("#circle_image").css("left",(getLengthNum(".basic_lane","width")*0.5-140).toString()+"px");
+        $("#dish_title").css("left",(getLengthNum(".basic_lane","width")*0.5-120).toString()+"px");
+        $("#dish_name_input").css("left",(getLengthNum(".basic_lane","width")*0.5-120).toString()+"px");
     });
 </script>
 <body>
     <div class="basic_lane">
-        <div class="circle_image" id="circle_image">
-            <input type="file" class="head_pic">
+        <div class="container">
+            <div class="row rowdis">
+                <form class="circle_image" id="circle_image">
+                    <input type="file" class="head_pic" id="imgUpload">
+                    <img id="image_show">
+                </form>
+            </div>
+            <div class="row rowdis">
+                <div id="dish_title">菜品名称</div>
+            </div>
+            <div class="row rowdis">
+                <input type="text" id="dish_name_input" placeholder="例：酸菜鱼">
+            </div>
         </div>
-        <span id="dish_title">菜品名称</span>
-        <input type="text" id="dish_name" placeholder="例：酸菜鱼">
     </div>
     <div class="detailed_lane">
-        <div class="normal_info" id="dish_type">
-            <span class="normal_info_title">菜品种类</span>
-            <input class="input_info" type="text" placeholder="例：中餐">
-        </div>
-        <div class="normal_info" id="dish_info">
-            <span class="normal_info_title">菜品简介</span>
-            <input class="input_large_info" type="text" placeholder="例：这是一道很好吃的菜">
-        </div>
-        <div class="normal_info" id="dish_price">
-            <span class="normal_info_title">菜品价格</span>
-            <input class="input_info" type="text" placeholder="例：48">
-        </div>
-        <div class="normal_info" id="dish_sales">
-            <span class="normal_info_title">菜品销量</span>
-            <input class="input_info" type="text" placeholder="0">
-        </div>
-        <div class="btn_info">
-            <input type="submit" value="确定" class="click_btn" id="confirm_btn">
-            <input type="submit" value="取消" class="click_btn" id="cancel_btn">
+        <div class="container dish_table">
+            <div class="row rowdis">
+                <div class="col-md-3">
+                    <span class="normal_info_title">菜品种类</span>
+                </div>
+                <div class="col-md-6">
+                    <input class="input_info" type="text" id="dish_type_input" placeholder="例：中餐">
+                </div>
+            </div>
+            <div class="row rowdis">
+                <div class="col-md-3">
+                    <span class="normal_info_title">菜品简介</span>
+                </div>
+                <div class="col-md-6">
+                    <textarea class="input_large_info" id="dish_intro_input" placeholder="例：这是一道很好吃的菜"></textarea>
+                </div>
+            </div>
+            <div class="row rowdis">
+                <div class="col-md-3">
+                    <span class="normal_info_title">菜品价格</span>
+                </div>
+                <div class="col-md-6">
+                    <input class="input_info" type="text" id="dish_price_input" placeholder="例：48">
+                </div>
+            </div>
+            <div class="row rowdis">
+                <div class="col-md-3">
+                    <span class="normal_info_title">菜品销量</span>
+                </div>
+                <div class="col-md-6">
+                    <input class="input_info" type="text" id="dish_sales_input" placeholder="0">
+                </div>
+            </div>
+            <div class="row rowdis">
+                <div class="col-md-5"><h1></h1></div>
+                <div class="col-md-2">
+                    <input type="submit" value="确定" class="click_btn" id="confirm_btn">
+                </div>
+                <div class="col-md-2">
+                    <input type="submit" value="取消" class="click_btn" id="cancel_btn">
+                </div>
+            </div>
         </div>
     </div>
 </body>
