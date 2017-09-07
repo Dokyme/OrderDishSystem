@@ -2,7 +2,6 @@ package com.odss.seu.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.google.code.kaptcha.Constants;
-import com.odss.seu.DAO.User;
 import com.odss.seu.service.AuthenticService;
 import com.odss.seu.service.LoginService;
 import com.odss.seu.service.exception.CaptchaWrongException;

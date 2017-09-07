@@ -1,6 +1,5 @@
 package com.odss.seu.service;
 
-import com.odss.seu.DAO.User;
 import com.odss.seu.service.exception.PasswordWrongException;
 import com.odss.seu.service.exception.UsernameNotFoundException;
 import org.springframework.stereotype.Service;

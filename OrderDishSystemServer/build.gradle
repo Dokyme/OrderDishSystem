@@ -4,12 +4,24 @@ version '1.0-SNAPSHOT'
 apply plugin: 'java'
 apply plugin: 'war'
 apply plugin: 'idea'
+apply plugin: "com.ppdai.mybatis.generator"
 
 sourceCompatibility = 1.8
 
 allprojects {
     repositories {
         maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+    }
+}
+
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "gradle.plugin.com.ppdai.mybatis.generator:mbg-gradle-plugin:0.1.1"
     }
 }
 
@@ -40,4 +52,46 @@ dependencies {
 task copyJars(type: Copy) {
     from configurations.runtime
     into 'lib'
+}
+
+mbg {
+    // MyBatis Generator Plugin for Gradle
+    // 是否覆盖旧文件，默认为true
+    overwrite = true
+
+    // 是否打印执行过程日志，默认为false
+    verbose = false
+
+    // 配置文件：相对于src/main/resources目录，默认为generatorConfig.xml，
+    configFile = "generatorConfig.xml"
+
+    // 数据库连接信息，在xml中的引用方式：${jdbc.属性名}
+    // 若该信息已在xml文件中写死，则不必在此处配置
+    jdbc {
+        // 驱动类，默认为'com.mysql.jdbc.Driver'
+        driver = 'com.mysql.jdbc.Driver'
+        // 默认为空
+        url = 'jdbc:mysql://223.3.117.237:3306/orderdishsystemdatabase?useSSL=false'
+        // 默认为root
+        username = 'zdk'
+        // 默认为空
+        password = '459861'
+    }
+
+    // 待生成的文件路径信息，在xml中的引用方式：${file.属性名}
+    // 以下皆为默认配置，不建议自定义配置，推荐默认配置
+    // 若该信息已在xml文件中写死，则不必在此处配置
+    file {
+        // 实体类文件
+        modelDir = 'src/main/java'
+        modelPackage = "com.odss.seu.vo"
+
+        // *Mapper.xml文件
+        xmlDir = 'src/main/resources'
+        xmlPackage = 'mapper'
+
+        // *Mapper.java文件
+        clientDir = 'src/main/java'
+        clientPackage = "com.odss.seu.mapper"
+    }
 }
