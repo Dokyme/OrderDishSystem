@@ -22,10 +22,11 @@
                     type: "POST",
                     url: "http://localhost:8080/login",
                     dataType: "json",
+                    contentType:"application/x-www-form-urlencoded",
                     data: {
-                        username: $("#username").attr("value"),
-                        password: $("#password").attr("value"),
-                        captcha: $("#verify").attr("value")
+                        username: $("#username")[0].value,
+                        password: $("#password")[0].value,
+                        captcha: $("#verify")[0].value
                     },
                     success: function (data, state) {
                         if (state == 200) {
