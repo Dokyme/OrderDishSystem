@@ -3,8 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/OrderDishSystemServer.iml" filepath="$PROJECT_DIR$/.idea/modules/OrderDishSystemServer.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/OrderDishSystemServer_main.iml" filepath="$PROJECT_DIR$/.idea/modules/OrderDishSystemServer_main.iml" group="OrderDishSystemServer" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/OrderDishSystemServer_test.iml" filepath="$PROJECT_DIR$/.idea/modules/OrderDishSystemServer_test.iml" group="OrderDishSystemServer" />
     </modules>
   </component>
 </project>
