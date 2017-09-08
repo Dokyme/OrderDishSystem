@@ -1,52 +1,69 @@
 package com.odss.seu.controller;
 
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.odss.seu.mapper.OrderMapper;
+import com.odss.seu.service.OrderRepository;
+import com.odss.seu.vo.Dish;
 import com.odss.seu.vo.Order;
 import com.odss.seu.vo.OrderInfo;
+import com.odss.seu.vo.ViewLevel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Controller
-@RequestMapping(value="/order")
+@RestController
+@RequestMapping(value = "/order")
 public class OrderController {
 
-//    提交订单_点餐结束后提交订单
-    @RequestMapping(value="/submit",method= RequestMethod.PUT)
-    public void submitOrder(OrderInfo orderInfo)
-    {
+    private OrderRepository orderRepository;
+
+    @Autowired
+    public OrderController(OrderRepository orderRepository) {
+        this.orderRepository = orderRepository;
+    }
+
+    @RequestMapping(value = "/submit", method = RequestMethod.PUT)
+    public void submitOrder(OrderInfo orderInfo) {
         return;
     }
 
-//    查询订单——客户点餐之后自己查询订单
-    @RequestMapping(value="/{orderinfo}",method= RequestMethod.GET)
-    public List<OrderInfo> queryOrder(@PathVariable OrderInfo orderinfo)
-    {
+    @RequestMapping(value = "/{orderId}", method = RequestMethod.GET)
+    @JsonView(ViewLevel.Summary.class)
+    public Order queryOrderById(@PathVariable Integer orderId) {
+        return orderRepository.queryOrderById(orderId);
+    }
+
+    @RequestMapping(value = "/detail/{orderId}", method = RequestMethod.GET)
+    @JsonView(ViewLevel.SummaryWithDetail.class)
+    public Order queryOrderDetailById(@PathVariable Integer orderId) {
+        return orderRepository.queryOrderById(orderId);
+    }
+
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @JsonView(ViewLevel.Summary.class)
+    public List<Order> queryAllOrders() {
+        return orderRepository.queryAllOrders();
+    }
+
+    @RequestMapping(value = "/manager", method = RequestMethod.GET)
+    public List<Order> queryAllOrder() {
         return new ArrayList<>();
     }
 
-//    查询订单-管理员之后查订单
-    @RequestMapping(value="/manager",method=RequestMethod.GET)
-    public  List<Order> queryAllOrder()
-    {
-        return new ArrayList<>();
+    @RequestMapping(value = "/change", method = RequestMethod.POST)
+    public void changeOrder(Order order) {
+        return;
     }
 
-//    修改订单_结账+评价更新
-    @RequestMapping(value="/change",method=RequestMethod.POST)
-    public void changeOrder(Order order)
-    {
-        return ;
-    }
-
-//    删除订单
-    @RequestMapping(method=RequestMethod.DELETE)
-    public void deleteOrder()
-    {
+    @RequestMapping(method = RequestMethod.DELETE)
+    public void deleteOrder() {
         return;
     }
 

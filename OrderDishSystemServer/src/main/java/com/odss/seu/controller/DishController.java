@@ -19,11 +19,8 @@ public class DishController {
 
     private DishRepository dishRepository;
 
-    private DishMapper dishMapper;
-
     @Autowired
-    public DishController(DishMapper dishMapper, DishRepository dishRepository) {
-        this.dishMapper = dishMapper;
+    public DishController(DishRepository dishRepository) {
         this.dishRepository = dishRepository;
     }
 
@@ -44,14 +41,14 @@ public class DishController {
     //按id查询菜品概要信息。
     @RequestMapping(value = "/{dishId}", method = RequestMethod.GET)
     @JsonView(ViewLevel.Summary.class)
-    public Dish queryDishesByDishId(@PathVariable Integer dishId) {
+    public Dish queryDishByDishId(@PathVariable Integer dishId) {
         return dishRepository.queryDishesById(dishId);
     }
 
     //按id查询菜品详细信息。
     @RequestMapping(value = "/detail/{dishId}", method = RequestMethod.GET)
     @JsonView(ViewLevel.SummaryWithDetail.class)
-    public Dish queryDishesDetailByDishId(@PathVariable Integer dishId) {
+    public Dish queryDishDetailByDishId(@PathVariable Integer dishId) {
         return dishRepository.queryDishesById(dishId);
     }
 
