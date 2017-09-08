@@ -66,6 +66,17 @@
     border:none;
 }
 
+#dish_name{
+    position: relative;
+    font-family: "PingFang TC";
+    font-weight: 400;
+    color:red;
+    font-size:38px;
+    height:50px;
+    width:240px;
+    text-align: center;
+}
+
 .dish_table{
     position: relative;
     vertical-align:middle;
@@ -79,29 +90,29 @@
     color: blue;
 }
 
+.dish_info_display{
+    width:200px;
+    height:40px;
+    font-size:24px;
+    font-weight: 400;
+    font-family: "PingFang TC";
+    color:red;
+    text-align: center;
+}
+
+.large_info_display{
+    width:200px;
+    height:160px;
+    font-size:20px;
+    font-weight: 400;
+    font-family: "PingFang TC";
+    color: red;
+    text-align: center;
+}
+
 .rowdis {
     margin-top: 50px;
     margin-bottom: 50px;
-}
-
-.normal_info{
-    height:10%;
-}
-
-#dish_name{
-    height:10%;
-}
-
-#dish_info{
-    height:40%;
-}
-
-#dish_price{
-    height:10%;
-}
-
-#dish_sales{
-    height:10%
 }
 
 .input_info{

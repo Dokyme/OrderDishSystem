@@ -3,6 +3,7 @@ package com.odss.seu.service;
 import com.odss.seu.mapper.UserMapper;
 import com.odss.seu.service.exception.PasswordWrongException;
 import com.odss.seu.service.exception.UsernameNotFoundException;
+import com.odss.seu.vo.DishExample;
 import com.odss.seu.vo.User;
 import com.odss.seu.vo.UserExample;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ public class LoginServiceImpl implements LoginService {
     public User login(String username, String password) throws RuntimeException {
         UserExample example = new UserExample();
         UserExample.Criteria criteria = example.createCriteria();
+
         criteria.andAccountEqualTo(username);
         List<User> userList = userMapper.selectByExample(example);
 
