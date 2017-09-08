@@ -9,9 +9,8 @@
     <script src="js/jquery-3.2.1.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/tableinfo.js"></script>
-    <script src="js/background.js"></script>
     <link href="css/bootstrap.min.css" rel="stylesheet">
-    <title>经营数据查看</title>
+    <title>数据维护管理</title>
 </head>
 <body>
 
@@ -30,7 +29,39 @@
         else
             $(".sideline").css("height","calc(100% - 60px)")
     });
+
 </script>
+
+<style type="text/css">
+    #diary{
+        position: absolute;
+        top:5%;
+        left:5%;
+        height:75%;
+        width:90%;
+        border: border:5px solid #000;
+        background-color: lightcyan;
+    }
+
+    .down_line{
+        position: absolute;
+        top:90%;
+        right:10%;
+    }
+
+    .down_infomanage_btn{
+        font-family: "PingFang SC";
+        font-weight: 300;
+        color: white;
+        font-size: 20px;
+        width: 160px;
+        height:40px;
+        border:none;
+        border-radius: 5px;
+        background-color: green;
+        margin-left: 20px;
+    }
+</style>
 
 <body>
 <div class="headline">
@@ -65,36 +96,11 @@
     </div>
 </div>
 <div class="content">
-    <div class="info_table mytable_2">
-        <div class="table-responsive">
-            <table class="table" id="dish_table">
-                <thead>
-                <tr>
-                    <th>账单时间</th>
-                    <th>账单桌号</th>
-                    <th>账单评价</th>
-                    <th>账单价格</th>
-                </tr>
-                </thead>
-                <tbody id="dish_table_body">
-                <tr>
-                    <td>2017-08-29 13:14:29</td>
-                    <td>C02</td>
-                    <td>
-                        <img src="image/star.png" class="star_icon" id="star_1">
-                        <img src="image/star.png" class="star_icon" id="star_2">
-                        <img src="image/star.png" class="star_icon" id="star_3">
-                        <img src="image/nostar.png" class="star_icon" id="star_4">
-                        <img src="image/nostar.png" class="star_icon" id="star_5">
-                    </td>
-                    <td>56</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+    <div id="diary"></div>
+    <div class="down_line">
+        <input type="button" class="down_infomanage_btn" value="导出日志">
+        <input type="button" class="down_infomanage_btn" value="数据备份">
     </div>
-    <div>
-        <label class="show_total_data" id="show_sales_data"></label>
-    </div>
+</div>
 </body>
 </html>
