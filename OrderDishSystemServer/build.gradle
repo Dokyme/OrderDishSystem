@@ -80,7 +80,7 @@ mbg {
         // 驱动类，默认为'com.mysql.jdbc.Driver'
         driver = 'com.mysql.jdbc.Driver'
         // 默认为空
-        url = 'jdbc:mysql://223.3.117.237:3306/orderdishsystemdatabase?useSSL=false'
+        url = 'jdbc:mysql://localhost:3306/orderdishsystemdatabase?useSSL=false'
         // 默认为root
         username = 'zdk'
         // 默认为空

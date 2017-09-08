@@ -57,8 +57,8 @@ public class LoginController {
         AuthenticService.State state = authenticService.check(session);
         if (state != AuthenticService.State.NONE)//检验是否已经登陆过，如果登陆过，说明该用户发送了非法的请求
             throw new InvalidRequestException();
-        if (!session.getAttribute(Constants.KAPTCHA_SESSION_CONFIG_KEY).toString().equals(captcha))//检验登陆验证码
-            throw new CaptchaWrongException();
+//        if (!session.getAttribute(Constants.KAPTCHA_SESSION_CONFIG_KEY).toString().equals(captcha))//检验登陆验证码
+//            throw new CaptchaWrongException();
         return loginService.login(username, password);//返回登陆结果
     }
 }
