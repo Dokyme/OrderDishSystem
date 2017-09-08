@@ -1,5 +1,7 @@
 package com.odss.seu.vo;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 import java.io.Serializable;
 
 public class Dish implements Serializable {
@@ -11,6 +13,7 @@ public class Dish implements Serializable {
      *
      * @mbg.generated Fri Sep 08 14:07:18 CST 2017
      */
+    @JsonView(ViewLevel.Summary.class)
     private Integer id;
 
     /**
@@ -20,6 +23,7 @@ public class Dish implements Serializable {
      *
      * @mbg.generated Fri Sep 08 14:07:18 CST 2017
      */
+    @JsonView(ViewLevel.Summary.class)
     private String name;
 
     /**
@@ -29,6 +33,7 @@ public class Dish implements Serializable {
      *
      * @mbg.generated Fri Sep 08 14:07:18 CST 2017
      */
+    @JsonView(ViewLevel.SummaryWithDetail.class)
     private String description;
 
     /**
@@ -38,6 +43,7 @@ public class Dish implements Serializable {
      *
      * @mbg.generated Fri Sep 08 14:07:18 CST 2017
      */
+    @JsonView(ViewLevel.SummaryWithDetail.class)
     private String picture;
 
     /**
@@ -47,6 +53,7 @@ public class Dish implements Serializable {
      *
      * @mbg.generated Fri Sep 08 14:07:18 CST 2017
      */
+    @JsonView(ViewLevel.Summary.class)
     private Float price;
 
     /**
@@ -56,7 +63,8 @@ public class Dish implements Serializable {
      *
      * @mbg.generated Fri Sep 08 14:07:18 CST 2017
      */
-    private Integer type;
+    @JsonView(ViewLevel.Summary.class)
+    private DishType type;
 
     /**
      *
@@ -65,6 +73,7 @@ public class Dish implements Serializable {
      *
      * @mbg.generated Fri Sep 08 14:07:18 CST 2017
      */
+    @JsonView(ViewLevel.SummaryWithDetail.class)
     private Integer recommend;
 
     /**
@@ -195,7 +204,7 @@ public class Dish implements Serializable {
      *
      * @mbg.generated Fri Sep 08 14:07:18 CST 2017
      */
-    public Integer getType() {
+    public DishType getType() {
         return type;
     }
 
@@ -207,7 +216,7 @@ public class Dish implements Serializable {
      *
      * @mbg.generated Fri Sep 08 14:07:18 CST 2017
      */
-    public void setType(Integer type) {
+    public void setType(DishType type) {
         this.type = type;
     }
 

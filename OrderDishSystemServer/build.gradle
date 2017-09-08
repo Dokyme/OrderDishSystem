@@ -82,7 +82,7 @@ mbg {
         // 默认为空
         url = 'jdbc:mysql://localhost:3306/orderdishsystemdatabase?useSSL=false'
         // 默认为root
-        username = 'zdk'
+        username = 'root'
         // 默认为空
         password = '459861'
     }
