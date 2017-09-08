@@ -16,14 +16,16 @@
             });
 
             $("#submit").bind("click", function () {
+                var a=$("#username").attr("value");
+                var b=document.getElementById("username").value;
                 $.ajax({
-                    type: "post",
+                    type: "POST",
                     url: "http://localhost:8080/login",
-                    contentType: "application/x-www-form-urlencoded",
+                    dataType: "json",
                     data: {
-                        "username": $("#username").attr("value"),
-                        "password": $("#password").attr("value"),
-                        "captcha": $("#verify").attr("value")
+                        username: $("#username").attr("value"),
+                        password: $("#password").attr("value"),
+                        captcha: $("#verify").attr("value")
                     },
                     success: function (data, state) {
                         if (state == 200) {
@@ -47,8 +49,7 @@
                             $("error_message").attr("value", state);
                             clearAll();
                         }
-                    },
-                    dataType: "json"
+                    }
                 });
             });
         });

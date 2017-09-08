@@ -54,8 +54,8 @@ dependencies {
     compile group: 'commons-dbcp', name: 'commons-dbcp', version: '1.4'
     // https://mvnrepository.com/artifact/org.springframework/spring-dao
     compile group: 'org.springframework', name: 'spring-dao', version: '2.0.8'
-
-
+// https://mvnrepository.com/artifact/org.springframework/spring-jdbc
+    compile group: 'org.springframework', name: 'spring-jdbc', version: '4.3.10.RELEASE'
 }
 
 task copyJars(type: Copy) {
