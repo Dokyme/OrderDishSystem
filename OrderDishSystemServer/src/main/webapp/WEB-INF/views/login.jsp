@@ -16,8 +16,6 @@
             });
 
             $("#submit").bind("click", function () {
-                var a=$("#username").attr("value");
-                var b=document.getElementById("username").value;
                 $.ajax({
                     type: "POST",
                     url: "http://localhost:8080/login",
