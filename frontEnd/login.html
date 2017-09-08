@@ -34,43 +34,41 @@
                     },"json")
             });
 
-            $("#submit").bind("click",function(){
-                if($("#login_text").attr("value") === verifyNum.toString()){
-                    $.post("url",{
-                            "userName":$("username").attr("value"),
-                            "password":$("password").attr("value")
-                        },
-                        function(data){
-                            var response=JSON.parse(data);
-                            if(response["flag"]==="1"){
-                                var usertype=response["type"];
-                                if(usertype==="1"){
+            $("#submit").bind("click", function () {
+                $.ajax({
+                    type: "POST",
+                    url: "http://localhost:8080/login",
+                    dataType: "json",
+                    data: {
+                        username: $("#username").attr("value"),
+                        password: $("#password").attr("value"),
+                        captcha: $("#verify").attr("value")
+                    },
+                    success: function (data, state) {
+                        if (state == 200) {
+                            alert("登陆成功");
+                            var response = JSON.parse(data);
+                            if (response["flag"] === "1") {
+                                var usertype = response["type"];
+                                if (usertype === "1") {
 
                                 }
-                                else if(usertype==="2"){
+                                else if (usertype === "2") {
 
                                 }
-                                else{
+                                else {
 
                                 }
                             }
-                            else if(response["flag"]==="2"){
-                                $("error_message").attr("value","用户名不存在，请重输！");
-                                clearAll();
-                            }
-                            else{
-                                $("error_message").attr("value","密码错误，请重输！");
-                                clearAll();
-                            }
-                        },"json")
-                }
-                else{
-                    $("#error_message").html("验证码输入错误，请重输！");
-                    $("#verify").attr("value","");
-                    $("#verify_pic").click();
-                }
+                        }
+                        else {
+                            alert("登陆失败");
+                            $("error_message").attr("value", state);
+                            clearAll();
+                        }
+                    }
+                });
             });
-        });
 
         function clearAll(){
             $("#username").attr("value","");

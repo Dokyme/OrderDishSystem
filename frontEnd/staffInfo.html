@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style type="text/css">
+        @import "background.css";
+        @import "InfoManage.css";
+    </style>
+    <script src="background.js"></script>
+
+    <meta charset="UTF-8">
+    <script src="js/jquery-3.2.1.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <title>员工数据管理</title>
+</head>
+
+<script>
+    $(window).ready(function(){
+        showTime();
+    });
+
+    $(window).resize(function () {
+        if($(window).width()<800)
+            $(".headline").css("width","800px");
+        else
+            $(".headline").css("width","100%");
+        if($(window).height()<400)
+            $(".sideline").css("height","340px");
+        else
+            $(".sideline").css("height","calc(100% - 60px)")
+    });
+
+</script>
+<body>
+<div class="headline">
+    <div style="position:absolute;margin-left: 10px;display: inline;left:0;">
+        <img src="image/restaurant.png" class="headline_pic">
+        <div id="headtext_1">餐厅点餐系统</div>
+    </div>
+    <div style="position:absolute;margin-left: 10px;display: inline; left:30%;">
+        <img src="image/staff.png" class="headline_pic">
+        <div id="headtext_2">欢迎你，管理员！</div>
+    </div>
+    <div style="position:absolute;margin-left: 10px;display: inline; right:2%;">
+        <label id="headtext_3"></label>
+        <img src="image/exit.png" class="headline_pic">
+    </div>
+</div>
+<div class="sideline">
+    <div>
+        <input type="button" class="sideline_btn" style="top:5%;" id="pay_btn" value="账单支付">
+    </div>
+    <div>
+        <input type="button" class="sideline_btn" style="top:20%" id="pay_btn" value="菜品信息管理">
+    </div>
+    <div>
+        <input type="button" class="sideline_btn" style="top:35%" id="pay_btn" value="员工信息管理">
+    </div>
+    <div>
+        <input type="button" class="sideline_btn" style="top:50%" id="pay_btn" value="数据维护管理">
+    </div>
+    <div>
+        <input type="button" class="sideline_btn" style="top:65%" id="pay_btn" value="经营数据查看">
+    </div>
+</div>
+<div class="content">
+    <div class="info_table mytable">
+        <div class="table-responsive">
+            <table class="table" id="staff_table">
+                <thead>
+                <tr>
+                    <th>员工类别</th>
+                    <th>员工名称</th>
+                    <th>员工性别</th>
+                    <th>员工账号</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody id="staff_table_body">
+                <tr>
+                    <td>管理员</td>
+                    <td>肖君彦</td>
+                    <td>男</td>
+                    <td>admin</td>
+                    <td>
+                        <div>
+                            <img src="image/detail.png" class="content_icon">
+                            <img src="image/edit.png" class="content_icon">
+                            <img src="image/cancel.png" class="content_icon">
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div>
+        <label class="show_total_data" id="show_stuff_data"></label>
+    </div>
+    <div class="selective_line">
+        <div class="selective_text">排序依据</div>
+        <input type="button" class="selective_btn" id="selective_key" value="员工类别">
+        <div class="selective_text">顺序</div>
+        <input type="button" class="selective_btn" id="selective_order" value="升序">
+    </div>
+    <div class="button_line">
+        <input type="button" class="down_btn" id="flush_data" value="刷新数据">
+        <input type="button" class="down_btn" id="add_new_staff" value="新增员工数据">
+        <input type="button" class="down_btn" id="calc_total_num" value="计算员工总数">
+    </div>
+</div>
+</body>
+</html>

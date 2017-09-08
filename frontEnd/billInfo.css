@@ -1,0 +1,112 @@
+.date_line{
+    position: absolute;
+    left:3%;
+    top:5%;
+}
+
+.date_text{
+    display: inline;
+    font-family: "PingFang SC";
+    font-size: 22px;
+    font-weight: 500;
+}
+
+.date_item{
+    display: inline;
+    font-family: "PingFang TC";
+    font-size: 20px;
+    font-weight: 300;
+    color: #007aff;
+    width:140px;
+    height:40px;
+    text-align: center;
+    margin-left:20px;
+    border-radius: 20px;
+}
+
+.mytable{
+    position:absolute;
+    left:5%;
+    top:12%;
+    width:90%;
+    max-height:48%;
+    overflow: scroll;
+}
+
+.content_icon{
+    height:20px;
+    width: 20px;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    background-color: transparent;
+}
+
+.table th{
+    text-align: center;
+    font-family: "PingFang SC";
+    font-size: 20px;
+    font-weight: 500;
+    color: blue;
+    height: 30px;
+}
+
+.table td {
+    text-align: center;
+    font-family: "Songti TC";
+    font-size: 16px;
+    font-weight: 300;
+    height:20px;
+    width: 20px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.selective_line{
+    position: absolute;
+    top:75%;
+    left:10%;
+}
+
+.selective_text{
+    display: inline;
+    margin-left: 10px;
+    margin-right: 5px;
+    font-family: "PingFang SC";
+    font-weight: 500;
+    font-size: 22px;
+}
+
+.selective_btn{
+    display:inline;
+    margin-left: 15px;
+    margin-right: 10px;
+    font-family: "PingFang SC";
+    font-weight: 300;
+    color: #007aff;
+    font-size: 22px;
+    border: none;
+    border-radius: 10px;
+    background-color: lightyellow;
+}
+
+.button_line{
+    position: absolute;
+    top:85%;
+    right:5%;
+}
+
+.down_btn{
+    display: inline;
+    margin-left: 20px;
+    font-family: "PingFang SC";
+    font-weight: 300;
+    color: white;
+    font-size: 20px;
+    width: 140px;
+    height:40px;
+    border:none;
+    border-radius: 5px;
+    background-color: green;
+}

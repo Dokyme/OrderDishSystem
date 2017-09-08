@@ -1,0 +1,68 @@
+.mytable{
+    position:absolute;
+    left:5%;
+    top:5%;
+    width:90%;
+    max-height:70%;
+    overflow: scroll;
+}
+
+.content_icon{
+    height:20px;
+    width: 20px;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    background-color: transparent;
+}
+
+.table th{
+    text-align: center;
+    font-family: "PingFang SC";
+    font-size: 20px;
+    font-weight: 500;
+    color: blue;
+    height: 30px;
+}
+
+.table td {
+    text-align: center;
+    font-family: "Songti TC";
+    font-size: 16px;
+    font-weight: 300;
+    height:20px;
+    width: 20px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.button_line{
+    position: absolute;
+    top:85%;
+    right:5%;
+}
+
+.down_btn{
+    display: inline;
+    margin-left: 20px;
+    font-family: "PingFang SC";
+    font-weight: 300;
+    color: white;
+    font-size: 20px;
+    width: 140px;
+    height:40px;
+    border:none;
+    border-radius: 5px;
+    background-color: green;
+}
+
+.show_total_data{
+    position: absolute;
+    left:5%;
+    top:80%;
+    font-family: "PingFang SC";
+    font-size: 22px;
+    font-weight: 300;
+    color: red;
+}
