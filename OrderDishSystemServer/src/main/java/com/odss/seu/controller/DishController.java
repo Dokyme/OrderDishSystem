@@ -23,21 +23,21 @@ public class DishController {
         this.dishManageService = dishManageService;
     }
 
-    //查询所有菜品概要信息。
+    //顾客或服务员或管理员界面，罗列所有菜品概要信息。
     @RequestMapping(method = RequestMethod.GET)
     @JsonView(ViewLevel.Summary.class)
     public List<Dish> queryDishes() {
         return orderDishService.queryAllDish();
     }
 
-    //查询所有菜品详细信息。
+    //顾客或服务员或管理员界面，罗列所有菜品详细信息。
     @RequestMapping(value = "/detail", method = RequestMethod.GET)
     @JsonView(ViewLevel.SummaryWithDetail.class)
     public List<Dish> queryDishesDetail() {
         return orderDishService.queryAllDish();
     }
 
-    //按id查询菜品详细信息。
+    //管理员，按id查询菜品详细信息。
     @RequestMapping(value = "/{dishId}", method = RequestMethod.GET)
     @JsonView(ViewLevel.SummaryWithDetail.class)
     public Dish queryDishDetailByDishId(@PathVariable Integer dishId) {

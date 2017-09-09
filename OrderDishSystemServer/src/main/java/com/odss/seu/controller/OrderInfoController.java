@@ -30,7 +30,7 @@ public class OrderInfoController {
     @RequestMapping(method = RequestMethod.GET)
     @JsonView(ViewLevel.Summary.class)
     public List<OrderInfo> queryAllOrderInfos() {
-        return null;
+        return arrangeCookingService.queryAllCookingTasks();
     }
 
     //后厨确认开始烹饪。
@@ -50,6 +50,4 @@ public class OrderInfoController {
     public void cancelCooking(@PathVariable Integer orderInfoId) {
         arrangeCookingService.cancelDishCooking(orderInfoId);
     }
-
-    //后厨监听的后端
 }

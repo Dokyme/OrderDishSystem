@@ -7,6 +7,7 @@ import com.odss.seu.service.LoginService;
 import com.odss.seu.service.exception.CaptchaWrongException;
 import com.odss.seu.service.exception.InvalidRequestException;
 import com.odss.seu.vo.User;
+import com.odss.seu.vo.ViewLevel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,8 +49,8 @@ public class IdentityController {
     }
 
     @RequestMapping(method = RequestMethod.POST, produces = "application/json")
-    public @JsonView
-    User login(@RequestParam(value = "username") String username,
+    @JsonView(ViewLevel.Summary.class)
+    public User login(@RequestParam(value = "username") String username,
                @RequestParam(value = "password") String password,
                @RequestParam(value = "captcha") String captcha,
                HttpSession session) {

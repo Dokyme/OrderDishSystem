@@ -35,7 +35,6 @@ public class CaptchaController {
         String capText = kcaptchaProducer.createText();
         BufferedImage bi = this.kcaptchaProducer.createImage(capText);
         ServletOutputStream out = response.getOutputStream();
-        System.out.println("================code is================"+capText);
         try {
             session.setAttribute(Constants.KAPTCHA_SESSION_CONFIG_KEY, capText);//在该用户的session中记录他的验证码值
         } catch (Exception e) {
