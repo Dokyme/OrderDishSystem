@@ -7,5 +7,11 @@ import java.util.List;
 public interface OrderRepository {
     List<Order> queryAllOrders();
 
-    Order queryOrderById(Integer orderId) throws RuntimeException;
+    Order queryOrderById(Integer orderId);
+
+    void submitNewOrder(Order order);
+
+    void updateOrder(Order order);
+
+    void deleteOrder(Order order);
 }

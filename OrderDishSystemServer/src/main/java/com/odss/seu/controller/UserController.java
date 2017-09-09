@@ -2,64 +2,50 @@ package com.odss.seu.controller;
 
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.odss.seu.service.UserManageService;
 import com.odss.seu.vo.User;
+import com.odss.seu.vo.ViewLevel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@RequestMapping(value="/user")
+@RequestMapping(value = "/user")
 public class UserController {
 
-    @RequestMapping(value="/{userId}",method= RequestMethod.GET)
-            public @JsonView
-    List<User> queryAllUser(@PathVariable Integer userId)
-    {
-        return new ArrayList<>();
+    private UserManageService userManageService;
+
+    @Autowired
+    public UserController(UserManageService userManageService) {
+        this.userManageService = userManageService;
     }
 
-    @RequestMapping(method=RequestMethod.POST)
-    public void updateUser(@RequestParam User user)
-    {
-        return;
+    //管理员查询所有用户概要信息的列表。
+    @RequestMapping(method = RequestMethod.GET)
+    @JsonView(ViewLevel.Summary.class)
+    public List<User> queryAllUser() {
+        return userManageService.queryAllUsers();
     }
 
-    @RequestMapping(method=RequestMethod.PUT)
-    public void addNewUser(@RequestParam User user)
-    {
-        return;
+    //管理员修改用户信息。
+    @RequestMapping(method = RequestMethod.POST)
+    public void updateUser(@RequestBody User user) {
+        userManageService.updateUser(user);
     }
 
-    @RequestMapping(value="/{userId}",method=RequestMethod.DELETE)
-    public void deleteUser(@RequestParam Integer userId)
-    {
-        return;
+    //管理员添加用户。
+    @RequestMapping(method = RequestMethod.PUT)
+    @JsonView(ViewLevel.SummaryWithDetail.class)
+    public User addNewUser(@RequestBody User user) {
+        return userManageService.addNewUser(user);
+    }
+
+
+    @RequestMapping(value = "/{userId}", method = RequestMethod.DELETE)
+    public void deleteUser(@PathVariable Integer userId) {
+        userManageService.deleteUser(userId);
     }
 }
-
-//", method = RequestMethod.GET)
-//    public @JsonView
-//    List<Dish> queryAllDish(@PathVariable Integer typeId) {
-//        return new ArrayList<>();
-//    }
-//
-//    @RequestMapping(method = RequestMethod.POST)
-//    public void updateDish(@RequestParam Dish dish){
-//        return;
-//    }
-//
-//    @RequestMapping(method = RequestMethod.PUT)
-//    public void addNewDish(@RequestParam Dish dish){
-//        return;
-//    }
-//
-//    @RequestMapping(value = "/{dishId}",method = RequestMethod.DELETE)
-//    public void deleteDish(@PathVariable Integer dishId){
-//        return;
-//    }
-//}

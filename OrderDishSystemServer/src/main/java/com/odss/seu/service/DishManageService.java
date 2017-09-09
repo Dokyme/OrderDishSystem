@@ -5,11 +5,13 @@ import com.odss.seu.vo.Dish;
 import java.util.List;
 
 public interface DishManageService {
-    List<Dish> queryAllDish();
+    List<Dish> queryAllDishes();
+
+    Dish queryDishDetail(Integer dishId);
 
     void updateDish(Dish dish);
 
-    void deleteDishById(int id);
+    void deleteDish(Integer dishId);
 
-    void insertDish(Dish dish);
+    Dish addDish(Dish dish);
 }
