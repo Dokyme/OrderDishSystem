@@ -3,7 +3,6 @@ package com.odss.seu.service;
 import com.odss.seu.mapper.TableMapper;
 import com.odss.seu.vo.Table;
 import com.odss.seu.vo.TableExample;
-import javafx.scene.control.Tab;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
