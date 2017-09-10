@@ -43,7 +43,7 @@ public class UserController {
         return userManageService.addNewUser(user);
     }
 
-
+    //管理员删除用户。
     @RequestMapping(value = "/{userId}", method = RequestMethod.DELETE)
     public void deleteUser(@PathVariable Integer userId) {
         userManageService.deleteUser(userId);
