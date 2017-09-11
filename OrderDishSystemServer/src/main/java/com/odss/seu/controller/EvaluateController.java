@@ -22,7 +22,7 @@ public class EvaluateController {
         return;
     }
 
-//    管理员查看评论——可能还需要输入时间
+    //管理员查看评论——可能还需要输入时间
     @RequestMapping(value="/{orderinfo}",method=RequestMethod.GET)
     public List<Order> queryEvaluate(@PathVariable OrderInfo orderinfo)
     {

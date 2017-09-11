@@ -8,7 +8,7 @@
     <script src="js/jquery-3.2.1.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="css/bootstrap.min.css">
-    <title>新增菜品信息</title>
+    <title>新增员工信息</title>
 </head>
 <script>
     //将CSS中的长度信息转换为对应的数字
@@ -81,66 +81,67 @@
     });
 </script>
 <body>
-    <div class="basic_lane">
-        <div class="container">
-            <div class="row rowdis">
-                <form class="circle_image" id="circle_image">
-                    <input type="file" class="head_pic" id="imgUpload">
-                    <img id="image_show">
-                </form>
+<div class="basic_lane">
+    <div class="container">
+        <div class="row rowdis">
+            <form class="circle_image" id="circle_image">
+                <input type="file" class="head_pic" id="imgUpload">
+                <img id="image_show">
+            </form>
+        </div>
+        <div class="row rowdis">
+            <div class="title" id="staff_title">员工姓名</div>
+        </div>
+        <div class="row rowdis">
+            <input type="text" class="name_input" id="staff_name_input" placeholder="例：张三">
+        </div>
+    </div>
+</div>
+<div class="detailed_lane">
+    <div class="container dish_table">
+        <div class="row rowdis">
+            <div class="col-md-3">
+                <span class="normal_info_title">员工类别</span>
             </div>
-            <div class="row rowdis">
-                <div id="dish_title">菜品名称</div>
+            <div class="col-md-6">
+                <input class="input_info" type="text" id="dish_type_input" placeholder="例：服务员">
             </div>
-            <div class="row rowdis">
-                <input type="text" id="dish_name_input" placeholder="例：酸菜鱼">
+        </div>
+        <div class="row rowdis">
+            <div class="col-md-3">
+                <span class="normal_info_title">员工性别</span>
+            </div>
+            <div class="col-md-6">
+                <label class="info_sex"><input type="radio" id="male_sex" value="male">男</label>
+                <label class="info_sex"><input type="radio" id="female_sex" value="female">女</label>
+            </div>
+        </div>
+        <div class="row rowdis">
+            <div class="col-md-3">
+                <span class="normal_info_title">员工账号</span>
+            </div>
+            <div class="col-md-6">
+                <input class="input_info" type="text" id="dish_price_input" placeholder="例：48">
+            </div>
+        </div>
+        <div class="row rowdis">
+            <div class="col-md-3">
+                <span class="normal_info_title">账号密码</span>
+            </div>
+            <div class="col-md-6">
+                <input class="input_info" type="password" id="dish_sales_input">
+            </div>
+        </div>
+        <div class="row rowdis">
+            <div class="col-md-5"><h1></h1></div>
+            <div class="col-md-2">
+                <input type="submit" value="确定" class="click_btn" id="confirm_btn">
+            </div>
+            <div class="col-md-2">
+                <input type="submit" value="取消" class="click_btn" id="cancel_btn">
             </div>
         </div>
     </div>
-    <div class="detailed_lane">
-        <div class="container dish_table">
-            <div class="row rowdis">
-                <div class="col-md-3">
-                    <span class="normal_info_title">菜品种类</span>
-                </div>
-                <div class="col-md-6">
-                    <input class="input_info" type="text" id="dish_type_input" placeholder="例：中餐">
-                </div>
-            </div>
-            <div class="row rowdis">
-                <div class="col-md-3">
-                    <span class="normal_info_title">菜品简介</span>
-                </div>
-                <div class="col-md-6">
-                    <textarea class="input_large_info" id="dish_intro_input" placeholder="例：这是一道很好吃的菜"></textarea>
-                </div>
-            </div>
-            <div class="row rowdis">
-                <div class="col-md-3">
-                    <span class="normal_info_title">菜品价格</span>
-                </div>
-                <div class="col-md-6">
-                    <input class="input_info" type="text" id="dish_price_input" placeholder="例：48">
-                </div>
-            </div>
-            <div class="row rowdis">
-                <div class="col-md-3">
-                    <span class="normal_info_title">菜品销量</span>
-                </div>
-                <div class="col-md-6">
-                    <input class="input_info" type="text" id="dish_sales_input" placeholder="0">
-                </div>
-            </div>
-            <div class="row rowdis">
-                <div class="col-md-5"><h1></h1></div>
-                <div class="col-md-2">
-                    <input type="submit" value="确定" class="click_btn" id="confirm_btn">
-                </div>
-                <div class="col-md-2">
-                    <input type="submit" value="取消" class="click_btn" id="cancel_btn">
-                </div>
-            </div>
-        </div>
-    </div>
+</div>
 </body>
 </html>
