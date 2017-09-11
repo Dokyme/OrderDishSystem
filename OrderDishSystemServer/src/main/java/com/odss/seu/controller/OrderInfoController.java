@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/orderinfo")
+@RequestMapping(value = "/cooking")
 public class OrderInfoController {
 
     private ArrangeCookingService arrangeCookingService;
@@ -40,7 +40,7 @@ public class OrderInfoController {
     }
 
     //后厨确认烹饪完成，要求上菜。
-    @RequestMapping(value = "/{orderInfoId", method = RequestMethod.POST)
+    @RequestMapping(value = "/{orderInfoId}", method = RequestMethod.POST)
     public void confirmFinishCooking(@PathVariable Integer orderInfoId) {
         serveDishService.requestServeDish(orderInfoId);
     }
