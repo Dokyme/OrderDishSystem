@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style type="text/css">
+        @import "dishInfo.css";
+    </style>
+    <meta charset="UTF-8">
+    <script src="js/jquery-3.2.1.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <title>菜品详细信息</title>
+</head>
+<script>
+    //将CSS中的长度信息转换为对应的数字
+    function getLengthNum(elementName,attrType){
+        var len = $(elementName).css(attrType);
+        return parseInt(len.substr(0,len.length-2));
+    }
+
+    $(document).ready(function () {
+        $.ajax("url",{
+            "name":"info"
+        },function (data,state) {
+            var dishInfo=JSON.parse(data);
+            $("#image_show").attr("src",dishInfo["src"]);
+            $("#dish_name").attr("value",dishInfo["name"]);
+            $("#dish_category").attr("value",dishInfo["category"]);
+            $("#dish_intro").attr()
+        })
+
+        $("#cancel_btn").bind("click",function (){
+            $(window).attr('location',"dishDataInfo.html");
+        });
+
+        $("#circle_image").css("left",(getLengthNum(".basic_lane","width")*0.5-140).toString()+"px");
+        $("#dish_title").css("left",(getLengthNum(".basic_lane","width")*0.5-120).toString()+"px");
+        $("#dish_name_input").css("left",(getLengthNum(".basic_lane","width")*0.5-120).toString()+"px");
+    });
+
+    $(window).resize(function () {
+        var basic_length = getLengthNum(".basic_lane","width");
+        var detailed_length = getLengthNum(".detailed_lane","width");
+        if(basic_length<=300) {
+            $(".basic_lane").css("width", "300px");
+            $(".detailed_lane").css("left", "300px");
+        }
+        if(detailed_length<=557)
+            $(".detailed_lane").css("width","557px");
+
+        var window_length=$(window).width();
+        if(window_length>=857){
+            $(".basic_lane").css("width", "35%");
+            $(".detailed_lane").css("width", "65%");
+            $(".detailed_lane").css("left","35%")
+        }
+
+        $("#circle_image").css("left",(getLengthNum(".basic_lane","width")*0.5-140).toString()+"px");
+        $("#dish_title").css("left",(getLengthNum(".basic_lane","width")*0.5-120).toString()+"px");
+        $("#dish_name").css("left",(getLengthNum(".basic_lane","width")*0.5-120).toString()+"px");
+    });
+</script>
+<body>
+<div class="basic_lane">
+    <div class="container">
+        <div class="row rowdis">
+            <form class="circle_image" id="circle_image">
+                <img id="image_show">
+            </form>
+        </div>
+        <div class="row rowdis">
+            <div id="dish_title">菜品名称</div>
+        </div>
+        <div class="row rowdis">
+            <label id="dish_name"></label>
+        </div>
+    </div>
+</div>
+<div class="detailed_lane">
+    <div class="container dish_table">
+        <div class="row rowdis">
+            <div class="col-md-3">
+                <span class="normal_info_title">菜品种类</span>
+            </div>
+            <div class="col-md-6">
+                <label class="dish_info_display" id="dish_category"></label>
+            </div>
+        </div>
+        <div class="row rowdis">
+            <div class="col-md-3">
+                <span class="normal_info_title">菜品简介</span>
+            </div>
+            <div class="col-md-6">
+                <label class="large_info_display" id="dish_intro"></label>
+            </div>
+        </div>
+        <div class="row rowdis">
+            <div class="col-md-3">
+                <span class="normal_info_title">菜品价格</span>
+            </div>
+            <div class="col-md-6">
+                <label class="dish_info_display" id="dish_price"></label>
+            </div>
+        </div>
+        <div class="row rowdis">
+            <div class="col-md-3">
+                <span class="normal_info_title">菜品销量</span>
+            </div>
+            <div class="col-md-6">
+                <label class="dish_info_display" id="dish_sales"></label>
+            </div>
+        </div>
+        <div class="row rowdis">
+            <div class="col-md-6"><h1></h1></div>
+            <div class="col-md-2">
+                <input type="submit" value="返回" class="click_btn" id="cancel_btn">
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

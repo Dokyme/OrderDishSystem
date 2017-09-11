@@ -20,7 +20,8 @@ public class UserManageServiceImpl implements UserManageService {
 
     @Override
     public List<User> queryAllUsers() {
-        return userMapper.selectByExample(new UserExample());
+        List<User> users= userMapper.selectByExample(new UserExample());
+        return users;
     }
 
     @Override

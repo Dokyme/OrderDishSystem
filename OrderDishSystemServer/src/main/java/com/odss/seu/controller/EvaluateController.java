@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.*;
 
 
 @Controller
-@RequestMapping(value="/evaluate")
+@RequestMapping(value="/evaluation")
 public class EvaluateController {
     private EvaluateService evaluateService;
 
-    @RequestMapping(method =RequestMethod.POST)
+    @RequestMapping(value = "/{orderId}",method =RequestMethod.GET)
     public void updateEvaluate(@RequestBody Evaluation evaluation, @PathVariable Integer orderId) {
         evaluateService.commitEvaluate(orderId, evaluation);
     }
