@@ -1,5 +1,7 @@
 package com.odss.seu.vo;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 import java.io.Serializable;
 
 public class OrderInfo implements Serializable {
@@ -10,6 +12,7 @@ public class OrderInfo implements Serializable {
      *
      * @mbg.generated Fri Sep 08 14:07:18 CST 2017
      */
+    @JsonView(ViewLevel.Summary.class)
     private Integer id;
 
     /**
@@ -18,6 +21,7 @@ public class OrderInfo implements Serializable {
      *
      * @mbg.generated Fri Sep 08 14:07:18 CST 2017
      */
+    @JsonView(ViewLevel.Summary.class)
     private Order order;
 
     /**
@@ -26,6 +30,7 @@ public class OrderInfo implements Serializable {
      *
      * @mbg.generated Fri Sep 08 14:07:18 CST 2017
      */
+    @JsonView(ViewLevel.Summary.class)
     private Dish dish;
 
     /**
@@ -34,6 +39,7 @@ public class OrderInfo implements Serializable {
      *
      * @mbg.generated Fri Sep 08 14:07:18 CST 2017
      */
+    @JsonView(ViewLevel.Summary.class)
     private Integer dishstate;
 
     /**
