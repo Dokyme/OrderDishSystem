@@ -11,6 +11,7 @@ import com.odss.seu.vo.ViewLevel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.List;
 
@@ -40,6 +41,7 @@ public class OrderController {
     @JsonView(ViewLevel.SummaryWithDetail.class)
     public Order queryOrderDetailById(@PathVariable Integer orderId) {
         return querySellingService.queryOrderDetail(orderId);
+
     }
 
     //管理员查询所有订单概要信息的列表。

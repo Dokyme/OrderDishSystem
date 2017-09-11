@@ -12,14 +12,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/dish")
-public class DishController {
+public class DishManageController {
 
-    private OrderDishService orderDishService;
     private DishManageService dishManageService;
 
     @Autowired
-    public DishController(OrderDishService orderDishService, DishManageService dishManageService) {
-        this.orderDishService = orderDishService;
+    public DishManageController(DishManageService dishManageService) {
         this.dishManageService = dishManageService;
     }
 
@@ -27,14 +25,14 @@ public class DishController {
     @RequestMapping(method = RequestMethod.GET)
     @JsonView(ViewLevel.Summary.class)
     public List<Dish> queryDishes() {
-        return orderDishService.queryAllDish();
+        return dishManageService.queryAllDishes();
     }
 
     //顾客或服务员或管理员界面，罗列所有菜品详细信息。
     @RequestMapping(value = "/detail", method = RequestMethod.GET)
     @JsonView(ViewLevel.SummaryWithDetail.class)
     public List<Dish> queryDishesDetail() {
-        return orderDishService.queryAllDish();
+        return dishManageService.queryAllDishes();
     }
 
     //管理员，按id查询菜品详细信息。
