@@ -7,4 +7,5 @@ import java.util.List;
 public interface CheckoutManageService {
     List<Checkout> queryCheckouts();
     void confirmCheckouted(Integer orderId);
+    void deleteCheckout(Integer orderId);
 }

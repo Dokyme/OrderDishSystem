@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class CheckoutManageServiceImpl implements CheckoutManageService {
+public class CheckoutManageServiceImpl implements CheckoutManageService{
 
     private OrderMapper orderMapper;
 
@@ -23,7 +23,7 @@ public class CheckoutManageServiceImpl implements CheckoutManageService {
     public List<Checkout> queryCheckouts() {
         OrderExample example=new OrderExample();
         example.createCriteria().andStateEqualTo(OrderState.WAITING_CHECKOUT.ordinal());
-        List<Order> orders=orderMapper.selectByExample()
+        List<Order> orders=orderMapper.selectByExample();
     }
 
     @Override
@@ -32,4 +32,6 @@ public class CheckoutManageServiceImpl implements CheckoutManageService {
         order.setState(OrderState.CHECKOUT.ordinal());
         orderMapper.updateByPrimaryKey(order);
     }
+
+
 }
