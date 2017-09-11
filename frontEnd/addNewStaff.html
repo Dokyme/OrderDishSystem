@@ -90,10 +90,10 @@
             </form>
         </div>
         <div class="row rowdis">
-            <div id="staff_title">员工姓名</div>
+            <div class="title" id="staff_title">员工姓名</div>
         </div>
         <div class="row rowdis">
-            <input type="text" id="staff_name_input" placeholder="例：张三">
+            <input type="text" class="name_input" id="staff_name_input" placeholder="例：张三">
         </div>
     </div>
 </div>
@@ -101,23 +101,24 @@
     <div class="container dish_table">
         <div class="row rowdis">
             <div class="col-md-3">
-                <span class="normal_info_title">菜品种类</span>
+                <span class="normal_info_title">员工类别</span>
             </div>
             <div class="col-md-6">
-                <input class="input_info" type="text" id="dish_type_input" placeholder="例：中餐">
+                <input class="input_info" type="text" id="dish_type_input" placeholder="例：服务员">
             </div>
         </div>
         <div class="row rowdis">
             <div class="col-md-3">
-                <span class="normal_info_title">菜品简介</span>
+                <span class="normal_info_title">员工性别</span>
             </div>
             <div class="col-md-6">
-                <textarea class="input_large_info" id="dish_intro_input" placeholder="例：这是一道很好吃的菜"></textarea>
+                <label class="info_sex"><input type="radio" id="male_sex" value="male">男</label>
+                <label class="info_sex"><input type="radio" id="female_sex" value="female">女</label>
             </div>
         </div>
         <div class="row rowdis">
             <div class="col-md-3">
-                <span class="normal_info_title">菜品价格</span>
+                <span class="normal_info_title">员工账号</span>
             </div>
             <div class="col-md-6">
                 <input class="input_info" type="text" id="dish_price_input" placeholder="例：48">
@@ -125,10 +126,10 @@
         </div>
         <div class="row rowdis">
             <div class="col-md-3">
-                <span class="normal_info_title">菜品销量</span>
+                <span class="normal_info_title">账号密码</span>
             </div>
             <div class="col-md-6">
-                <input class="input_info" type="text" id="dish_sales_input" placeholder="0">
+                <input class="input_info" type="password" id="dish_sales_input">
             </div>
         </div>
         <div class="row rowdis">

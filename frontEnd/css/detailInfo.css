@@ -44,7 +44,7 @@
     opacity:0;
 }
 
-#dish_title{
+.title{
     position: relative;
     font-family: "PingFang SC";
     font-size: 33px;
@@ -54,7 +54,7 @@
     color: darkslategray;
 }
 
-#dish_name_input{
+.name_input{
     position: relative;
     font-family: "Songti TC";
     font-size: 26px;
@@ -88,6 +88,21 @@
     font-size: 28px;
     font-weight: 500;
     color: blue;
+}
+
+.info_sex{
+    width:35px;
+    height:35px;
+}
+
+.sex_text{
+    width:35px;
+    height: 35px;
+    font-family: "PingFang SC";
+    font-size: 16px;
+    margin-left: 10px;
+    margin-right: 20px;
+    display: inline;
 }
 
 .dish_info_display{
