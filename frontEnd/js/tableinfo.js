@@ -1,12 +1,3 @@
-$("body").onload(function(){
-    $.post("url",{
-        "name":"table",
-        "type":"dish"
-    },function(data){
-        showDataTable(data);
-    },"json");
-});
-
 function showDataTable(data){
     var table_info=JSON.parse(data);
     var record;
@@ -42,26 +33,26 @@ function showDataTable(data){
     }
 }
 
-$("#flash_data").onclick(function(){
-    var pkey=$("primary_key").find("option:selected").val();
-    var order=$("order_base").find("option:selected").val();
-    for(var i=0;i<table_line_num;i++){
-        $("#dish_table_body").empty();
-    }
-    $.post("url",{
-        "primary_key":pkey,
-        "order":order
-    },function(data){
-        showDataTable(data);
-    },"json");
-});
+function payBillTableOutput(count,data){
+    var strHtml="";
+    strHtml+="<tr id=\"row_"+count.toString()+"\">";
+    strHtml+="<td><img src=\"image/detail.png\" style=\"width:20px;height:20px;\"</td>";
+    strHtml+="<td>"+data["table"]+"</td>";
+    strHtml+="<td>"+data["time"]+"</td>";
+    strHtml+="<td>¥"+data["total"]+"</td>";
+    strHtml+="<td> <div> <img src=\"image/confirm.png\" class=\"content_icon\" id=\"confirm_"+count.toString()+"\"> <img src=\"image/cancel.png\" class=\"content_icon\" id=\"cancel_"+count.toString()+"\"> </div> </td>";
+    strHtml+="</tr>"
+    return strHtml;
+}
 
-$("#calculate_sales").onclick(function () {
-    $.post("url",{
-        "name":"value",
-        "type":"dish"
-    },function (data) {
-        var sale_num=JSON.parse(data);
-        $("#show_sales_data").attr("value","当前餐厅菜品总销量为"+sale_num.toString()+"份");
-    })
-})
+function staffManageTableOutput(count,data) {
+    var career=["管理员","厨师","服务员"];
+    var strHtml="";
+    strHtml+="<tr id=\"row_"+count.toString()+"\">";
+    strHtml+="<td>"+career[parseInt(data["type"])]+"</td>";
+    strHtml+="<td>"+data["name"]+"</td>";
+    strHtml+="<td>"+data["account"]+"</td>";
+    strHtml+="<td> <div> <img src=\"image/edit.png\" class=\"content_icon\" id=\"edit_"+count.toString()+"\"> <img src=\"image/cancel.png\" class=\"content_icon\" id=\"cancel_"+count.toString()+"\"> </div> </td>";
+    strHtml+="</tr>"
+    return strHtml;
+}
