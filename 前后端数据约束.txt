@@ -50,9 +50,15 @@
             }
         403
 
+管理员取消账单:
+    req:
+        DEL /checkout/{orderId}
+    res:
+        204
+
 (onload)管理员查看订单列表：
     req:    
-        GET /order/
+        GET /checkout
     res:
         200:
             [
@@ -348,6 +354,11 @@
 顾客提交评价:
     req:
         PUT /evaluation/{orderId}
+        {
+            cookspeed:xxx,
+            dishquality:xxx,
+            serveattitude:xxx
+        }
     res:
         201:评价成功
 

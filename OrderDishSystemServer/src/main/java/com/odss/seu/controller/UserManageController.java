@@ -8,18 +8,16 @@ import com.odss.seu.vo.ViewLevel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 @RequestMapping(value = "/user")
-public class UserController {
+public class UserManageController {
 
     private UserManageService userManageService;
 
     @Autowired
-    public UserController(UserManageService userManageService) {
+    public UserManageController(UserManageService userManageService) {
         this.userManageService = userManageService;
     }
 

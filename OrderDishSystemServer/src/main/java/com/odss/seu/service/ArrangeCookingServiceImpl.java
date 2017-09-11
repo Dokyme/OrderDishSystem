@@ -20,6 +20,8 @@ public class ArrangeCookingServiceImpl implements ArrangeCookingService {
     //确认这道菜开始烹饪,2为开始烹饪。
     @Override
     public void confirmNewDishCooking(Integer orderInfoId) {
+
+        orderInfoMapper.selectByExample();
         OrderInfo orderInfo = orderInfoMapper.selectByPrimaryKey(orderInfoId);
         orderInfo.setDishstate(DishState.COOKING.ordinal());
         orderInfoMapper.updateByPrimaryKey(orderInfo);
