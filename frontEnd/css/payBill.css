@@ -1,0 +1,86 @@
+.top_line{
+    position: relative;
+    left:5%;
+    top:3%;
+}
+
+.content_pic{
+    width:40px;
+    height:40px;
+    display: inline;
+    margin-right:10px;
+}
+
+.top_text{
+    font-family: "PingFang SC";
+    font-size: 24px;
+    font-weight: 500;
+    margin-right: 5px;
+    text-align: center;
+    display: inline;
+}
+
+.top_fill_text{
+    font-family: "PingFang SC";
+    font-size: 24px;
+    font-weight: 500;
+    color: red;
+    text-align: center;
+    margin-right: 10px;
+    display: inline;
+}
+
+.bill_table{
+    position: relative;
+    left:5%;
+    top:3%;
+    width:80%;
+    max-height: 60%;
+    overflow: scroll;
+}
+
+.small_icon{
+    width: 30px;
+    height:30px;
+    display: inline;
+    margin-right: 10px;
+}
+
+.total_money_line{
+    position: relative;
+    left:70%;
+    top:5%;
+}
+
+.total_pay{
+    font-family: "PingFang SC";
+    font-size: 20px;
+    font-weight: 500;
+    display: inline;
+}
+
+.pay_way_line{
+    position: relative;
+    left:5%;
+    top:5%;
+}
+
+.down_btn_line{
+    position: relative;
+    left:60%;
+    top:5%;
+}
+
+.down_btn{
+    font-family: "PingFang SC";
+    font-weight: 300;
+    color: white;
+    font-size: 20px;
+    width: 180px;
+    height:40px;
+    border:none;
+    border-radius: 5px;
+    background-color: green;
+    margin-top: 10px;
+    margin-left: 20px;
+}

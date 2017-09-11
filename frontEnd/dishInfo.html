@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <style type="text/css">
-    @import "InfoManage.css";
-    @import "background.css";
+    @import "css/InfoManage.css";
+    @import "css/background.css";
 </style>
 <head>
     <meta charset="UTF-8">
@@ -64,15 +64,23 @@
     </div>
 </div>
 <div class="content">
+    <div class="top_line">
+        <div class="date_text">筛选字段</div>
+        <input type="button" id="select_key" value="菜品种类">
+        <div class="date_text">筛选条件</div>
+        <input type="text" id="select_case" placeholder="例：>=50">
+        <input type="button" class="query_btn" id="query" value="查询">
+        <input type="button" class="add_btn" id="add" value="新增菜品信息">
+    </div>
     <div class="info_table mytable">
         <div class="table-responsive">
             <table class="table" id="dish_table">
                 <thead>
                 <tr>
-                    <th>菜品种类</th>
+                    <th>菜品种类<img src="image/down.png" class="head_icon" id="category_icon"></th>
                     <th>菜品名称</th>
-                    <th>菜品价格</th>
-                    <th>菜品销量</th>
+                    <th>菜品价格<img src="image/down.png" class="head_icon" id="price_icon"></th>
+                    <th>菜品销量<img src="image/down.png" class="head_icon" id="sales_icon"></th>
                     <th>操作</th>
                 </tr>
                 </thead>
@@ -84,7 +92,6 @@
                     <td>56</td>
                     <td>
                         <div>
-                            <img src="image/detail.png" class="content_icon">
                             <img src="image/edit.png" class="content_icon">
                             <img src="image/cancel.png" class="content_icon">
                         </div>
@@ -93,13 +100,6 @@
                 </tbody>
             </table>
         </div>
-    </div>
-    <div>
-        <label class="show_total_data" id="show_sales_data"></label>
-    </div>
-    <div class="button_line">
-        <input type="button" class="down_btn" id="add_new_staff" value="新增菜品数据">
-        <input type="button" class="down_btn" id="calc_total_num" value="显示销售总数">
     </div>
 </body>
 </html>

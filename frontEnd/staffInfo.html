@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
     <style type="text/css">
-        @import "background.css";
-        @import "InfoManage.css";
+        @import "css/background.css";
+        @import "css/InfoManage.css";
     </style>
-    <script src="background.js"></script>
+    <script src="js/background.js"></script>
 
     <meta charset="UTF-8">
     <script src="js/jquery-3.2.1.js"></script>
@@ -64,14 +64,22 @@
     </div>
 </div>
 <div class="content">
+    <div class="top_line">
+        <div class="date_text">筛选字段</div>
+        <input type="button" id="select_key" value="员工类别">
+        <div class="date_text">筛选条件</div>
+        <input type="text" id="select_case" placeholder="例：>=50">
+        <input type="button" class="query_btn" id="query" value="筛选">
+        <input type="button" class="add_btn" id="add" value="新增员工信息">
+    </div>
     <div class="info_table mytable">
         <div class="table-responsive">
             <table class="table" id="staff_table">
                 <thead>
                 <tr>
-                    <th>员工类别</th>
+                    <th>员工类别<img src="image/down.png" class="head_icon" id="category_icon"></th>
                     <th>员工名称</th>
-                    <th>员工性别</th>
+                    <th>员工性别<img src="image/down.png" class="head_icon" id="sex_icon"></th>
                     <th>员工账号</th>
                     <th>操作</th>
                 </tr>
@@ -84,7 +92,6 @@
                     <td>admin</td>
                     <td>
                         <div>
-                            <img src="image/detail.png" class="content_icon">
                             <img src="image/edit.png" class="content_icon">
                             <img src="image/cancel.png" class="content_icon">
                         </div>
@@ -93,20 +100,6 @@
                 </tbody>
             </table>
         </div>
-    </div>
-    <div>
-        <label class="show_total_data" id="show_stuff_data"></label>
-    </div>
-    <div class="selective_line">
-        <div class="selective_text">排序依据</div>
-        <input type="button" class="selective_btn" id="selective_key" value="员工类别">
-        <div class="selective_text">顺序</div>
-        <input type="button" class="selective_btn" id="selective_order" value="升序">
-    </div>
-    <div class="button_line">
-        <input type="button" class="down_btn" id="flush_data" value="刷新数据">
-        <input type="button" class="down_btn" id="add_new_staff" value="新增员工数据">
-        <input type="button" class="down_btn" id="calc_total_num" value="计算员工总数">
     </div>
 </div>
 </body>
