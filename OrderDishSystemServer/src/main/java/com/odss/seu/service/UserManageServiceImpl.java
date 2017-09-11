@@ -29,7 +29,8 @@ public class UserManageServiceImpl implements UserManageService {
     }
 
     @Override
-    public void updateUser(User user) {
+    public void updateUser(Integer userId, User user) {
+        user.setId(userId);
         userMapper.updateByPrimaryKey(user);
     }
 

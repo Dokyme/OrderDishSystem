@@ -8,8 +8,10 @@ import com.odss.seu.vo.ViewLevel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
+//api checked
 @Controller
 @RequestMapping(value = "/user")
 public class UserManageController {
@@ -29,9 +31,9 @@ public class UserManageController {
     }
 
     //管理员修改用户信息。
-    @RequestMapping(method = RequestMethod.POST)
-    public void updateUser(@RequestBody User user) {
-        userManageService.updateUser(user);
+    @RequestMapping(value = "/{userId}", method = RequestMethod.POST)
+    public void updateUser(@PathVariable Integer userId, @RequestBody User user) {
+        userManageService.updateUser(userId, user);
     }
 
     //管理员添加用户。

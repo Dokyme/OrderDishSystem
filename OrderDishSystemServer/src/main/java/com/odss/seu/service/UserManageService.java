@@ -9,7 +9,7 @@ public interface UserManageService {
 
     User queryUserDetail(Integer userId);
 
-    void updateUser(User user);
+    void updateUser(Integer userId, User user);
 
     void deleteUser(Integer userId);
 

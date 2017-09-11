@@ -15,13 +15,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/cooking")
-public class OrderInfoController {
+public class CookingManageController {
 
     private ArrangeCookingService arrangeCookingService;
     private ServeDishService serveDishService;
 
     @Autowired
-    public OrderInfoController(ArrangeCookingService arrangeCookingService, ServeDishService serveDishService) {
+    public CookingManageController(ArrangeCookingService arrangeCookingService, ServeDishService serveDishService) {
         this.arrangeCookingService = arrangeCookingService;
         this.serveDishService = serveDishService;
     }
