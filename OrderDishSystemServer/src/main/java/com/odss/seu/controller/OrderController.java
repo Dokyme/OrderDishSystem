@@ -41,7 +41,6 @@ public class OrderController {
     @JsonView(ViewLevel.SummaryWithDetail.class)
     public Order queryOrderDetailById(@PathVariable Integer orderId) {
         return querySellingService.queryOrderDetail(orderId);
-
     }
 
     //管理员查询所有订单概要信息的列表。
