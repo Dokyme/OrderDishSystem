@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/OrderDishSystemServer.iml" filepath="$PROJECT_DIR$/.idea/modules/OrderDishSystemServer.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/OrderDishSystemServer.iml" filepath="$PROJECT_DIR$/.idea/OrderDishSystemServer.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/OrderDishSystemServer_main.iml" filepath="$PROJECT_DIR$/.idea/modules/OrderDishSystemServer_main.iml" group="OrderDishSystemServer" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/OrderDishSystemServer_test.iml" filepath="$PROJECT_DIR$/.idea/modules/OrderDishSystemServer_test.iml" group="OrderDishSystemServer" />

@@ -2,6 +2,7 @@ package com.odss.seu.vo;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class Order implements Serializable {
     private static final long serialVersionUID =1L;
@@ -13,6 +14,8 @@ public class Order implements Serializable {
      * @mbg.generated Fri Sep 08 14:07:18 CST 2017
      */
     private Integer id;
+
+    private List<Dish> dishList;
 
     /**
      *
@@ -234,5 +237,13 @@ public class Order implements Serializable {
      */
     public void setServeattitude(Integer serveattitude) {
         this.serveattitude = serveattitude;
+    }
+
+    public List<Dish> getDishList() {
+        return dishList;
+    }
+
+    public void setDishList(List<Dish> dishList) {
+        this.dishList = dishList;
     }
 }
