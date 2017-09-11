@@ -1,5 +1,7 @@
 package com.odss.seu.vo;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 import java.io.Serializable;
 
 public class User implements Serializable {
@@ -11,6 +13,7 @@ public class User implements Serializable {
      *
      * @mbg.generated Fri Sep 08 14:07:18 CST 2017
      */
+    @JsonView(ViewLevel.Summary.class)
     private Integer id;
 
     /**
@@ -20,6 +23,7 @@ public class User implements Serializable {
      *
      * @mbg.generated Fri Sep 08 14:07:18 CST 2017
      */
+    @JsonView(ViewLevel.Summary.class)
     private String name;
 
     /**
@@ -29,6 +33,7 @@ public class User implements Serializable {
      *
      * @mbg.generated Fri Sep 08 14:07:18 CST 2017
      */
+    @JsonView(ViewLevel.SummaryWithDetail.class)
     private String photo;
 
     /**
@@ -38,6 +43,7 @@ public class User implements Serializable {
      *
      * @mbg.generated Fri Sep 08 14:07:18 CST 2017
      */
+    @JsonView(ViewLevel.Summary.class)
     private String account;
 
     /**
@@ -47,6 +53,7 @@ public class User implements Serializable {
      *
      * @mbg.generated Fri Sep 08 14:07:18 CST 2017
      */
+    @JsonView(ViewLevel.SummaryWithDetail.class)
     private String pasword;
 
     /**
@@ -56,6 +63,7 @@ public class User implements Serializable {
      *
      * @mbg.generated Fri Sep 08 14:07:18 CST 2017
      */
+    @JsonView(ViewLevel.Summary.class)
     private Integer type;
 
     /**

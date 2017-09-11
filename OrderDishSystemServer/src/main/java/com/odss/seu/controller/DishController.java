@@ -1,54 +1,66 @@
 package com.odss.seu.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import com.odss.seu.mapper.DishMapper;
+import com.odss.seu.service.DishManageService;
+import com.odss.seu.service.OrderDishService;
 import com.odss.seu.vo.Dish;
-import com.odss.seu.vo.DishExample;
+import com.odss.seu.vo.ViewLevel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping(value = "/dish")
 public class DishController {
 
+    private OrderDishService orderDishService;
+    private DishManageService dishManageService;
+
     @Autowired
-    private DishMapper dishMapper;
-
-    @RequestMapping(value = "/{dishId}",method = RequestMethod.GET) //查询菜品信息，如果有typeId则返回对应类别的菜品列表，如果没有则返回所有菜品列表。
-    public @JsonView
-    List<Dish> queryDishesByDishId(@PathVariable Integer dishId){
-        System.out.println("lsdjfosj");
-        if(dishId == null){
-            List<Dish> dishList = dishMapper.selectByExample(null);
-            return dishList;
-        }
-        DishExample example =new DishExample();
-        DishExample.Criteria criteria =example.createCriteria();
-        criteria.andIdEqualTo(dishId);
-        List<Dish> dishList = dishMapper.selectByExample(example);
-        return dishList;
-    } 
-
-    @RequestMapping(method = RequestMethod.POST) //修改菜品信息
-    public void updateDish(@RequestParam Dish redish){
-        dishMapper.updateByPrimaryKey(redish);
-        return;
+    public DishController(OrderDishService orderDishService, DishManageService dishManageService) {
+        this.orderDishService = orderDishService;
+        this.dishManageService = dishManageService;
     }
 
-    @RequestMapping(method = RequestMethod.PUT) //新增菜品
-    public void addNewDish(@RequestParam Dish newdish){
-        dishMapper.insert(newdish);
-        return;
+    //顾客或服务员或管理员界面，罗列所有菜品概要信息。
+    @RequestMapping(method = RequestMethod.GET)
+    @JsonView(ViewLevel.Summary.class)
+    public List<Dish> queryDishes() {
+        return orderDishService.queryAllDish();
     }
 
-    @RequestMapping(value = "/{dishId}",method = RequestMethod.DELETE) //删除菜品
-    public void deleteDishById(@PathVariable Integer dishId){
-        dishMapper.deleteByPrimaryKey(dishId);
-        return;
+    //顾客或服务员或管理员界面，罗列所有菜品详细信息。
+    @RequestMapping(value = "/detail", method = RequestMethod.GET)
+    @JsonView(ViewLevel.SummaryWithDetail.class)
+    public List<Dish> queryDishesDetail() {
+        return orderDishService.queryAllDish();
+    }
+
+    //管理员，按id查询菜品详细信息。
+    @RequestMapping(value = "/{dishId}", method = RequestMethod.GET)
+    @JsonView(ViewLevel.SummaryWithDetail.class)
+    public Dish queryDishDetailByDishId(@PathVariable Integer dishId) {
+        return dishManageService.queryDishDetail(dishId);
+    }
+
+    //管理员修改菜品信息。
+    @RequestMapping(method = RequestMethod.POST)
+    public void updateDish(@RequestParam Dish dish) {
+        dishManageService.updateDish(dish);
+    }
+
+    //管理员添加菜品。
+    @RequestMapping(method = RequestMethod.PUT)
+    @JsonView(ViewLevel.Summary.class)
+    public Dish addNewDish(@RequestParam Dish dish) {
+        return dishManageService.addDish(dish);
+    }
+
+    //管理员删除菜品。
+    @RequestMapping(value = "/{dishId}", method = RequestMethod.DELETE)
+    public void deleteDishById(@PathVariable Integer dishId) {
+        dishManageService.deleteDish(dishId);
     }
 
 }

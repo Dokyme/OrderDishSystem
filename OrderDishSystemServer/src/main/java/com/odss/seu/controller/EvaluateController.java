@@ -15,12 +15,12 @@ import java.util.List;
 @RequestMapping(value="/evaluate")
 public class EvaluateController {
 
-//    提交评论——不需要，在订单修改里面就实现了
-//    @RequestMapping(method =RequestMethod.POST)
-//    public void updateEvaluate(Order order)
-//    {
-//        return;
-//    }
+    //提交评论——不需要，在订单修改里面就实现了
+    @RequestMapping(method =RequestMethod.POST)
+    public void updateEvaluate(Order order)
+    {
+        return;
+    }
 
 //    管理员查看评论——可能还需要输入时间
     @RequestMapping(value="/{orderinfo}",method=RequestMethod.GET)
