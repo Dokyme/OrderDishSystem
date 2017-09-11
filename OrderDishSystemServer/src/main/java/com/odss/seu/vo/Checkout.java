@@ -29,6 +29,10 @@ public class Checkout {
         this.total = total;
     }
 
+    public Checkout(){
+
+    }
+
     public Integer getId() {
         return id;
     }

@@ -1,7 +1,9 @@
 package com.odss.seu.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.odss.seu.service.CheckoutManageService;
 import com.odss.seu.vo.Checkout;
+import com.odss.seu.vo.Order;
 import com.odss.seu.vo.ViewLevel;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -13,10 +15,16 @@ import java.util.List;
 @RequestMapping(value = "/checkout")
 public class CheckoutManageController {
 
-    @RequestMapping(method = RequestMethod.GET)
+    private CheckoutManageService checkoutManageService;
+
+    public CheckoutManageController(CheckoutManageService checkoutManageService) {
+        this.checkoutManageService = checkoutManageService;
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
     @JsonView(ViewLevel.Summary.class)
     public List<Checkout> queryAllCheckouts(){
-        return null;
+        return checkoutManageService.queryCheckouts();
     }
 
 }

@@ -10,6 +10,7 @@
     <meta charset="UTF-8">
     <script src="js/jquery-3.2.1.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/tableinfo.js"></script>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <title>员工数据管理</title>
 </head>
@@ -30,6 +31,63 @@
             $(".sideline").css("height","calc(100% - 60px)")
     });
 
+    $(document).ready(function () {
+        alert("ajax");
+
+        $.ajax({
+            type:"GET",
+            url:"http://223.3.123.116:8080/user/",
+            dataType:"json",
+            success:function(data,status){
+                alert("success function");
+                if(status==="200"){
+                    if($.isEmptyObject(data))
+                        alert("现在没有员工信息！");
+                    else{
+                        var parsedData=JSON.parse(data);
+                        var i;
+                        for(i in parsedData){
+                            var strHtml=staffManageTableOutput(i,parsedData[i]);
+                            $("#staff_table_body").append(strHtml);
+                            $("#edit_"+i.toString()).bind("click",function(){
+                                window.location.href="editStaff.html?id="+parsedData[i]["id"];
+                            });
+                            $("#cancel_"+i.toString()).bind("click",function () {
+                                if(confirm("取消该员工信息？")){
+                                    $.ajax({
+                                        type:"DEL",
+                                        url:"/user/"+parsedData[i]["id"],
+                                        dataType:"json",
+                                        success:function(data,status){
+                                            if(status==="204"){
+                                                alert("取消成功！");
+                                                $("#row_" + i.toString()).remove();
+                                            }
+                                            else{
+                                                alert("取消失败！");
+                                            }
+                                        },
+                                        error:function(){
+                                            alert("取消失败！");
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    }
+                }
+                else if(status==="403"){
+                    alert("您没有相应权限！");
+                }
+            }
+        });
+
+
+        $("#add").bind("click",function () {
+            window.location="addNewStaff.html";
+        });
+
+    });
 </script>
 <body>
 <div class="headline">
@@ -79,7 +137,6 @@
                 <tr>
                     <th>员工类别<img src="image/down.png" class="head_icon" id="category_icon"></th>
                     <th>员工名称</th>
-                    <th>员工性别<img src="image/down.png" class="head_icon" id="sex_icon"></th>
                     <th>员工账号</th>
                     <th>操作</th>
                 </tr>
@@ -88,12 +145,11 @@
                 <tr>
                     <td>管理员</td>
                     <td>肖君彦</td>
-                    <td>男</td>
                     <td>admin</td>
                     <td>
                         <div>
-                            <img src="image/edit.png" class="content_icon">
-                            <img src="image/cancel.png" class="content_icon">
+                            <img src="image/edit.png" class="content_icon" id="edit_1">
+                            <img src="image/cancel.png" class="content_icon" id="cancel_1">
                         </div>
                     </td>
                 </tr>

@@ -89,4 +89,5 @@
     top:60px;
     width:calc(100% - 300px);
     height:calc(100% - 60px);
+    overflow: auto;
 }

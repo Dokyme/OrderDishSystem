@@ -21,7 +21,6 @@ public class ArrangeCookingServiceImpl implements ArrangeCookingService {
     @Override
     public void confirmNewDishCooking(Integer orderInfoId) {
 
-        orderInfoMapper.selectByExample();
         OrderInfo orderInfo = orderInfoMapper.selectByPrimaryKey(orderInfoId);
         orderInfo.setDishstate(DishState.COOKING.ordinal());
         orderInfoMapper.updateByPrimaryKey(orderInfo);

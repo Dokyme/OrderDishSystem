@@ -14,4 +14,11 @@
         <property name="suffix" value=".jsp"/>
     </bean>
 
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**/*"/>
+            <bean class="com.odss.seu.controller.CrossInterceptor" />
+        </mvc:interceptor>
+    </mvc:interceptors>
+
 </beans>

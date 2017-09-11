@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 //api checked
-@Controller
+@RestController
 @RequestMapping(value = "/user")
 public class UserManageController {
 
@@ -24,10 +24,11 @@ public class UserManageController {
     }
 
     //管理员查询所有用户概要信息的列表。
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     @JsonView(ViewLevel.Summary.class)
     public List<User> queryAllUser() {
-        return userManageService.queryAllUsers();
+        List<User> users= userManageService.queryAllUsers();
+        return users;
     }
 
     //管理员修改用户信息。
