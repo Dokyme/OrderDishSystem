@@ -6,9 +6,12 @@ import com.odss.seu.service.CheckoutService;
 import com.odss.seu.service.OrderDishService;
 import com.odss.seu.service.QuerySellingService;
 import com.odss.seu.vo.Order;
+import com.odss.seu.vo.SellingStatistics;
 import com.odss.seu.vo.ViewLevel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -44,6 +47,13 @@ public class OrderController {
     @JsonView(ViewLevel.Summary.class)
     public List<Order> queryAllOrders() {
         return querySellingService.queryAllOrders();
+    }
+
+    //管理员查询所有订单统计数据。
+    @RequestMapping(value = "/statistics", method = RequestMethod.GET)
+    @JsonView(ViewLevel.Summary.class)
+    public List<SellingStatistics> queryStaistics(@RequestParam Date startDate, @RequestParam Date endDate) {
+        return null;
     }
 
     //管理员确认结账
