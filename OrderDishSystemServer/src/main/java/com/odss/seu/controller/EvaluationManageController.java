@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 
+//api checked
 @Controller
 @RequestMapping(value = "/evaluation")
 public class EvaluationManageController {

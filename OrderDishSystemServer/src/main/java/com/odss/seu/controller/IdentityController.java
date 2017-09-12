@@ -23,6 +23,7 @@ import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+//api checked
 @Controller
 @RequestMapping(value = "/identity")
 public class IdentityController {
@@ -75,7 +76,7 @@ public class IdentityController {
         return "login";
     }
 
-    @RequestMapping(method = RequestMethod.POST, produces = "application/json")
+    @RequestMapping(method = RequestMethod.POST)
     @JsonView(ViewLevel.Summary.class)
     public User login(@RequestParam(value = "username") String username,
                       @RequestParam(value = "password") String password,

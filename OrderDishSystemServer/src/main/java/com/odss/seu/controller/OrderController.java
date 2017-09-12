@@ -1,11 +1,9 @@
 package com.odss.seu.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import com.odss.seu.service.CheckoutService;
 import com.odss.seu.service.OrderDishService;
 import com.odss.seu.service.QuerySellingService;
 import com.odss.seu.vo.Order;
-import com.odss.seu.vo.SellingStatistics;
 import com.odss.seu.vo.ViewLevel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

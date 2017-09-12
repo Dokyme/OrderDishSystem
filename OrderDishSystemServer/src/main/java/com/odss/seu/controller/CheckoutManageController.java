@@ -3,7 +3,6 @@ package com.odss.seu.controller;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.odss.seu.service.CheckoutManageService;
 import com.odss.seu.vo.Checkout;
-import com.odss.seu.vo.Order;
 import com.odss.seu.vo.ViewLevel;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
