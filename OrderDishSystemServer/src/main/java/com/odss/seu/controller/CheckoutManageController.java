@@ -7,6 +7,7 @@ import com.odss.seu.vo.Order;
 import com.odss.seu.vo.ViewLevel;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -21,10 +22,20 @@ public class CheckoutManageController {
         this.checkoutManageService = checkoutManageService;
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.GET)
     @JsonView(ViewLevel.Summary.class)
     public List<Checkout> queryAllCheckouts(){
         return checkoutManageService.queryCheckouts();
+    }
+
+    @RequestMapping(value = "/{orderId}",method = RequestMethod.DELETE)
+    public void deleteOrder(@RequestParam int orderId){
+        checkoutManageService.deleteCheckout(orderId);
+    }
+
+    @RequestMapping(value = "/{orderId}",method = RequestMethod.POST)
+    public void confirmOrder(@RequestParam int orderId){
+        checkoutManageService.confirmCheckouted(orderId);
     }
 
 }
