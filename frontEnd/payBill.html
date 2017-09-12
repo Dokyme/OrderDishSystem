@@ -9,8 +9,9 @@
     <script src="js/jquery-3.2.1.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/tableinfo.js"></script>
+    <script src="js/background.js"></script>
     <link href="css/bootstrap.min.css" rel="stylesheet">
-    <title>菜品数据管理</title>
+    <title>支付管理</title>
 </head>
 
 <style type="text/css">
@@ -42,17 +43,17 @@
             $(".sideline").css("height","calc(100% - 60px)")
     });
 
-    $(document).ready(function{
+    $(document).ready(function(){
         $.ajax({
             type:"GET",
             url:"/order/",
             dataType:"json",
             success:function(data,status){
-                if(status==="200"){
+                if(status==="success"){
                     if($.isEmptyObject(data))
                         alert("现在没有订单！");
                     else{
-                        var parsedData=JSON.parse(data);
+                        var parsedData=data;
                         var i;
                         for(i in parsedData){
                             var strHtml=payBillTableOutput(i,parsedData[i]);
@@ -92,7 +93,7 @@
                                             else{
                                                 alert("取消失败！");
                                             }
-                                        }
+                                        },
                                         error:function(){
                                             alert("取消失败！");
                                         }
@@ -102,9 +103,12 @@
                         }
                     }
                 }
-                else if(status==="403"){
+                else{
                     alert("您没有相应权限！");
                 }
+            },
+            error:function () {
+                alert("网络错误！");
             }
         });
     });
@@ -130,16 +134,16 @@
         <input type="button" class="sideline_btn" style="top:5%;" id="pay_btn" value="账单支付">
     </div>
     <div>
-        <input type="button" class="sideline_btn" style="top:20%" id="pay_btn" value="菜品信息管理">
+        <input type="button" class="sideline_btn" style="top:20%" id="dish_btn" value="菜品信息管理">
     </div>
     <div>
-        <input type="button" class="sideline_btn" style="top:35%" id="pay_btn" value="员工信息管理">
+        <input type="button" class="sideline_btn" style="top:35%" id="staff_btn" value="员工信息管理">
     </div>
     <div>
-        <input type="button" class="sideline_btn" style="top:50%" id="pay_btn" value="数据维护管理">
+        <input type="button" class="sideline_btn" style="top:50%" id="data_btn" value="数据维护管理">
     </div>
     <div>
-        <input type="button" class="sideline_btn" style="top:65%" id="pay_btn" value="经营数据查看">
+        <input type="button" class="sideline_btn" style="top:65%" id="manage_btn" value="经营数据查看">
     </div>
 </div>
 

@@ -30,6 +30,70 @@
         else
             $(".sideline").css("height","calc(100% - 60px)")
     });
+
+    $(document).ready(function () {
+        var step=2;
+        $("#triple_1").bind("click",function () {
+            $("#triple_1").css("background-color","lightblue");
+            $("#triple_2").css("background-color","lightyellow");
+            $("#triple_3").css("background-color","lightyellow");
+            step=0;
+        });
+        $("#triple_2").bind("click",function () {
+            $("#triple_1").css("background-color","lightyellow");
+            $("#triple_2").css("background-color","lightblue");
+            $("#triple_3").css("background-color","lightyellow");
+            step=1;
+        });
+        $("#triple_3").bind("click",function () {
+            $("#triple_1").css("background-color","lightyellow");
+            $("#triple_2").css("background-color","lightyellow");
+            $("#triple_3").css("background-color","lightblue");
+            step=2;
+        });
+
+        var judge_url=document.URL.split("?")[1];
+        if(!(judge_url==="")){
+            var startTime=judge_url.split("&")[0].split("=")[1];
+            var endTime=judge_url.split("&")[1].split("=")[1];
+            var step=judge_url.split("&")[2].split("=")[1];
+            getManageInfo(startTime,endTime,step);
+        }
+
+        $("#query").bind("click",function () {
+            var startTime=$("#begin_date").val();
+            var endTime=$("#end_date").val();
+            getManageInfo(startTime,endTime,step);
+        });
+    });
+
+    function getManageInfo(startTime,endTime,step){
+        $.ajax({
+            type: "GET",
+            url: "http://223.3.123.116:8080/statistics?startTime="+startTime+"&endTime="+endTime+"&step="+step.toString(),
+            dataType: "json",
+            success: function (data, status) {
+                if (status === "success") {
+                    if ($.isEmptyObject(data))
+                        alert("现在没有经营信息！");
+                    else {
+                        var parsedData = data;
+                        var i;
+                        for (i in parsedData) {
+                            var strHtml = moneyManageTableOutput(i, parsedData[i]);
+                            $("#money_table_body").append(strHtml);
+                            $("#row_"+i.toString()).bind("click",function () {
+                                window.location="billInfo.html?currentTime="+parsedData["time"]+"&startTime="+startTime+"&endTime="+endTime+"&step="+step;
+                            });
+                        }
+                    }
+                }
+                else if (status === "403") {
+                    alert("您没有相应权限！");
+                }
+            }
+        });
+    }
 </script>
 
 <body>
@@ -52,16 +116,16 @@
         <input type="button" class="sideline_btn" style="top:5%;" id="pay_btn" value="账单支付">
     </div>
     <div>
-        <input type="button" class="sideline_btn" style="top:20%" id="pay_btn" value="菜品信息管理">
+        <input type="button" class="sideline_btn" style="top:20%" id="dish_btn" value="菜品信息管理">
     </div>
     <div>
-        <input type="button" class="sideline_btn" style="top:35%" id="pay_btn" value="员工信息管理">
+        <input type="button" class="sideline_btn" style="top:35%" id="staff_btn" value="员工信息管理">
     </div>
     <div>
-        <input type="button" class="sideline_btn" style="top:50%" id="pay_btn" value="数据维护管理">
+        <input type="button" class="sideline_btn" style="top:50%" id="data_btn" value="数据维护管理">
     </div>
     <div>
-        <input type="button" class="sideline_btn" style="top:65%" id="pay_btn" value="经营数据查看">
+        <input type="button" class="sideline_btn" style="top:65%" id="manage_btn" value="经营数据查看">
     </div>
 </div>
 <div class="content">
@@ -79,7 +143,7 @@
     </div>
     <div class="info_table mytable_2">
         <div class="table-responsive">
-            <table class="table" id="dish_table">
+            <table class="table" id="money_table">
                 <thead>
                 <tr>
                     <th>时间</th>
@@ -88,49 +152,7 @@
                     <th>翻台率</th>
                 </tr>
                 </thead>
-                <tbody id="dish_table_body">
-                <tr>
-                    <td>2017-08-29</td>
-                    <td>¥1230</td>
-                    <td>132</td>
-                    <td>1.34</td>
-                </tr>
-                <tr>
-                    <td>2017-08-29</td>
-                    <td>¥1230</td>
-                    <td>132</td>
-                    <td>1.34</td>
-                </tr>
-                <tr>
-                    <td>2017-08-29</td>
-                    <td>¥1230</td>
-                    <td>132</td>
-                    <td>1.34</td>
-                </tr>
-                <tr>
-                    <td>2017-08-29</td>
-                    <td>¥1230</td>
-                    <td>132</td>
-                    <td>1.34</td>
-                </tr>
-                <tr>
-                    <td>2017-08-29</td>
-                    <td>¥1230</td>
-                    <td>132</td>
-                    <td>1.34</td>
-                </tr>
-                <tr>
-                    <td>2017-08-29</td>
-                    <td>¥1230</td>
-                    <td>132</td>
-                    <td>1.34</td>
-                </tr>
-                <tr>
-                    <td>2017-08-29</td>
-                    <td>¥1230</td>
-                    <td>132</td>
-                    <td>1.34</td>
-                </tr>
+                <tbody id="money_table_body">
                 <tr>
                     <td>2017-08-29</td>
                     <td>¥1230</td>
@@ -140,9 +162,6 @@
                 </tbody>
             </table>
         </div>
-    </div>
-    <div>
-        <label class="show_total_data" id="show_sales_data"></label>
     </div>
 </body>
 </html>
