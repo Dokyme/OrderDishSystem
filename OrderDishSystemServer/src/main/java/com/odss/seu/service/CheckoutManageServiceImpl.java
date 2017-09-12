@@ -27,7 +27,7 @@ public class CheckoutManageServiceImpl implements CheckoutManageService{
         example.createCriteria().andStateEqualTo(OrderState.WAITING_CHECKOUT.ordinal());
         List<Order> orders=orderMapper.selectByExample(example);
         List<Checkout>checkouts = new ArrayList<Checkout>();
-        for(int i = 0; i<checkouts.size();i++){
+        for(int i = 0; i<orders.size();i++){
             Checkout checkout = new Checkout();
             checkout.setId(orders.get(i).getId());
             checkout.setState(orders.get(i).getState());

@@ -1,13 +1,20 @@
 package com.odss.seu.vo;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 import java.util.Date;
 
 public class Checkout {
 
+    @JsonView(ViewLevel.Summary.class)
     private Integer id;
+    @JsonView(ViewLevel.Summary.class)
     private Integer table;
+    @JsonView(ViewLevel.Summary.class)
     private Date time;
+    @JsonView(ViewLevel.Summary.class)
     private Integer state;
+    @JsonView(ViewLevel.Summary.class)
     private Float total;
 
     public Checkout(Integer id, Integer table, Date time, Integer state, Float total) {

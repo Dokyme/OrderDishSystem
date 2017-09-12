@@ -37,8 +37,8 @@ public class ArrangeCookingServiceImpl implements ArrangeCookingService {
     //后厨撤销某道菜的烹饪，0为已取消。
     @Override
     public void cancelDishCooking(Integer orderInfoId) {
-        OrderInfo orderInfo = orderInfoMapper.selectByPrimaryKey(orderInfoId);
-        orderInfo.setDishstate(DishState.CANCELED.ordinal());
-        orderInfoMapper.updateByPrimaryKey(orderInfo);
+//        OrderInfo orderInfo = orderInfoMapper.selectByPrimaryKey(orderInfoId);
+//        orderInfo.setDishstate(DishState.CANCELED.ordinal());
+//        orderInfoMapper.updateByPrimaryKey(orderInfo);
     }
 }
