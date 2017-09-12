@@ -17,18 +17,6 @@ public class Checkout {
     @JsonView(ViewLevel.Summary.class)
     private Float total;
 
-    public Checkout(Integer id, Integer table, Date time, Integer state, Float total) {
-        this.id = id;
-        this.table = table;
-        this.time = time;
-        this.state = state;
-        this.total = total;
-    }
-
-    public Checkout(){
-
-    }
-
     public Integer getId() {
         return id;
     }

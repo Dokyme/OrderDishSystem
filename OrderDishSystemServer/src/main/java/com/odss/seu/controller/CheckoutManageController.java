@@ -27,7 +27,7 @@ public class CheckoutManageController {
         return checkoutManageService.queryCheckouts();
     }
 
-    @RequestMapping(value = "/{orderId}",method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{orderId}",method = RequestMethod.GET)
     public void deleteOrder(@PathVariable int orderId){
         checkoutManageService.deleteCheckout(orderId);
     }

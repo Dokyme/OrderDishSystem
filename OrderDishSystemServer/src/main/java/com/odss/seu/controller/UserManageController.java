@@ -23,7 +23,7 @@ public class UserManageController {
     }
 
     //管理员查询所有用户概要信息的列表。
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     @JsonView(ViewLevel.Summary.class)
     public List<User> queryAllUser() {
         List<User> users= userManageService.queryAllUsers();

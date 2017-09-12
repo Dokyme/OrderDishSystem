@@ -44,14 +44,14 @@ public class DishManageController {
 
     //管理员修改菜品信息。
     @RequestMapping(method = RequestMethod.POST)
-    public void updateDish(@RequestParam Dish dish) {
+    public void updateDish(@RequestBody Dish dish) {
         dishManageService.updateDish(dish);
     }
 
     //管理员添加菜品。
     @RequestMapping(method = RequestMethod.PUT)
     @JsonView(ViewLevel.Summary.class)
-    public Dish addNewDish(@RequestParam Dish dish) {
+    public Dish addNewDish(@RequestBody Dish dish) {
         return dishManageService.addDish(dish);
     }
 
