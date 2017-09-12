@@ -30,9 +30,9 @@ public class CheckoutManageServiceImpl implements CheckoutManageService {
     public List<Checkout> queryCheckouts() {
         OrderExample example = new OrderExample();
         example.createCriteria().andStateEqualTo(OrderState.WAITING_CHECKOUT.ordinal());
-        List<Order> orders=orderMapper.selectByExample(example);
-        List<Checkout>checkouts = new ArrayList<Checkout>();
-        for(int i = 0; i<checkouts.size();i++){
+        List<Order> orders = orderMapper.selectByExample(example);
+        List<Checkout> checkouts = new ArrayList<Checkout>();
+        for (int i = 0; i < checkouts.size(); i++) {
             Checkout checkout = new Checkout();
             checkout.setId(orders.get(i).getId());
             checkout.setState(orders.get(i).getState());
@@ -52,10 +52,10 @@ public class CheckoutManageServiceImpl implements CheckoutManageService {
         orderMapper.updateByPrimaryKey(order);
     }
 
-    public float calculate(Order orders){
-        List<Dish>list = orders.getDishes();
+    public float calculate(Order orders) {
+        List<Dish> list = orders.getDishes();
         float total = 0;
-        for(int i = 0; i<list.size();i++){
+        for (int i = 0; i < list.size(); i++) {
             total = total + list.get(i).getPrice();
         }
         return total;
