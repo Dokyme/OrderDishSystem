@@ -21,7 +21,7 @@ public class OrderInfo implements Serializable {
      *
      * @mbg.generated Fri Sep 08 14:07:18 CST 2017
      */
-    @JsonView(ViewLevel.Summary.class)
+    @JsonView(ViewLevel.SummaryWithDetail.class)
     private Order order;
 
     /**

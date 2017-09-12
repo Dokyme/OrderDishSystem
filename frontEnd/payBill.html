@@ -3,7 +3,6 @@
 <style type="text/css">
     @import "css/InfoManage.css";
     @import "css/background.css";
-    @import "css/payBill.css";
 </style>
 <head>
     <meta charset="UTF-8">
@@ -13,6 +12,18 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <title>菜品数据管理</title>
 </head>
+
+<style type="text/css">
+    .bill_table{
+        position: relative;
+        left:10%;
+        top:10%;
+        width:80%;
+        max-height: 80%;
+        overflow: scroll;
+    }
+</style>
+
 <body>
 
 <script>
@@ -29,6 +40,73 @@
             $(".sideline").css("height","340px");
         else
             $(".sideline").css("height","calc(100% - 60px)")
+    });
+
+    $(document).ready(function{
+        $.ajax({
+            type:"GET",
+            url:"/order/",
+            dataType:"json",
+            success:function(data,status){
+                if(status==="200"){
+                    if($.isEmptyObject(data))
+                        alert("现在没有订单！");
+                    else{
+                        var parsedData=JSON.parse(data);
+                        var i;
+                        for(i in parsedData){
+                            var strHtml=payBillTableOutput(i,parsedData[i]);
+                            $("#order_table_body").append(strHtml);
+                            $("#confirm_"+i.toString()).bind("click",function(){
+                                if(confirm("确认结账？")) {
+                                    $.ajax({
+                                        type:"POST",
+                                        url:"/order/"+parsedData[i]["orderId"],
+                                        dataType:"json",
+                                        success:function(data,status){
+                                            if(status==="204"){
+                                                alert("结账成功！");
+                                                $("#row_" + i.toString()).remove();
+                                            }
+                                            else{
+                                                alert("结账失败！");
+                                            }
+                                        },
+                                        error:function(){
+                                            alert("结账失败！");
+                                        }
+                                    });
+                                }
+                            });
+                            $("#cancel_"+i.toString()).bind("click",function () {
+                                if(confirm("取消该账单？")){
+                                    $.ajax({
+                                        type:"DEL",
+                                        url:"/order/"+parsedData[i]["orderId"],
+                                        dataType:"json",
+                                        success:function(data,status){
+                                            if(status==="204"){
+                                                alert("取消成功！");
+                                                $("#row_" + i.toString()).remove();
+                                            }
+                                            else{
+                                                alert("取消失败！");
+                                            }
+                                        }
+                                        error:function(){
+                                            alert("取消失败！");
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    }
+                }
+                else if(status==="403"){
+                    alert("您没有相应权限！");
+                }
+            }
+        });
     });
 
 </script>
@@ -64,167 +142,36 @@
         <input type="button" class="sideline_btn" style="top:65%" id="pay_btn" value="经营数据查看">
     </div>
 </div>
+
 <div class="content" >
-    <div class="top_line">
-        <img src="image/bill.png" class="content_pic">
-        <div class="top_text">桌号</div>
-        <div class="top_fill_text" id="fill_text_1">C2</div>
-        <div class="top_text">用餐人数</div>
-        <div class="top_fill_text" id="fill_text_2">2</div>
-        <div class="top_text">服务员</div>
-        <div class="top_fill_text" id="fill_text_3">User3</div>
-    </div>
     <div class="info_table bill_table">
         <div class="table-responsive">
             <table class="table" id="staff_table">
                 <thead>
                 <tr>
                     <th></th>
-                    <th>菜品名称</th>
-                    <th>菜品份数</th>
-                    <th>菜品金额</th>
+                    <th>桌号</th>
+                    <th>时间</th>
+                    <th>总价</th>
                     <th>操作</th>
                 </tr>
                 </thead>
-                <tbody id="staff_table_body">
+                <tbody id="order_table_body">
                 <tr>
                     <td><img src="image/detail.png" style="width:20px;height:20px;"</td>
-                    <td>肖君彦</td>
-                    <td>男</td>
-                    <td>admin</td>
+                    <td>C02</td>
+                    <td>2017-09-17  11:32:33</td>
+                    <td>¥188</td>
                     <td>
                         <div>
-                            <img src="image/edit.png" class="content_icon">
-                            <img src="image/cancel.png" class="content_icon">
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td><img src="image/detail.png" style="width:20px;height:20px;"</td>
-                    <td>肖君彦</td>
-                    <td>男</td>
-                    <td>admin</td>
-                    <td>
-                        <div>
-                            <img src="image/edit.png" class="content_icon">
-                            <img src="image/cancel.png" class="content_icon">
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td><img src="image/detail.png" style="width:20px;height:20px;"</td>
-                    <td>肖君彦</td>
-                    <td>男</td>
-                    <td>admin</td>
-                    <td>
-                        <div>
-                            <img src="image/edit.png" class="content_icon">
-                            <img src="image/cancel.png" class="content_icon">
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td><img src="image/detail.png" style="width:20px;height:20px;"</td>
-                    <td>肖君彦</td>
-                    <td>男</td>
-                    <td>admin</td>
-                    <td>
-                        <div>
-                            <img src="image/edit.png" class="content_icon">
-                            <img src="image/cancel.png" class="content_icon">
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td><img src="image/detail.png" style="width:20px;height:20px;"</td>
-                    <td>肖君彦</td>
-                    <td>男</td>
-                    <td>admin</td>
-                    <td>
-                        <div>
-                            <img src="image/edit.png" class="content_icon">
-                            <img src="image/cancel.png" class="content_icon">
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td><img src="image/detail.png" style="width:20px;height:20px;"</td>
-                    <td>肖君彦</td>
-                    <td>男</td>
-                    <td>admin</td>
-                    <td>
-                        <div>
-                            <img src="image/edit.png" class="content_icon">
-                            <img src="image/cancel.png" class="content_icon">
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td><img src="image/detail.png" style="width:20px;height:20px;"</td>
-                    <td>肖君彦</td>
-                    <td>男</td>
-                    <td>admin</td>
-                    <td>
-                        <div>
-                            <img src="image/edit.png" class="content_icon">
-                            <img src="image/cancel.png" class="content_icon">
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td><img src="image/detail.png" style="width:20px;height:20px;"</td>
-                    <td>肖君彦</td>
-                    <td>男</td>
-                    <td>admin</td>
-                    <td>
-                        <div>
-                            <img src="image/edit.png" class="content_icon">
-                            <img src="image/cancel.png" class="content_icon">
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td><img src="image/detail.png" style="width:20px;height:20px;"</td>
-                    <td>肖君彦</td>
-                    <td>男</td>
-                    <td>admin</td>
-                    <td>
-                        <div>
-                            <img src="image/edit.png" class="content_icon">
-                            <img src="image/cancel.png" class="content_icon">
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td><img src="image/detail.png" style="width:20px;height:20px;"</td>
-                    <td>肖君彦</td>
-                    <td>男</td>
-                    <td>admin</td>
-                    <td>
-                        <div>
-                            <img src="image/edit.png" class="content_icon">
-                            <img src="image/cancel.png" class="content_icon">
+                            <img src="image/confirm.png" class="content_icon" id="confirm_1">
+                            <img src="image/cancel.png" class="content_icon" id="cancel_1">
                         </div>
                     </td>
                 </tr>
                 </tbody>
             </table>
         </div>
-    </div>
-    <div class="total_money_line">
-        <img src="image/totalMoney.png" class="small_icon">
-        <div class="total_pay">总价：¥188</div>
-    </div>
-    <div class="pay_way_line">
-        <img src="image/payWay.png" class="content_pic">
-        <div class="top_text">支付方式</div>
-        <div class="top_fill_text" id="fill_text_4">支付宝</div>
-        <div class="top_text">付款金额</div>
-        <div class="top_fill_text" id="fill_text_5">¥188</div>
-    </div>
-    <div class="down_btn_line">
-        <input type="button" class="down_btn" value="确认账单">
-        <input type="button" class="down_btn" value="取消账单">
     </div>
 </div>
 </body>
