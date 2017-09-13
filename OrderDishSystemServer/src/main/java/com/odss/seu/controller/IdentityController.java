@@ -43,14 +43,39 @@ public class IdentityController {
     public User login(@RequestParam(value = "username") String username,
                       @RequestParam(value = "password") String password,
                       @RequestParam(value = "captcha") String captcha,
-                      HttpSession session) {
+                      HttpSession session)
+    {
         System.out.println(username + password + captcha);
         AuthenticService.State state = authenticService.check(session);
         if (state != AuthenticService.State.NONE)//检验是否已经登陆过，如果登陆过，说明该用户发送了非法的请求
             throw new InvalidRequestException();
         if (!session.getAttribute(Constants.KAPTCHA_SESSION_CONFIG_KEY).toString().equals(captcha))//检验登陆验证码
             throw new CaptchaWrongException();
-        return loginService.login(username, password);//返回登陆结果
+
+        User user=loginService.login(username, password);//返回登陆结果
+        session.setAttribute("user",user.getType());//设置用户的身份
+        if(user.getType()==2)//假设waiter是2
+        {
+            session.setAttribute("dishState","notbusy");//设置当前状态为空闲，可以上菜
+        }
+        return user;
+    }
+
+
+    @RequestMapping(method = RequestMethod.POST)
+    @JsonView(ViewLevel.Summary.class)
+    public  void logout(HttpSession session)
+    {
+        //System.out.println(username + password + captcha);
+        AuthenticService.State state = authenticService.check(session);
+        if (state == AuthenticService.State.NONE)//检验是否已经登陆过，如果没有登陆过，说明该用户发送了非法的请求
+            throw new InvalidRequestException();
+
+        if(session.getAttribute("user")=="waiter")
+        {
+            session.removeAttribute("dishState");//设置当前状态为空闲，可以上菜
+        }
+        session.removeAttribute("user");
     }
 
     @RequestMapping(value = "/captcha", method = RequestMethod.GET)

@@ -35,16 +35,58 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService {
         OrderExample example = new OrderExample();
         OrderExample.Criteria criteria = example.createCriteria();
 
+        Statistics statistics=new Statistics();
+        int lengthOfGotList=0;
+        List<Order> OrderList=null;
+
+//        开始时间比要求的开始时间晚或相当
+        criteria.andTimeGreaterThanOrEqualTo(startnow);
+//        结束时间比要求的结束时间早或相当
+        criteria.andTimeLessThanOrEqualTo(endnow);
+
+        OrderList= orderMapper.selectByExample(example);
+        lengthOfGotList=OrderList.size();//所有信息的条目数
+        statistics.setstartTime(startnow);
+        statistics.setendTime(endnow);
+
+        int  allIncome=0;
+        int  allSellNum=0;
+        int allFantai=0;
+
+//            处理信息
+        for(int i=0;i<lengthOfGotList;i++)
+        {
+//                this table income
+            List<Dish> DishList=OrderList.get(i).getDishes();
+            int forTimesForDishes=DishList.size();
+            for(int l=0;l<forTimesForDishes;l++)
+            {
+                allIncome+=DishList.get(l).getPrice();
+            }
+//                this table dish number
+            allSellNum+=forTimesForDishes;
+            allFantai+=1;
+        }
+//            总订单数/天数/桌数
+        allFantai/=getDayNumber(startnow,endnow);
+        allFantai/=tableNumber;
+        statistics.setIncome(allIncome);
+        statistics.setSellNum(allFantai);
+        statistics.setFantai(allFantai);
+        return statistics;
+    }
 
         List<Statistics> StatisticsList = new ArrayList<Statistics>();
 
+    @Override
+    public Statistics queryAllStatisticsByYear(Date startTime, Date endTime)
+    {
         //         还需要处理一下得到的数据，将他们按照年份计算求和或求均值
         // ——startTime不变，endTime不变，income求和，sellNum求和，fantai求均值=求和+除去个数？=总共有的餐次数除去餐桌数除去天数
         Calendar StartTime = Calendar.getInstance();//先将data转为calendar
         StartTime.setTime((Date) startTime);
         Calendar EndTime = Calendar.getInstance();//先将data转为calendar
         StartTime.setTime((Date) endTime);
-
         int startYear = StartTime.get(Calendar.YEAR);
         int endYear = EndTime.get(Calendar.YEAR);
 //        int startMonth=StartTime.get(Calendar.MONTH);
@@ -99,7 +141,6 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService {
 
 //        根据日期，算出循环的年数，每一年算出各自一年的经营情况，
             int forTimes = endYear - startYear + 1;
-
             Date startnow = null;
             Date endnow = null;
             int year = 0;
@@ -120,7 +161,6 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService {
                     year = StartTimeForChange.get(Calendar.YEAR);
                     StartTimeForChange.set(year, 12, 31);
                     endnow = StartTimeForChange.getTime();
-
                     criteria.andTimeLessThanOrEqualTo(endnow);
                     statistics.setendTime(endnow);
                 } else if (i == (forTimes - 1))//末尾一年，如果是末尾一轮，就用endTime作为结束
@@ -469,9 +509,6 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService {
 //                            StartTimeForChange.setTime((Date) endnow);
                             StartTimeForChange.set(year, month, 1);
                             startnow = StartTimeForChange.getTime();
-                            //        开始时间比要求的开始时间晚或相当
-                            criteria.andTimeGreaterThanOrEqualTo(startnow);
-                            statistics.setstartTime(startnow);
 
                             StartTimeForChange.set(year, month, monthDay[month]);
                             endnow = StartTimeForChange.getTime();
@@ -486,9 +523,6 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService {
                             month += 1;
                             StartTimeForChange.set(year, month, 1);
                             startnow = StartTimeForChange.getTime();
-                            //        开始时间比要求的开始时间晚或相当
-                            criteria.andTimeGreaterThanOrEqualTo(startnow);
-                            statistics.setstartTime(startnow);
 
                             endnow = endTime;
                             //        结束时间比要求的结束时间早或相当
@@ -502,10 +536,6 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService {
                             month += 1;
                             StartTimeForChange.set(year, month, 1);
                             startnow = StartTimeForChange.getTime();
-                            //        开始时间比要求的开始时间晚或相当
-                            criteria.andTimeGreaterThanOrEqualTo(startnow);
-                            statistics.setstartTime(startnow);
-
                             StartTimeForChange.set(year, month, monthDay[month]);
                             endnow = StartTimeForChange.getTime();
                             criteria.andTimeLessThanOrEqualTo(endnow);
@@ -559,7 +589,6 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService {
                     endnow = StartTimeForChange.getTime();
 
                     for (int j = 0; j < forTimesForMonth; j++) {
-
 
                         criteria.andTimeGreaterThanOrEqualTo(startnow);
                         statistics.setstartTime(startnow);
@@ -627,6 +656,7 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService {
 //______________________________________________________________________________________________________________________
     @Override
     public List<Statistics> queryAllStatisticsByDay(Date startTime, Date endTime) {
+
 
         OrderExample example = new OrderExample();
         OrderExample.Criteria criteria = example.createCriteria();
@@ -904,43 +934,7 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService {
 //                      同一天
                                 endnow = startnow;
                             }
-//        开始时间比要求的开始时间晚或相当
-                            criteria.andTimeGreaterThanOrEqualTo(startnow);
-//        结束时间比要求的结束时间早或相当
-                            criteria.andTimeLessThanOrEqualTo(endnow);
-
-                            OrderList = orderMapper.selectByExample(example);
-                            lengthOfGotList = OrderList.size();//所有信息的条目数
-
-                            statistics.setstartTime(startnow);
-                            statistics.setendTime(endnow);
-
-                            int allIncome = 0;
-                            int allSellNum = 0;
-                            int allFantai = 0;
-
-//            处理信息
-                            for (int n = 0; n < lengthOfGotList; n++) {
-
-//                this table income
-                                List<Dish> DishList = OrderList.get(n).getDishes();
-                                int forTimesForDishes = DishList.size();
-                                for (int l = 0; l < forTimesForDishes; l++) {
-                                    allIncome += DishList.get(l).getPrice();
-                                }
-//                this table dish number
-                                allSellNum += forTimesForDishes;
-                                allFantai += 1;
-
-                            }
-//            总订单数/天数/桌数
-                            allFantai /= getDayNumber(startnow, endnow);
-                            allFantai /= tableNumber;
-                            statistics.setIncome(allIncome);
-                            statistics.setSellNum(allFantai);
-                            statistics.setFantai(allFantai);
-
-                            StatisticsList.add(statistics);
+                            StatisticsList.add(getData(startnow,endnow));
                         }
                     }
                 } else if (i == (forTimes - 1))//末尾一年，如果是末尾一轮，就用endTime作为结束
@@ -956,16 +950,12 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService {
 //                            StartTimeForChange.setTime((Date) endnow);
                             StartTimeForChange.set(year, month, 1);
                             startnow = StartTimeForChange.getTime();
-                            //        开始时间比要求的开始时间晚或相当
-                            criteria.andTimeGreaterThanOrEqualTo(startnow);
-                            statistics.setstartTime(startnow);
 
                             StartTimeForChange.set(year, month, monthDay[month]);
                             endnow = StartTimeForChange.getTime();
-                            //        结束时间比要求的结束时间早或相当
-                            criteria.andTimeLessThanOrEqualTo(endTime);
-                            statistics.setendTime(endTime);
-                        } else if (j == forTimesForMonth - 1) {
+                        }
+                        else  if (j==forTimesForMonth-1)
+                        {
                             //末尾年末尾月
                             StartTimeForChange.setTime((Date) endnow);
                             year = StartTimeForChange.get(Calendar.YEAR);
@@ -973,9 +963,6 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService {
                             month += 1;
                             StartTimeForChange.set(year, month, 1);
                             startnow = StartTimeForChange.getTime();
-                            //        开始时间比要求的开始时间晚或相当
-                            criteria.andTimeGreaterThanOrEqualTo(startnow);
-                            statistics.setstartTime(startnow);
 
                             endnow = endTime;
                             //        结束时间比要求的结束时间早或相当
@@ -989,10 +976,6 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService {
                             month += 1;
                             StartTimeForChange.set(year, month, 1);
                             startnow = StartTimeForChange.getTime();
-                            //        开始时间比要求的开始时间晚或相当
-                            criteria.andTimeGreaterThanOrEqualTo(startnow);
-                            statistics.setstartTime(startnow);
-
                             StartTimeForChange.set(year, month, monthDay[month]);
                             endnow = StartTimeForChange.getTime();
                             criteria.andTimeLessThanOrEqualTo(endnow);
@@ -1021,43 +1004,7 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService {
 //                      同一天
                             endnow = startnow;
                         }
-//        开始时间比要求的开始时间晚或相当
-                        criteria.andTimeGreaterThanOrEqualTo(startnow);
-//        结束时间比要求的结束时间早或相当
-                        criteria.andTimeLessThanOrEqualTo(endnow);
-
-                        OrderList = orderMapper.selectByExample(example);
-                        lengthOfGotList = OrderList.size();//所有信息的条目数
-
-                        statistics.setstartTime(startnow);
-                        statistics.setendTime(endnow);
-
-                        int allIncome = 0;
-                        int allSellNum = 0;
-                        int allFantai = 0;
-
-//            处理信息
-                        for (int n = 0; n < lengthOfGotList; n++) {
-
-//                this table income
-                            List<Dish> DishList = OrderList.get(n).getDishes();
-                            int forTimesForDishes = DishList.size();
-                            for (int l = 0; l < forTimesForDishes; l++) {
-                                allIncome += DishList.get(l).getPrice();
-                            }
-//                this table dish number
-                            allSellNum += forTimesForDishes;
-                            allFantai += 1;
-
-                        }
-//            总订单数/天数/桌数
-                        allFantai /= getDayNumber(startnow, endnow);
-                        allFantai /= tableNumber;
-                        statistics.setIncome(allIncome);
-                        statistics.setSellNum(allFantai);
-                        statistics.setFantai(allFantai);
-
-                        StatisticsList.add(statistics);
+                        StatisticsList.add(getData(startnow,endnow));
                     }
 
                 } else//其余年
