@@ -6,6 +6,4 @@ public interface ServeDishService {
     void requestServeDish(Integer orderInfoId);
 
     void confirmDishServing(Integer orderInfoId);
-
-    OrderInfo fetchOne();
 }

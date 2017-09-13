@@ -23,60 +23,22 @@ import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-//api checked
 @Controller
 @RequestMapping(value = "/identity")
 public class IdentityController {
 
     private LoginService loginService;
     private AuthenticService authenticService;
-    private Producer kcaptchaProducer;
+    private Producer producer;
 
     @Autowired
     public IdentityController(LoginService loginService, AuthenticService authenticService, Producer producer) {
         this.loginService = loginService;
         this.authenticService = authenticService;
-        this.kcaptchaProducer = producer;
+        this.producer = producer;
     }
 
-    @RequestMapping(value = "/captcha", method = RequestMethod.GET)
-    @ResponseBody
-    public void captcha(HttpServletResponse response, HttpSession session) throws IOException {
-        response.setHeader("Cache-Control", "no-store");
-        response.setHeader("Pragma", "no-cache");
-        response.setDateHeader("Expires", 0);
-        response.setContentType("image/jpeg");
-        String capText = kcaptchaProducer.createText();
-        BufferedImage bi = this.kcaptchaProducer.createImage(capText);
-        ServletOutputStream out = response.getOutputStream();
-        try {
-            session.setAttribute(Constants.KAPTCHA_SESSION_CONFIG_KEY, capText);//在该用户的session中记录他的验证码值
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        ImageIO.write(bi, "jpeg", out);
-    }
-
-    @RequestMapping(method = RequestMethod.GET)
-    public String renderLoginPage(HttpSession session) {
-        AuthenticService.State state = authenticService.check(session);
-        switch (state) {
-            //如果已经登陆过，则直接返回该角色对应的页面。
-            case CUSTOMER:
-                break;
-            case COOKER:
-                break;
-            case ADMIN:
-                break;
-            case WAITER:
-                break;
-            case NONE:
-                return "login";
-        }
-        return "login";
-    }
-
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST, produces = "application/json")
     @JsonView(ViewLevel.Summary.class)
     public User login(@RequestParam(value = "username") String username,
                       @RequestParam(value = "password") String password,
@@ -89,5 +51,23 @@ public class IdentityController {
         if (!session.getAttribute(Constants.KAPTCHA_SESSION_CONFIG_KEY).toString().equals(captcha))//检验登陆验证码
             throw new CaptchaWrongException();
         return loginService.login(username, password);//返回登陆结果
+    }
+
+    @RequestMapping(value = "/captcha", method = RequestMethod.GET)
+    public @ResponseBody
+    void captcha(HttpServletResponse response, HttpSession session) throws IOException {
+        response.setHeader("Cache-Control", "no-store");
+        response.setHeader("Pragma", "no-cache");
+        response.setDateHeader("Expires", 0);
+        response.setContentType("image/jpeg");
+        String capText = this.producer.createText();
+        BufferedImage bi = this.producer.createImage(capText);
+        ServletOutputStream out = response.getOutputStream();
+        try {
+            session.setAttribute(Constants.KAPTCHA_SESSION_CONFIG_KEY, capText);//在该用户的session中记录他的验证码值
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        ImageIO.write(bi, "jpeg", out);
     }
 }

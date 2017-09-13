@@ -4,24 +4,9 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
     <context-param>
-        <param-name>webAppRootKey</param-name>
-        <param-value>OrderDishSystemServer.root</param-value>
-    </context-param>
-    <context-param>
-        <param-name>log4jConfigLocation</param-name>
-        <param-value>/WEB-INF/spring/log4j.properties</param-value>
-    </context-param>
-    <context-param>
-        <param-name>log4jRefreshInterval</param-name>
-        <param-value>3000</param-value>
-    </context-param>
-    <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>/WEB-INF/spring/applicationContext.xml</param-value>
+        <param-value>/webapp/WEB-INF/spring/applicationContext.xml</param-value>
     </context-param>
-    <listener>
-        <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
-    </listener>
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
@@ -30,11 +15,7 @@
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <init-param>
             <param-name>contextConfigLocation</param-name>
-            <param-value>/WEB-INF/spring/dispatcher-servlet.xml</param-value>
-        </init-param>
-        <init-param>
-            <param-name>dispatchOptionsRequest</param-name>
-            <param-value>true</param-value>
+            <param-value>/webapp/WEB-INF/spring/dispatcher-servlet.xml</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
@@ -42,7 +23,4 @@
         <servlet-name>dispatcher</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
-
-
-
 </web-app>

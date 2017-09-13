@@ -12,23 +12,26 @@
     <script>
         $(document).ready(function () {
             $("#verify_pic").bind("click", function () {
-                $("#verify_pic").attr("src", "http://localhost:8080/captcha?" + Math.random());//刷新验证码
+//                $.post("url", {
+//                        "name": "varify"
+//                    },
+//                    function (data) {
+//                        var response = JSON.parse(data);
+//                        $("#verify_pic").attr("src", response["url"]);
+//                    }, "json")
+                $("#verify_pic").attr("src","http://localhost:8080/captcha?"+Math.random());//刷新验证码
             });
 
             $("#submit").bind("click", function () {
-                $.ajax({
-                    type: "POST",
-                    url: "http://localhost:8080/identity",
-                    dataType: "json",
-                    contentType:"application/x-www-form-urlencoded",
-                    data: {
-                        username: $("#username")[0].value,
-                        password: $("#password")[0].value,
-                        captcha: $("#verify")[0].value
+                // if ($("#login_text").attr("value") === verifyNum.toString()) {
+                $.post("localhost:8080/login", {
+                    //发送用户名，密码，验证码给服务器
+                        "username": $("username").attr("value"),
+                        "password": $("password").attr("value"),
+                        "captcha": $("verify").attr("value")
                     },
-                    success: function (data, state) {
+                    function (data, state) {
                         if (state == 200) {
-                            alert("登陆成功");
                             var response = JSON.parse(data);
                             if (response["flag"] === "1") {
                                 var usertype = response["type"];
@@ -44,12 +47,16 @@
                             }
                         }
                         else {
-                            alert("登陆失败");
                             $("error_message").attr("value", state);
                             clearAll();
                         }
-                    }
-                });
+                    }, "json")
+                // }
+                // else {
+                //     $("#error_message").html("验证码输入错误，请重输！");
+                //     $("#verify").attr("value", "");
+                //     $("#verify_pic").click();
+                // }
             });
         });
 

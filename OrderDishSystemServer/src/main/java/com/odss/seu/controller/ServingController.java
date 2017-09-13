@@ -29,8 +29,8 @@ public class ServingController {
 
     //服务员轮询是否需要上菜
     @RequestMapping(method = RequestMethod.GET)
-    public OrderInfo polling(HttpServletRequest request){
-
+    public OrderInfo polling(HttpServletRequest request) {
+        return null;
     }
 
     //服务员确认已经上菜

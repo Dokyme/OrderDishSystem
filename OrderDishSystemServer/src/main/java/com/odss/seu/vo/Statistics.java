@@ -8,6 +8,8 @@ import java.util.Date;
 
 public class Statistics implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     @JsonView(ViewLevel.SummaryWithDetail.class)
     private Date startTime;
 

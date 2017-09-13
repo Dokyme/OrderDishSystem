@@ -7,6 +7,7 @@ import com.odss.seu.vo.Order;
 import com.odss.seu.vo.OrderExample;
 import com.odss.seu.vo.Statistics;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 
 import java.text.SimpleDateFormat;
@@ -15,6 +16,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+@Service
 public class StatisticsQueryServiceImpl implements StatisticsQueryService {
 
     @Autowired
