@@ -2,6 +2,7 @@ package com.odss.seu.service;
 
 
 import com.odss.seu.mapper.OrderMapper;
+import com.odss.seu.vo.Order;
 import com.odss.seu.vo.OrderExample;
 import com.odss.seu.vo.Statistics;
 import org.springframework.beans.factory.annotation.Autowired;

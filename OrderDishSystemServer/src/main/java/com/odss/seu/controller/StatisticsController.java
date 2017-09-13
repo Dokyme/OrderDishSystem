@@ -1,17 +1,22 @@
 package com.odss.seu.controller;
 
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.odss.seu.service.StatisticsQueryService;
 import com.odss.seu.vo.Statistics;
+import com.odss.seu.vo.ViewLevel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 
 import java.util.Date;
+import java.util.List;
 
 @Controller
-@RequestMapping(value="/statistics")
+@RequestMapping(value = "/statistics")
 public class StatisticsController {
 //    起始时间，结束时间
 //    按照年，按照月，按照天
@@ -19,9 +24,20 @@ public class StatisticsController {
     private StatisticsQueryService statisticsQueryService;
 
     @Autowired
-    public StatisticsController(StatisticsQueryService statisticsQueryService)
-    {
+    public StatisticsController(StatisticsQueryService statisticsQueryService) {
         this.statisticsQueryService = statisticsQueryService;
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
+    @JsonView(ViewLevel.Summary.class)
+    public List<Statistics> queryStatistics(@RequestParam Integer step, @RequestParam Date startTime, @RequestParam Date endTime) {
+        List<Statistics> statisticsList;
+        switch (step){
+            case 0:
+                statisticsList=statisticsQueryService.queryAllStatisticsByYear(startTime,endTime);
+                break;
+
+        }
     }
 
 
