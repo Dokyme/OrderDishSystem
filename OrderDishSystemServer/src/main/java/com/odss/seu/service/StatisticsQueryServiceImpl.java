@@ -2,8 +2,8 @@ package com.odss.seu.service;
 
 
 import com.odss.seu.mapper.OrderMapper;
+import com.odss.seu.vo.OrderExample;
 import com.odss.seu.vo.Statistics;
-import com.odss.seu.vo.StatisticsExample;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
@@ -21,8 +21,8 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService{
     public Statistics queryAllStatisticsByYear(Date startTime, Date endTime)
     {
 
-        StatisticsExample example =new  StatisticsExample();
-        StatisticsExample.Criteria criteria=example.createCriteria();
+        OrderExample example =new  OrderExample();
+        OrderExample.Criteria criteria=example.createCriteria();
 
 
         List<Statistics> StatisticsList= new ArrayList<Statistics>();
@@ -50,9 +50,9 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService{
         if(endYear==startYear)
         {
 //        开始时间比要求的开始时间晚或相当
-            criteria.andstartTimeGreaterThanOrEqualTo(startTime);
+            criteria.andTimeGreaterThanOrEqualTo(startTime);
 //        结束时间比要求的结束时间早或相当
-            criteria.andendTimeLessThanOrEqualTo(endTime);
+            criteria.andTimeLessThanOrEqualTo(endTime);
             statisticsList= orderMapper.selectByExample(example);
             lengthOfGotList=statisticsList.size();//所有信息的条目数
 
@@ -94,7 +94,7 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService{
                 {
                     //第一年按照开始时间到年末算
                     startnow=startTime;
-                    criteria.andstartTimeGreaterThanOrEqualTo(startnow);
+                    criteria.andTimeGreaterThanOrEqualTo(startnow);
                     statistics.setstartTime(startnow);
 
                     //计算年末
@@ -104,7 +104,7 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService{
                     StartTimeForChange.set(year,12,31);
                     endnow=StartTimeForChange.getTime();
 
-                    criteria.andendTimeLessThanOrEqualTo(endnow);
+                    criteria.andTimeLessThanOrEqualTo(endnow);
                     statistics.setendTime(endnow);
                 }
                 else if(i==(forTimes-1) )//末尾一年，如果是末尾一轮，就用endTime作为结束
@@ -115,12 +115,12 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService{
                     StartTimeForChange.set(year,1,1);
                     startnow=StartTimeForChange.getTime();
                     //        开始时间比要求的开始时间晚或相当
-                    criteria.andstartTimeGreaterThanOrEqualTo(startnow);
+                    criteria.andTimeGreaterThanOrEqualTo(startnow);
                     statistics.setstartTime(startnow);
 
 
                     //        结束时间比要求的结束时间早或相当
-                    criteria.andendTimeLessThanOrEqualTo(endTime);
+                    criteria.andTimeLessThanOrEqualTo(endTime);
                     statistics.setendTime(endTime);
                 }
                 else//其余年
@@ -132,13 +132,13 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService{
                     StartTimeForChange.set(year,1,1);
                     startnow=StartTimeForChange.getTime();
                     //        开始时间比要求的开始时间晚或相当
-                    criteria.andstartTimeGreaterThanOrEqualTo(startnow);
+                    criteria.andTimeGreaterThanOrEqualTo(startnow);
                     statistics.setstartTime(startnow);
 
                     StartTimeForChange.set(year,12,31);
                     endnow=StartTimeForChange.getTime();
                     //        结束时间比要求的结束时间早或相当
-                    criteria.andendTimeLessThanOrEqualTo(endnow);
+                    criteria.andTimeLessThanOrEqualTo(endnow);
                     statistics.setendTime(endnow);
                 }
 
@@ -181,8 +181,8 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService{
     @Override
     public Statistics queryAllStatisticsByMonth(Date startTime, Date endTime) {
 
-        StatisticsExample example =new  StatisticsExample();
-        StatisticsExample.Criteria criteria=example.createCriteria();
+        OrderExample example =new  OrderExample();
+        OrderExample.Criteria criteria=example.createCriteria();
 
         //最后的结果存放处
         List<Statistics> StatisticsList= new ArrayList<Statistics>();
@@ -221,9 +221,9 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService{
             {
 
 //        开始时间比要求的开始时间晚或相当
-                criteria.andstartTimeGreaterThanOrEqualTo(startTime);
+                criteria.andTimeGreaterThanOrEqualTo(startTime);
 //        结束时间比要求的结束时间早或相当
-                criteria.andendTimeLessThanOrEqualTo(endTime);
+                criteria.andTimeLessThanOrEqualTo(endTime);
 
                 statisticsList= orderMapper.selectByExample(example);
                 lengthOfGotList=statisticsList.size();//所有信息的条目数
@@ -257,7 +257,7 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService{
                     {
                         //第一月按照开始时间到月末算
                         startnow=startTime;
-                        criteria.andstartTimeGreaterThanOrEqualTo(startnow);
+                        criteria.andTimeGreaterThanOrEqualTo(startnow);
                         statistics.setstartTime(startnow);
 
                         //计算月末
@@ -268,7 +268,7 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService{
                         StartTimeForChange.set(year,month,monthDay[month]);
                         endnow=StartTimeForChange.getTime();
 
-                        criteria.andendTimeLessThanOrEqualTo(endnow);
+                        criteria.andTimeLessThanOrEqualTo(endnow);
                         statistics.setendTime(endnow);
                     }
                     else if(i==(endMonth-startMonth+1))
@@ -280,11 +280,11 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService{
                         month+=1;
                         StartTimeForChange.set(year,month,1);
                         startnow=StartTimeForChange.getTime();
-                        criteria.andstartTimeGreaterThanOrEqualTo(startnow);
+                        criteria.andTimeGreaterThanOrEqualTo(startnow);
                         statistics.setstartTime(startnow);
 
                         endnow=endTime;
-                        criteria.andendTimeLessThanOrEqualTo(endnow);
+                        criteria.andTimeLessThanOrEqualTo(endnow);
                         statistics.setendTime(endnow);
 
                     }
@@ -298,13 +298,13 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService{
                         month+=1;
                         StartTimeForChange.set(year,month,1);
                         startnow=StartTimeForChange.getTime();
-                        criteria.andstartTimeGreaterThanOrEqualTo(startnow);
+                        criteria.andTimeGreaterThanOrEqualTo(startnow);
                         statistics.setstartTime(startnow);
 
                         //月末
                         StartTimeForChange.set(year,month,monthDay[month]);
                         endnow=StartTimeForChange.getTime();
-                        criteria.andendTimeLessThanOrEqualTo(endnow);
+                        criteria.andTimeLessThanOrEqualTo(endnow);
                         statistics.setendTime(endnow);
 
                     }
@@ -352,7 +352,7 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService{
                         {
                             //第一月按照开始时间到月末算
                             startnow=startTime;
-                            criteria.andstartTimeGreaterThanOrEqualTo(startnow);
+                            criteria.andTimeGreaterThanOrEqualTo(startnow);
                             statistics.setstartTime(startnow);
 
                             //计算月末
@@ -363,7 +363,7 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService{
                             StartTimeForChange.set(year,month,monthDay[month]);
                             endnow=StartTimeForChange.getTime();
 
-                            criteria.andendTimeLessThanOrEqualTo(endnow);
+                            criteria.andTimeLessThanOrEqualTo(endnow);
                             statistics.setendTime(endnow);
                         }
                         else//普通月，以及年末也算在内
@@ -375,13 +375,13 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService{
                             month+=1;
                             StartTimeForChange.set(year,month,1);
                             startnow=StartTimeForChange.getTime();
-                            criteria.andstartTimeGreaterThanOrEqualTo(startnow);
+                            criteria.andTimeGreaterThanOrEqualTo(startnow);
                             statistics.setstartTime(startnow);
 
                             //月末
                             StartTimeForChange.set(year,month,monthDay[month]);
                             endnow=StartTimeForChange.getTime();
-                            criteria.andendTimeLessThanOrEqualTo(endnow);
+                            criteria.andTimeLessThanOrEqualTo(endnow);
                             statistics.setendTime(endnow);
                         }
 
@@ -424,13 +424,13 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService{
                             StartTimeForChange.set(year, month, 1);
                             startnow = StartTimeForChange.getTime();
                             //        开始时间比要求的开始时间晚或相当
-                            criteria.andstartTimeGreaterThanOrEqualTo(startnow);
+                            criteria.andTimeGreaterThanOrEqualTo(startnow);
                             statistics.setstartTime(startnow);
 
                             StartTimeForChange.set(year, month, monthDay[month]);
                             endnow = StartTimeForChange.getTime();
                             //        结束时间比要求的结束时间早或相当
-                            criteria.andendTimeLessThanOrEqualTo(endTime);
+                            criteria.andTimeLessThanOrEqualTo(endTime);
                             statistics.setendTime(endTime);
                         }
                         else  if (j==forTimesForMonth-1)
@@ -443,12 +443,12 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService{
                             StartTimeForChange.set(year, month, 1);
                             startnow = StartTimeForChange.getTime();
                             //        开始时间比要求的开始时间晚或相当
-                            criteria.andstartTimeGreaterThanOrEqualTo(startnow);
+                            criteria.andTimeGreaterThanOrEqualTo(startnow);
                             statistics.setstartTime(startnow);
 
                             endnow = endTime;
                             //        结束时间比要求的结束时间早或相当
-                            criteria.andendTimeLessThanOrEqualTo(endTime);
+                            criteria.andTimeLessThanOrEqualTo(endTime);
                             statistics.setendTime(endTime);
                         }
                         else
@@ -461,12 +461,12 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService{
                             StartTimeForChange.set(year, month, 1);
                             startnow = StartTimeForChange.getTime();
                             //        开始时间比要求的开始时间晚或相当
-                            criteria.andstartTimeGreaterThanOrEqualTo(startnow);
+                            criteria.andTimeGreaterThanOrEqualTo(startnow);
                             statistics.setstartTime(startnow);
 
                             StartTimeForChange.set(year,month,monthDay[month]);
                             endnow=StartTimeForChange.getTime();
-                            criteria.andendTimeLessThanOrEqualTo(endnow);
+                            criteria.andTimeLessThanOrEqualTo(endnow);
                             statistics.setendTime(endnow);
                         }
                     }
@@ -510,9 +510,9 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService{
                     for(int j=0;j<forTimesForMonth;j++) {
 
 
-                        criteria.andstartTimeGreaterThanOrEqualTo(startnow);
+                        criteria.andTimeGreaterThanOrEqualTo(startnow);
                         statistics.setstartTime(startnow);
-                        criteria.andendTimeLessThanOrEqualTo(endnow);
+                        criteria.andTimeLessThanOrEqualTo(endnow);
                         statistics.setendTime(endnow);
 
                         statisticsList = orderMapper.selectByExample(example);
@@ -559,13 +559,13 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService{
 
     @Override
     public Statistics queryAllStatisticsByDay(Date startTime, Date endTime) {
-        StatisticsExample example =new  StatisticsExample();
-        StatisticsExample.Criteria criteria=example.createCriteria();
+        OrderExample example =new  OrderExample();
+        OrderExample.Criteria criteria=example.createCriteria();
 
 //        开始时间比要求的开始时间晚或相当
-        criteria.andstartTimeGreaterThanOrEqualTo(startTime);
+        criteria.andTimeGreaterThanOrEqualTo(startTime);
 //        结束时间比要求的结束时间早或相当
-        criteria.andendTimeLessThanOrEqualTo(endTime);
+        criteria.andTimeLessThanOrEqualTo(endTime);
 
         List<Statistics> statisticsList= orderMapper.selectByExample(example);
 

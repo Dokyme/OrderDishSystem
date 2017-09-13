@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class QuerySellingServiceImpl implements QuerySellingService {
+public class `QuerySellingServiceImpl implements QuerySellingService {
 
     private OrderMapper orderMapper;
 
