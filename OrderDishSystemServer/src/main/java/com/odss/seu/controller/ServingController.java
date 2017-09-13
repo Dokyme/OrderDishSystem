@@ -2,11 +2,12 @@ package com.odss.seu.controller;
 
 
 import com.odss.seu.service.ServeDishService;
+import com.odss.seu.vo.OrderInfo;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 //api checked
 @RestController
@@ -24,6 +25,12 @@ public class ServingController {
     @RequestMapping(value = "/{orderInfoId}", method = RequestMethod.PUT)
     public void requestServing(@PathVariable Integer orderInfoId) {
         serveDishService.requestServeDish(orderInfoId);
+    }
+
+    //服务员轮询是否需要上菜
+    @RequestMapping(method = RequestMethod.GET)
+    public OrderInfo polling(HttpServletRequest request){
+
     }
 
     //服务员确认已经上菜

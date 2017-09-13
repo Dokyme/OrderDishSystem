@@ -2,6 +2,7 @@ package com.odss.seu.service;
 
 import com.odss.seu.mapper.OrderInfoMapper;
 import com.odss.seu.vo.OrderInfo;
+import com.odss.seu.vo.OrderInfoExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,5 +29,15 @@ public class ServeDishServiceImpl implements ServeDishService {
         OrderInfo orderInfo = orderInfoMapper.selectByPrimaryKey(orderInfoId);
         orderInfo.setDishstate(DishState.SERVED.ordinal());
         orderInfoMapper.updateByPrimaryKey(orderInfo);
+    }
+
+    @Override
+    public OrderInfo fetchOne() {
+        OrderInfoExample orderInfoExample = new OrderInfoExample();
+        orderInfoExample.createCriteria().andDishstateEqualTo(DishState.WAITING_SERVING.ordinal());
+        OrderInfo one = orderInfoMapper.selectByExample(orderInfoExample).get(0);
+        one.setDishstate(DishState.WAITING_SERVED.ordinal());
+        orderInfoMapper.updateByPrimaryKey(one);
+        return one;
     }
 }

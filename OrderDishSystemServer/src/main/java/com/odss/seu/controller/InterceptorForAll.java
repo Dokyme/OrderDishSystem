@@ -29,6 +29,7 @@ public class InterceptorForAll implements HandlerInterceptor {
         if (request.getRequestURI().contains("login")) {
             return true;
         }
+
         HttpSession session = request.getSession();
 //        点菜界面——manager不能访问，服务员可以访问，后厨不能访问
         if (request.getRequestURI().contains("order")) {

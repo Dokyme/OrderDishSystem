@@ -1,17 +1,21 @@
 package com.odss.seu.vo;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import javafx.scene.shape.VLineTo;
 
 import java.io.Serializable;
 import java.util.Date;
 
 public class Statistics implements Serializable {
 
-    @JsonView(ViewLevel.Summary.class)
+    @JsonView(ViewLevel.SummaryWithDetail.class)
     private Date startTime;
 
-    @JsonView(ViewLevel.Summary.class)
+    @JsonView(ViewLevel.SummaryWithDetail.class)
     private Date endTime;
+
+    @JsonView(ViewLevel.Summary.class)
+    private String time;
 
     @JsonView(ViewLevel.Summary.class)
     private Integer income;
@@ -77,4 +81,11 @@ public class Statistics implements Serializable {
     }
 
 
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
 }
