@@ -30,6 +30,12 @@ public class UserManageController {
         return users;
     }
 
+    @RequestMapping(value = "/{userId}",method = RequestMethod.GET)
+    @JsonView(ViewLevel.SummaryWithDetail.class)
+    public User queryUserDetail(@PathVariable Integer userId){
+        return userManageService.queryUserDetail(userId);
+    }
+
     //管理员修改用户信息。
     @RequestMapping(method = RequestMethod.POST)
     public void updateUser(@RequestBody User user) {
