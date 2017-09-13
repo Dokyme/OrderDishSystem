@@ -18,6 +18,42 @@
 <script>
     $(window).ready(function(){
         showTime();
+
+        var time=document.URL.split("?")[1].split("&")[0].split("=")[1];
+        var startTime=document.URL.split("?")[1].split("&")[1].split("=")[1];
+        var endTime=document.URL.split("?")[1].split("&")[2].split("=")[1];
+        var step=document.URL.split("?")[1].split("&")[3].split("=")[1];
+        $.ajax({
+            url:"/order/statistics?time="+time,
+            type:"GET",
+            dataType:"json",
+            success:function (data,status) {
+                if(status==="success"){
+                    if ($.isEmptyObject(data))
+                        alert("这段时间没有账单信息！");
+                    else {
+                        var parsedData = data;
+                        var i;
+                        for (i in parsedData) {
+                            var strHtml = billManageTableOutput(i, parsedData[i]);
+                            $("#bill_table_body").append(strHtml);
+                        }
+                    }
+                }
+                else{
+                    alert("网络错误！");
+                    window.location="moneyInfo.html?startTime="+startTime+"&endTime="+endTime+"&step="+step;
+                }
+            },
+            error:function () {
+                alert("网络错误！");
+                window.location="moneyInfo.html?startTime="+startTime+"&endTime="+endTime+"&step="+step;
+            }
+        });
+
+        $("#return_btn").bind("click",function () {
+            window.location="moneyInfo.html?startTime="+startTime+"&endTime="+endTime+"&step="+step;
+        });
     });
 
     $(window).resize(function () {
@@ -52,16 +88,16 @@
         <input type="button" class="sideline_btn" style="top:5%;" id="pay_btn" value="账单支付">
     </div>
     <div>
-        <input type="button" class="sideline_btn" style="top:20%" id="pay_btn" value="菜品信息管理">
+        <input type="button" class="sideline_btn" style="top:20%" id="dish_btn" value="菜品信息管理">
     </div>
     <div>
-        <input type="button" class="sideline_btn" style="top:35%" id="pay_btn" value="员工信息管理">
+        <input type="button" class="sideline_btn" style="top:35%" id="staff_btn" value="员工信息管理">
     </div>
     <div>
-        <input type="button" class="sideline_btn" style="top:50%" id="pay_btn" value="数据维护管理">
+        <input type="button" class="sideline_btn" style="top:50%" id="data_btn" value="数据维护管理">
     </div>
     <div>
-        <input type="button" class="sideline_btn" style="top:65%" id="pay_btn" value="经营数据查看">
+        <input type="button" class="sideline_btn" style="top:65%" id="manage_btn" value="经营数据查看">
     </div>
 </div>
 <div class="content">
@@ -72,11 +108,12 @@
                 <tr>
                     <th>账单时间</th>
                     <th>账单桌号</th>
-                    <th>账单评价</th>
-                    <th>账单价格</th>
+                    <th>菜品质量</th>
+                    <th>烹饪速度</th>
+                    <th>服务态度</th>
                 </tr>
                 </thead>
-                <tbody id="dish_table_body">
+                <tbody id="bill_table_body">
                 <tr>
                     <td>2017-08-29 13:14:29</td>
                     <td>C02</td>
@@ -87,14 +124,27 @@
                         <img src="image/nostar.png" class="star_icon" id="star_4">
                         <img src="image/nostar.png" class="star_icon" id="star_5">
                     </td>
-                    <td>56</td>
+                    <td>
+                        <img src="image/star.png" class="star_icon" id="star_1">
+                        <img src="image/star.png" class="star_icon" id="star_2">
+                        <img src="image/star.png" class="star_icon" id="star_3">
+                        <img src="image/nostar.png" class="star_icon" id="star_4">
+                        <img src="image/nostar.png" class="star_icon" id="star_5">
+                    </td>
+                    <td>
+                        <img src="image/star.png" class="star_icon" id="star_1">
+                        <img src="image/star.png" class="star_icon" id="star_2">
+                        <img src="image/star.png" class="star_icon" id="star_3">
+                        <img src="image/nostar.png" class="star_icon" id="star_4">
+                        <img src="image/nostar.png" class="star_icon" id="star_5">
+                    </td>
                 </tr>
                 </tbody>
             </table>
         </div>
     </div>
-    <div>
-        <label class="show_total_data" id="show_sales_data"></label>
+    <div class="down_line">
+        <input type="button" class="query_btn" id="return_btn" value="返回">
     </div>
 </body>
 </html>

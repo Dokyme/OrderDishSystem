@@ -1,9 +1,11 @@
 package com.odss.seu.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.odss.seu.service.CheckoutManageService;
 import com.odss.seu.service.OrderDishService;
 import com.odss.seu.service.QuerySellingService;
 import com.odss.seu.vo.Order;
+import com.odss.seu.vo.SellingStatistics;
 import com.odss.seu.vo.ViewLevel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,13 +24,6 @@ public class OrderController {
     public OrderController(OrderDishService orderDishService, QuerySellingService querySellingService) {
         this.orderDishService = orderDishService;
         this.querySellingService = querySellingService;
-    }
-
-    //查询某个时间段内的所有账单的详细信息。
-    @RequestMapping(value = "/statistics", method = RequestMethod.GET)
-    @JsonView(ViewLevel.SummaryWithDetail.class)
-    public List<Order> queryOrderStatistics(@RequestParam Date startTime, @RequestParam Date endTime) {
-        return null;
     }
 
     //顾客或服务员提交订单。
@@ -50,4 +45,11 @@ public class OrderController {
 //    public List<Order> queryAllOrders() {
 //        return querySellingService.queryAllOrders();
 //    }
+
+    //管理员查询某个时间段内的所有订单。
+    @RequestMapping(value = "/statistics", method = RequestMethod.GET)
+    @JsonView(ViewLevel.Summary.class)
+    public List<Order> queryStaistics(@RequestParam Date startDate, @RequestParam Date endDate) {
+        return null;
+    }
 }

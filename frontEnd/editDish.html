@@ -8,7 +8,7 @@
     <script src="js/jquery-3.2.1.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="css/bootstrap.min.css">
-    <title>新增菜品信息</title>
+    <title>修改菜品信息</title>
 </head>
 <script>
     //将CSS中的长度信息转换为对应的数字
@@ -20,36 +20,9 @@
     $(document).ready(function () {
         $("#circle_image").css("height",$("#circle_image").css("width"));
 
-        $.post("url",{
-            "name":"info"
-        },function (data,state) {
-            var info=JSON.parse(data);
-            $("#image_show").attr("src",info["src"]);
-            $("#dish_name_input").attr("value",info["name"]);
-            $("#dish_type_input").attr("value",info["type"]);
-            $("#dish_price_input").attr("value",info["price"]);
-            $("#dish_sales_input").attr("value",info["sales"]);
-        },"json");
-
-        $("#confirm_btn").bind("click",function () {
-            $.post("url",{
-                "dish_category":$("#dish_type_input").attr("value"),
-                "dish_name":$("#dish_name_input").attr("value"),
-                "dish_intro":$("#dish_intro_input").attr("value"),
-                "dish_price":$("#dish_price_input").attr("value"),
-                "dish_sales":$("#dish_sales_input").attr("value")
-            },function(data,status){
-
-            },"json");
-        });
-
-        $("#cancel_btn").bind("click",function () {
-            $(window).attr('location',"dishDataInfo.html");
-        });
-
         $("#image_show").bind("click",function () {
             $("#imgUpload").click();
-        })
+        });
 
         $("#imgUpload").change(function(e) {
             for (var i = 0; i < e.target.files.length; i++) {
@@ -67,6 +40,102 @@
         $("#circle_image").css("left",(getLengthNum(".basic_lane","width")*0.5-140).toString()+"px");
         $("#dish_title").css("left",(getLengthNum(".basic_lane","width")*0.5-120).toString()+"px");
         $("#dish_name").css("left",(getLengthNum(".basic_lane","width")*0.5-120).toString()+"px");
+
+        var dishId=document.URL.split("?")[1].split("=")[1];
+        $.ajax({
+            url:"/dish/"+dishId,
+            type:"GET",
+            dataType:"json",
+            success:function (data,status) {
+                if(status==="success"){
+                    var dish_name=data["name"];
+                    var dish_category=data["type"];
+                    var dish_intro=data["description"];
+                    var dish_price=data["price"];
+                    var dish_sales=data["sales"];
+                    var dish_photo=data["photo"];
+                    $("#dish_name_input").val(dish_name);
+                    $("#dish_type_input").val(dish_category);
+                    $("#dish_intro_input").val(dish_intro);
+                    $("#dish_price_input").val(dish_price);
+                    $("#dish_sales_input").val(dish_sales);
+                    $("#image_show").attr("src",dish_photo);
+                }
+                else{
+                    alert("加载该菜品信息失败！");
+                    window.location="dishInfo.html"
+                }
+            },
+            error:function () {
+                alert("加载该菜品信息失败！")
+                window.location="dishInfo.html";
+            }
+        });
+
+        $("#confirm_btn").bind("click",function () {
+            var dish_name=$("#dish_name_input").val();
+            var dish_category=$("#dish_type_input").val();
+            var dish_intro=$("#dish_intro_input").val();
+            var dish_price=$("#dish_price_input").val();
+            var dish_sales=$("#dish_sales_input").val();
+            if(dish_name==="" || dish_category==="" || dish_price==="" || dish_sales===""){
+                alert("信息未输全！");
+            }
+            else{
+                if(isNaN(dish_price))
+                    alert("价格信息不是数字！");
+                else if(isNaN(dish_sales))
+                    alert("销量信息不是数字！");
+                else{
+                    var ajax_option={
+                        url: url,                  //String, 表单提交的目标地址，此属性会覆盖表单的action属性
+                        type:"POST",             //String，表单提交的方式(POST or GET)，此属性会覆盖表单的method属性
+                        dataType: null,    //String，指定接受服务端返回的数据类型(xml，script  or  json)
+                        clearForm: true,   //boolean，默认为false，成功提交后是否清除所有表单元素的值
+                        resetForm: true,  //boolean，默认为false，成功提交后是否重置所有表单元素的值
+                        timeout: 3000,    //number，单位ms，限制请求的时间，当请求大于设置的时间后，跳出请求
+                        success:function(responseText,statusText,xhr,$form){
+                            console.log(responseText);//业务提示
+                        }//提交成功后的回调函数 。参数详解：responseText，服务器返回的数据内容；statusText，服务器返回的状态
+                    };
+
+                    //表单提交事件
+                    $("#circle_image").submit(function(){
+                        $("#circle_image").ajaxSubmit(ajax_option);
+                        return false;
+                    });
+
+                    $.ajax({
+                        url:"/dish/",
+                        type:"PUT",
+                        data:{
+                            "name":dish_name,
+                            "description":dish_intro,
+                            "price":dish_price,
+                            "type":dish_category,
+                            "sales":dish_sales
+                        },
+                        dataType:"json",
+                        success:function (data,status) {
+                            if(status==="success"){
+                                alert("上传成功！");
+                                window.location="dishInfo.html";
+                            }
+                            else{
+                                alert("上传失败！");
+                            }
+                        },
+                        error:function () {
+                            alert("网络错误！");
+                        }
+                    });
+                }
+            }
+        });
+
+        $("#exit_btn").bind("click",function () {
+            window.location="dishInfo.html";
+        });
     });
 
     $(window).resize(function () {

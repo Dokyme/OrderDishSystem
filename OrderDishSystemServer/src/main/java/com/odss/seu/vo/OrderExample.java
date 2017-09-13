@@ -256,182 +256,182 @@ public class OrderExample {
         }
 
         public Criteria andTableIsNull() {
-            addCriterion("`o.Table` is null");
+            addCriterion("o.Table is null");
             return (Criteria) this;
         }
 
         public Criteria andTableIsNotNull() {
-            addCriterion("`o.Table` is not null");
+            addCriterion("o.Table is not null");
             return (Criteria) this;
         }
 
         public Criteria andTableEqualTo(Integer value) {
-            addCriterion("`o.Table` =", value, "table");
+            addCriterion("o.Table =", value, "table");
             return (Criteria) this;
         }
 
         public Criteria andTableNotEqualTo(Integer value) {
-            addCriterion("`o.Table` <>", value, "table");
+            addCriterion("o.Table <>", value, "table");
             return (Criteria) this;
         }
 
         public Criteria andTableGreaterThan(Integer value) {
-            addCriterion("`o.Table` >", value, "table");
+            addCriterion("o.Table >", value, "table");
             return (Criteria) this;
         }
 
         public Criteria andTableGreaterThanOrEqualTo(Integer value) {
-            addCriterion("`o.Table` >=", value, "table");
+            addCriterion("o.Table >=", value, "table");
             return (Criteria) this;
         }
 
         public Criteria andTableLessThan(Integer value) {
-            addCriterion("`o.Table` <", value, "table");
+            addCriterion("o.Table <", value, "table");
             return (Criteria) this;
         }
 
         public Criteria andTableLessThanOrEqualTo(Integer value) {
-            addCriterion("`o.Table` <=", value, "table");
+            addCriterion("o.Table <=", value, "table");
             return (Criteria) this;
         }
 
         public Criteria andTableIn(List<Integer> values) {
-            addCriterion("`o.Table` in", values, "table");
+            addCriterion("o.Table in", values, "table");
             return (Criteria) this;
         }
 
         public Criteria andTableNotIn(List<Integer> values) {
-            addCriterion("`o.Table` not in", values, "table");
+            addCriterion("o.Table not in", values, "table");
             return (Criteria) this;
         }
 
         public Criteria andTableBetween(Integer value1, Integer value2) {
-            addCriterion("`o.Table` between", value1, value2, "table");
+            addCriterion("o.Table between", value1, value2, "table");
             return (Criteria) this;
         }
 
         public Criteria andTableNotBetween(Integer value1, Integer value2) {
-            addCriterion("`o.Table` not between", value1, value2, "table");
+            addCriterion("o.Table not between", value1, value2, "table");
             return (Criteria) this;
         }
 
         public Criteria andTimeIsNull() {
-            addCriterion("`o.Time` is null");
+            addCriterion("o.Time is null");
             return (Criteria) this;
         }
 
         public Criteria andTimeIsNotNull() {
-            addCriterion("`o.Time` is not null");
+            addCriterion("o.Time is not null");
             return (Criteria) this;
         }
 
         public Criteria andTimeEqualTo(Date value) {
-            addCriterion("`o.Time` =", value, "time");
+            addCriterion("o.Time =", value, "time");
             return (Criteria) this;
         }
 
         public Criteria andTimeNotEqualTo(Date value) {
-            addCriterion("`o.Time` <>", value, "time");
+            addCriterion("o.Time <>", value, "time");
             return (Criteria) this;
         }
 
         public Criteria andTimeGreaterThan(Date value) {
-            addCriterion("`o.Time` >", value, "time");
+            addCriterion("o.Time >", value, "time");
             return (Criteria) this;
         }
 
         public Criteria andTimeGreaterThanOrEqualTo(Date value) {
-            addCriterion("`o.Time` >=", value, "time");
+            addCriterion("o.Time >=", value, "time");
             return (Criteria) this;
         }
 
         public Criteria andTimeLessThan(Date value) {
-            addCriterion("`o.Time` <", value, "time");
+            addCriterion("o.Time <", value, "time");
             return (Criteria) this;
         }
 
         public Criteria andTimeLessThanOrEqualTo(Date value) {
-            addCriterion("`o.Time` <=", value, "time");
+            addCriterion("o.Time <=", value, "time");
             return (Criteria) this;
         }
 
         public Criteria andTimeIn(List<Date> values) {
-            addCriterion("`o.Time` in", values, "time");
+            addCriterion("o.Time in", values, "time");
             return (Criteria) this;
         }
 
         public Criteria andTimeNotIn(List<Date> values) {
-            addCriterion("`o.Time` not in", values, "time");
+            addCriterion("o.Time not in", values, "time");
             return (Criteria) this;
         }
 
         public Criteria andTimeBetween(Date value1, Date value2) {
-            addCriterion("`o.Time` between", value1, value2, "time");
+            addCriterion("o.Time between", value1, value2, "time");
             return (Criteria) this;
         }
 
         public Criteria andTimeNotBetween(Date value1, Date value2) {
-            addCriterion("`o.Time` not between", value1, value2, "time");
+            addCriterion("o.Time not between", value1, value2, "time");
             return (Criteria) this;
         }
 
         public Criteria andStateIsNull() {
-            addCriterion("`o.State` is null");
+            addCriterion("o.State is null");
             return (Criteria) this;
         }
 
         public Criteria andStateIsNotNull() {
-            addCriterion("`o.State` is not null");
+            addCriterion("o.State is not null");
             return (Criteria) this;
         }
 
         public Criteria andStateEqualTo(Integer value) {
-            addCriterion("`o.State` =", value, "state");
+            addCriterion("o.State =", value, "state");
             return (Criteria) this;
         }
 
         public Criteria andStateNotEqualTo(Integer value) {
-            addCriterion("`o.State` <>", value, "state");
+            addCriterion("o.State <>", value, "state");
             return (Criteria) this;
         }
 
         public Criteria andStateGreaterThan(Integer value) {
-            addCriterion("`o.State` >", value, "state");
+            addCriterion("o.State >", value, "state");
             return (Criteria) this;
         }
 
         public Criteria andStateGreaterThanOrEqualTo(Integer value) {
-            addCriterion("`o.State` >=", value, "state");
+            addCriterion("o.State >=", value, "state");
             return (Criteria) this;
         }
 
         public Criteria andStateLessThan(Integer value) {
-            addCriterion("`o.State` <", value, "state");
+            addCriterion("o.State <", value, "state");
             return (Criteria) this;
         }
 
         public Criteria andStateLessThanOrEqualTo(Integer value) {
-            addCriterion("`o.State` <=", value, "state");
+            addCriterion("o.State <=", value, "state");
             return (Criteria) this;
         }
 
         public Criteria andStateIn(List<Integer> values) {
-            addCriterion("`o.State` in", values, "state");
+            addCriterion("o.State in", values, "state");
             return (Criteria) this;
         }
 
         public Criteria andStateNotIn(List<Integer> values) {
-            addCriterion("`o.State` not in", values, "state");
+            addCriterion("o.State not in", values, "state");
             return (Criteria) this;
         }
 
         public Criteria andStateBetween(Integer value1, Integer value2) {
-            addCriterion("`o.State` between", value1, value2, "state");
+            addCriterion("o.State between", value1, value2, "state");
             return (Criteria) this;
         }
 
         public Criteria andStateNotBetween(Integer value1, Integer value2) {
-            addCriterion("`o.State` not between", value1, value2, "state");
+            addCriterion("o.State not between", value1, value2, "state");
             return (Criteria) this;
         }
 

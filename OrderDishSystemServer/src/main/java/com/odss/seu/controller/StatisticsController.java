@@ -46,7 +46,6 @@ public class StatisticsController {
         Statistics statistics = statisticsQueryService.queryAllStatisticsByDay(startTime, endTime);
         return statistics;
     }
-
 }
 
 

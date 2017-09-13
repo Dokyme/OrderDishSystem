@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.odss.seu.service.UserManageService;
 import com.odss.seu.vo.User;
 import com.odss.seu.vo.ViewLevel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,6 +23,7 @@ import java.util.UUID;
 public class UserManageController {
 
     private UserManageService userManageService;
+    private static Logger logger = LoggerFactory.getLogger(UserManageController.class);
 
     @Autowired
     public UserManageController(UserManageService userManageService) {

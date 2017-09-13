@@ -8,6 +8,7 @@
     <meta charset="UTF-8">
     <script src="js/jquery-3.2.1.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/background.js"></script>
     <script src="js/tableinfo.js"></script>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <title>菜品数据管理</title>
@@ -30,6 +31,61 @@
             $(".sideline").css("height","calc(100% - 60px)")
     });
 
+    $(document).ready(function () {
+        $.ajax({
+            type:"GET",
+            url:"http://223.3.123.116:8080/dish/",
+            dataType:"json",
+            success:function(data,status){
+                alert("success function");
+                if(status==="success"){
+                    if($.isEmptyObject(data))
+                        alert("现在没有菜品信息！");
+                    else{
+                        var parsedData=data;
+                        var i;
+                        for(i in parsedData){
+                            var strHtml=dishManageTableOutput(i,parsedData[i]);
+                            $("#dish_table_body").append(strHtml);
+                            $("#edit_"+i.toString()).bind("click",function(){
+                                window.location.href="editDish.html?id="+parsedData[i]["id"];
+                            });
+                            $("#cancel_"+i.toString()).bind("click",function () {
+                                if(confirm("取消该菜品信息？")){
+                                    $.ajax({
+                                        type:"DEL",
+                                        url:"/dish/"+parsedData[i]["id"],
+                                        dataType:"json",
+                                        success:function(data,status){
+                                            if(status==="204"){
+                                                alert("取消成功！");
+                                                $("#row_" + i.toString()).remove();
+                                            }
+                                            else{
+                                                alert("取消失败！");
+                                            }
+                                        },
+                                        error:function(){
+                                            alert("取消失败！");
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    }
+                }
+                else if(status==="403"){
+                    alert("您没有相应权限！");
+                }
+            }
+        });
+
+
+        $("#add").bind("click",function () {
+            window.location="addNewDish.html";
+        });
+
+    });
 </script>
 <body>
 <div class="headline">
@@ -51,16 +107,16 @@
         <input type="button" class="sideline_btn" style="top:5%;" id="pay_btn" value="账单支付">
     </div>
     <div>
-        <input type="button" class="sideline_btn" style="top:20%" id="pay_btn" value="菜品信息管理">
+        <input type="button" class="sideline_btn" style="top:20%" id="dish_btn" value="菜品信息管理">
     </div>
     <div>
-        <input type="button" class="sideline_btn" style="top:35%" id="pay_btn" value="员工信息管理">
+        <input type="button" class="sideline_btn" style="top:35%" id="staff_btn" value="员工信息管理">
     </div>
     <div>
-        <input type="button" class="sideline_btn" style="top:50%" id="pay_btn" value="数据维护管理">
+        <input type="button" class="sideline_btn" style="top:50%" id="data_btn" value="数据维护管理">
     </div>
     <div>
-        <input type="button" class="sideline_btn" style="top:65%" id="pay_btn" value="经营数据查看">
+        <input type="button" class="sideline_btn" style="top:65%" id="manage_btn" value="经营数据查看">
     </div>
 </div>
 <div class="content">

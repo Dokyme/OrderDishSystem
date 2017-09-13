@@ -44,6 +44,7 @@ function payBillTableOutput(count,data){
     strHtml+="</tr>"
     return strHtml;
 }
+<<<<<<< HEAD
 
 function staffManageTableOutput(count,data) {
     var career=["管理员","厨师","服务员"];
@@ -54,5 +55,58 @@ function staffManageTableOutput(count,data) {
     strHtml+="<td>"+data["account"]+"</td>";
     strHtml+="<td> <div> <img src=\"image/edit.png\" class=\"content_icon\" id=\"edit_"+count.toString()+"\"> <img src=\"image/cancel.png\" class=\"content_icon\" id=\"cancel_"+count.toString()+"\"> </div> </td>";
     strHtml+="</tr>"
+=======
+
+function staffManageTableOutput(count,data) {
+    var career=["管理员","厨师","服务员"];
+    var strHtml="";
+    strHtml+="<tr id=\"row_"+count.toString()+"\">";
+    strHtml+="<td>"+career[parseInt(data["type"])]+"</td>";
+    strHtml+="<td>"+data["name"]+"</td>";
+    strHtml+="<td>"+data["account"]+"</td>";
+    strHtml+="<td> <div> <img src=\"image/edit.png\" class=\"content_icon\" id=\"edit_"+count.toString()+"\"> <img src=\"image/cancel.png\" class=\"content_icon\" id=\"cancel_"+count.toString()+"\"> </div> </td>";
+    strHtml+="</tr>"
+    return strHtml;
+}
+
+function dishManageTableOutput(count,data) {
+    var career=["管理员","厨师","服务员"];
+    var strHtml="";
+    strHtml+="<tr id=\"row_"+count.toString()+"\">";
+    strHtml+="<td>"+data["type"]+"</td>";
+    strHtml+="<td>"+data["name"]+"</td>";
+    strHtml+="<td>"+data["price"]+"</td>";
+    strHtml+="<td>"+data["sales"]+"</td>";
+    strHtml+="<td> <div> <img src=\"image/edit.png\" class=\"content_icon\" id=\"edit_"+count.toString()+"\"> <img src=\"image/cancel.png\" class=\"content_icon\" id=\"cancel_"+count.toString()+"\"> </div> </td>";
+    strHtml+="</tr>";
+    return strHtml;
+}
+
+function moneyManageTableOutput(count,data){
+    var strHtml="";
+    strHtml+="<tr id=\"row_"+count.toString()+"\">";
+    strHtml+="<td>"+data["time"]+"</td>";
+    strHtml+="<td>"+data["income"]+"</td>";
+    strHtml+="<td>"+data["sellNum"]+"</td>";
+    strHtml+="<td>"+data["fantai"]+"</td>";
+    strHtml+="</tr>";
+    return strHtml;
+}
+
+function billManageTableOutput(count,data) {
+    var strHtml="";
+    strHtml+="<tr id=\"row_"+count.toString()+"\">";
+    strHtml+="<td>"+data["time"]+"</td>";
+    var starNum=[parseInt(data["dishquality"]),parseInt(data["cookspeed"]),parseInt(data["serveattitude"])];
+    for(var k=0;k<3;k++){
+        strHtml+="<td>";
+        for(var i=0;i<starNum[k];i++)
+            strHtml+="<img src=\"image/star.png\" class=\"star_icon\">";
+        for(var j=starNum[k];j<5;j++)
+            strHtml+="<img src=\"image/nostar.png\" class=\"star_icon\">";
+        strHtml+="</td>";
+    }
+    strHtml+="</tr>";
+>>>>>>> c0e5c0ee7acac5af42d6fadcf1e1b778c689cfc5
     return strHtml;
 }

@@ -46,15 +46,14 @@
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <!--&lt;!&ndash; 注入数据库连接池 &ndash;&gt;-->
         <property name="dataSource" ref="dataSource" />
-        <!-- 配置MyBaties全局配置文件:mybatis-config.xml -->
-        <!--<property name="configLocation" value="classpath:mybatis-config.xml" />-->
+         配置MyBaties全局配置文件:mybatis-config.xml
+        <property name="configLocation" value="classpath:mybatis-config.xml" />
         <!--&lt;!&ndash; 扫描entity包 使用别名 &ndash;&gt;-->
         <!--<property name="typeAliasesPackage" value="com.soecode.lyf.entity" />-->
         <!-- 扫描sql配置文件:mapper需要的xml文件 -->
         <property name="mapperLocations" value="classpath:mapper/*.xml" />
     </bean>
 
-     4.配置扫描Dao接口包，动态实现Dao接口，注入到spring容器中
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <!-- 注入sqlSessionFactory -->
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
