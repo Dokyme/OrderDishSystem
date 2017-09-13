@@ -255,62 +255,62 @@ public class OrderInfoExample {
         }
 
         public Criteria andDishstateIsNull() {
-            addCriterion("d.DishState is null");
+            addCriterion("oi.DishState is null");
             return (Criteria) this;
         }
 
         public Criteria andDishstateIsNotNull() {
-            addCriterion("d.DishState is not null");
+            addCriterion("oi.DishState is not null");
             return (Criteria) this;
         }
 
         public Criteria andDishstateEqualTo(Integer value) {
-            addCriterion("d.DishState =", value, "dishstate");
+            addCriterion("oi.DishState =", value, "dishstate");
             return (Criteria) this;
         }
 
         public Criteria andDishstateNotEqualTo(Integer value) {
-            addCriterion("d.DishState <>", value, "dishstate");
+            addCriterion("oi.DishState <>", value, "dishstate");
             return (Criteria) this;
         }
 
         public Criteria andDishstateGreaterThan(Integer value) {
-            addCriterion("d.DishState >", value, "dishstate");
+            addCriterion("oi.DishState >", value, "dishstate");
             return (Criteria) this;
         }
 
         public Criteria andDishstateGreaterThanOrEqualTo(Integer value) {
-            addCriterion("d.DishState >=", value, "dishstate");
+            addCriterion("oi.DishState >=", value, "dishstate");
             return (Criteria) this;
         }
 
         public Criteria andDishstateLessThan(Integer value) {
-            addCriterion("d.DishState <", value, "dishstate");
+            addCriterion("oi.DishState <", value, "dishstate");
             return (Criteria) this;
         }
 
         public Criteria andDishstateLessThanOrEqualTo(Integer value) {
-            addCriterion("d.DishState <=", value, "dishstate");
+            addCriterion("oi.DishState <=", value, "dishstate");
             return (Criteria) this;
         }
 
         public Criteria andDishstateIn(List<Integer> values) {
-            addCriterion("d.DishState in", values, "dishstate");
+            addCriterion("oi.DishState in", values, "dishstate");
             return (Criteria) this;
         }
 
         public Criteria andDishstateNotIn(List<Integer> values) {
-            addCriterion("d.DishState not in", values, "dishstate");
+            addCriterion("oi.DishState not in", values, "dishstate");
             return (Criteria) this;
         }
 
         public Criteria andDishstateBetween(Integer value1, Integer value2) {
-            addCriterion("d.DishState between", value1, value2, "dishstate");
+            addCriterion("oi.DishState between", value1, value2, "dishstate");
             return (Criteria) this;
         }
 
         public Criteria andDishstateNotBetween(Integer value1, Integer value2) {
-            addCriterion("d.DishState not between", value1, value2, "dishstate");
+            addCriterion("oi.DishState not between", value1, value2, "dishstate");
             return (Criteria) this;
         }
     }

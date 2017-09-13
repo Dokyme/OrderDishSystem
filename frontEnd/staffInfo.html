@@ -32,19 +32,30 @@
     });
 
     $(document).ready(function () {
+<<<<<<< HEAD
         alert("ajax");
 
+=======
+>>>>>>> c0e5c0ee7acac5af42d6fadcf1e1b778c689cfc5
         $.ajax({
             type:"GET",
             url:"http://223.3.123.116:8080/user/",
             dataType:"json",
             success:function(data,status){
+<<<<<<< HEAD
                 alert("success function");
                 if(status==="200"){
                     if($.isEmptyObject(data))
                         alert("现在没有员工信息！");
                     else{
                         var parsedData=JSON.parse(data);
+=======
+                if(status==="success"){
+                    if($.isEmptyObject(data))
+                        alert("现在没有员工信息！");
+                    else{
+                        var parsedData=data;
+>>>>>>> c0e5c0ee7acac5af42d6fadcf1e1b778c689cfc5
                         var i;
                         for(i in parsedData){
                             var strHtml=staffManageTableOutput(i,parsedData[i]);
@@ -109,16 +120,16 @@
         <input type="button" class="sideline_btn" style="top:5%;" id="pay_btn" value="账单支付">
     </div>
     <div>
-        <input type="button" class="sideline_btn" style="top:20%" id="pay_btn" value="菜品信息管理">
+        <input type="button" class="sideline_btn" style="top:20%" id="dish_btn" value="菜品信息管理">
     </div>
     <div>
-        <input type="button" class="sideline_btn" style="top:35%" id="pay_btn" value="员工信息管理">
+        <input type="button" class="sideline_btn" style="top:35%" id="staff_btn" value="员工信息管理">
     </div>
     <div>
-        <input type="button" class="sideline_btn" style="top:50%" id="pay_btn" value="数据维护管理">
+        <input type="button" class="sideline_btn" style="top:50%" id="data_btn" value="数据维护管理">
     </div>
     <div>
-        <input type="button" class="sideline_btn" style="top:65%" id="pay_btn" value="经营数据查看">
+        <input type="button" class="sideline_btn" style="top:65%" id="manage_btn" value="经营数据查看">
     </div>
 </div>
 <div class="content">

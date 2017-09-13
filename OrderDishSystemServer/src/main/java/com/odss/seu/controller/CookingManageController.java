@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-//api checked
+//api and sql checked
 @RestController
 @RequestMapping(value = "/cooking")
 public class CookingManageController {

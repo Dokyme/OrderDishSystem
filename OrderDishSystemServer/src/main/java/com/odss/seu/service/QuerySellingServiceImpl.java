@@ -20,7 +20,8 @@ public class QuerySellingServiceImpl implements QuerySellingService {
 
     @Override
     public List<Order> queryAllOrders() {
-        return orderMapper.selectByExample(new OrderExample());
+//        return orderMapper.selectByExample(new OrderExample());
+        return null;
     }
 
     @Override

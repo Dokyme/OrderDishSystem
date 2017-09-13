@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/jquery-3.2.1.js"></script>
+</head>
+<script>
+    function createArray(){
+        var a=new Array();
+        a[0]={name:"vincent",age:3};
+        a[1]={name:"sherry",age:4};
+        a[2]={name:"dean",age:5};
+        return JSON.stringify(a);
+    }
+
+    $(window).ready(function(){
+        $("#d").bind("click",function () {
+            window.location="addNewStaff.html";
+        });
+    });
+</script>
+<body>
+<table id="abc">
+    <tr id="1">
+        <td>a12</td>
+        <td>a32</td>
+    </tr>
+    <tr id="2">
+        <td>dfe</td>
+        <td>fdsfa</td>
+    </tr>
+    <tr id="3">
+        <td>dfda</td>
+        <td>eeee</td>
+    </tr>
+    <input type="button" id="d">
+</table>
+</body>
+</html>

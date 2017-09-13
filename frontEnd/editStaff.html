@@ -8,7 +8,7 @@
     <script src="js/jquery-3.2.1.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="css/bootstrap.min.css">
-    <title>新增菜品信息</title>
+    <title>修改员工信息</title>
 </head>
 <script>
     //将CSS中的长度信息转换为对应的数字
@@ -74,9 +74,15 @@
             url:"/user/"+staff_id,
             dataType:"json",
             success:function (data,status) {
+<<<<<<< HEAD
                 if(status==="200"){
                     var type=["管理员","厨师","服务员"];
                     var parsedData=JSON.parse(data);
+=======
+                if(status==="success"){
+                    var type=["管理员","厨师","服务员"];
+                    var parsedData=data;
+>>>>>>> c0e5c0ee7acac5af42d6fadcf1e1b778c689cfc5
                     $("#staff_name_input").val(parsedData["name"]);
                     $("#circle_image").attr("src",parsedData["photo"]);
                     $("#staff_type_input").val(type[parseInt(parsedData["type"])]);
@@ -107,7 +113,25 @@
                     if(name==="" || account==="" || password==="")
                         alert("所填信息不能有空！");
                     else{
+<<<<<<< HEAD
 
+=======
+                        $.ajax({
+                            type:"POST",
+                            url:"/user"+staff_id,
+                            data:{
+                                "name":$("#staff_name_input").val(),
+                                ""
+                            },
+                            dataType:"json",
+                            success:function (data,status) {
+
+                            },
+                            error:function () {
+
+                            }
+                        });
+>>>>>>> c0e5c0ee7acac5af42d6fadcf1e1b778c689cfc5
                     }
                 }
             }

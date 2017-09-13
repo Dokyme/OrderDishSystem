@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+//api and sql checked
 @RestController
 @RequestMapping(value = "/checkout")
 public class CheckoutManageController {

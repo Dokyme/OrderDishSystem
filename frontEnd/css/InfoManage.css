@@ -126,16 +126,6 @@
     padding: 0;
 }
 
-#triple_1{
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
-}
-
-#triple_3{
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
-}
-
 .content_icon{
     height:20px;
     width: 20px;
@@ -187,4 +177,10 @@
     font-size: 22px;
     font-weight: 300;
     color: red;
+}
+
+.down_line{
+    position: absolute;
+    top:85%;
+    left:80%;
 }

@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
-//api checked
+//api and sql checked(excluded upload picture)
 @RestController
 @RequestMapping(value = "/dish")
 public class DishManageController {

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/jquery-3.2.1.js"></script>
+</head>
+<script>
+    function createArray(){
+        var a=new Array();
+        a[0]={name:"vincent",age:3};
+        a[1]={name:"sherry",age:4};
+        a[2]={name:"dean",age:5};
+        return JSON.stringify(a);
+    }
+
+    $(window).ready(function(){
+        var a="startTime=a&endtime=b&happyTime=c";
+        var b=a.split("&")[1].split("=")[1];
+        alert(b);
+    });
+</script>
+<body>
+</body>
+</html>

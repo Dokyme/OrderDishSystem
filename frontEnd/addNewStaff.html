@@ -20,22 +20,6 @@
     $(document).ready(function () {
         $("#circle_image").css("height",$("#circle_image").css("width"));
 
-        $("#confirm_btn").bind("click",function () {
-            $.post("url",{
-                "dish_category":$("#dish_type_input").attr("value"),
-                "dish_name":$("#dish_name_input").attr("value"),
-                "dish_intro":$("#dish_intro_input").attr("value"),
-                "dish_price":$("#dish_price_input").attr("value"),
-                "dish_sales":$("#dish_sales_input").attr("value")
-            },function(data,status){
-
-            },"json");
-        });
-
-        $("#cancel_btn").bind("click",function () {
-            $(window).attr('location',"dishDataInfo.html");
-        });
-
         $("#image_show").bind("click",function () {
             $("#imgUpload").click();
         });
@@ -56,6 +40,74 @@
         $("#circle_image").css("left",(getLengthNum(".basic_lane","width")*0.5-140).toString()+"px");
         $("#staff_title").css("left",(getLengthNum(".basic_lane","width")*0.5-120).toString()+"px");
         $("#staff_name").css("left",(getLengthNum(".basic_lane","width")*0.5-120).toString()+"px");
+<<<<<<< HEAD
+=======
+
+        $("#confirm_btn").bind("click",function () {
+            var valid_career=["管理员","后厨","服务员"];
+            var staff_name=$("#staff_name_input").val();
+            var staff_category=$("#staff_type_input").val();
+            var staff_account=$("#staff_account_input").val();
+            var staff_password=$("#staff_password_input").val();
+            var staff_repassword=$("#repassword_input").val();
+            if(staff_name==="" || staff_category==="" || staff_account==="" || staff_password==="" || staff_repassword===""){
+                alert("信息未输全！");
+            }
+            else{
+                if(!(staff_category===valid_career[0] || staff_category===valid_career[1] || staff_category===valid_career[2]))
+                    alert("员工类别输入有误！");
+                else if(!(staff_password===staff_repassword))
+                    alert("密码两次输入不同！");
+                else{
+                    var ajax_option={
+                        url: url,                  //String, 表单提交的目标地址，此属性会覆盖表单的action属性
+                        type:"POST",             //String，表单提交的方式(POST or GET)，此属性会覆盖表单的method属性
+                        dataType: null,    //String，指定接受服务端返回的数据类型(xml，script  or  json)
+                        clearForm: true,   //boolean，默认为false，成功提交后是否清除所有表单元素的值
+                        resetForm: true,  //boolean，默认为false，成功提交后是否重置所有表单元素的值
+                        timeout: 3000,    //number，单位ms，限制请求的时间，当请求大于设置的时间后，跳出请求
+                        success:function(responseText,statusText,xhr,$form){
+                            console.log(responseText);//业务提示
+                        }
+                    };
+
+                    //表单提交事件
+                    $("#circle_image").submit(function(){
+                        $("#circle_image").ajaxSubmit(ajax_option);
+                        return false;
+                    });
+
+                    $.ajax({
+                        url:"/dish/",
+                        type:"PUT",
+                        data:{
+                            "name":staff_name,
+                            "account":staff_account,
+                            "password":staff_password,
+                            "type":staff_category
+                        },
+                        dataType:"json",
+                        success:function (data,status) {
+                            if(status==="success"){
+                                alert("上传成功！");
+                                window.location="staffInfo.html";
+                            }
+                            else{
+                                alert("上传失败！");
+                            }
+                        },
+                        error:function () {
+                            alert("网络错误！");
+                        }
+                    });
+                }
+            }
+        });
+
+        $("#exit_btn").bind("click",function () {
+            window.location="dishInfo.html";
+        });
+>>>>>>> c0e5c0ee7acac5af42d6fadcf1e1b778c689cfc5
     });
 
     $(window).resize(function () {
