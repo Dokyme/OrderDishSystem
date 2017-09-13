@@ -197,17 +197,17 @@ public class InterceptorForAll implements HandlerInterceptor {
 //    }
 //        上面这一部分代码可能能实现当用户权限受到拦截，会直接返回上一个界面
 
-
-
-package com.odss.seu.controller;
-
-        import org.springframework.web.HttpSessionRequiredException;
-        import org.springframework.web.servlet.HandlerInterceptor;
-        import org.springframework.web.servlet.ModelAndView;
-
-        import javax.servlet.http.HttpServletRequest;
-        import javax.servlet.http.HttpServletResponse;
-        import javax.servlet.http.HttpSession;
+//
+//
+//package com.odss.seu.controller;
+//
+//        import org.springframework.web.HttpSessionRequiredException;
+//        import org.springframework.web.servlet.HandlerInterceptor;
+//        import org.springframework.web.servlet.ModelAndView;
+//
+//        import javax.servlet.http.HttpServletRequest;
+//        import javax.servlet.http.HttpServletResponse;
+//        import javax.servlet.http.HttpSession;
 
 ////      直接在这个里面将所有的限制完成好了
 ////        登录界面——都可以通过

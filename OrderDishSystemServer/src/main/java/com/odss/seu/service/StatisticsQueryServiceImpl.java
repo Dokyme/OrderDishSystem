@@ -26,16 +26,58 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService{
         int days = (int)((startTime.getTime() - endTime.getTime())/86400000);
         return days;
     }
-    @Override
-    public Statistics queryAllStatisticsByYear(Date startTime, Date endTime)
-    {
 
+//    获取开始时间与结束时间
+    public Statistics getData(Date startnow,Date endnow)
+    {
         OrderExample example =new  OrderExample();
         OrderExample.Criteria criteria=example.createCriteria();
 
+        Statistics statistics=new Statistics();
+        int lengthOfGotList=0;
+        List<Order> OrderList=null;
 
-        List<Statistics> StatisticsList= new ArrayList<Statistics>();
+//        开始时间比要求的开始时间晚或相当
+        criteria.andTimeGreaterThanOrEqualTo(startnow);
+//        结束时间比要求的结束时间早或相当
+        criteria.andTimeLessThanOrEqualTo(endnow);
 
+        OrderList= orderMapper.selectByExample(example);
+        lengthOfGotList=OrderList.size();//所有信息的条目数
+        statistics.setstartTime(startnow);
+        statistics.setendTime(endnow);
+
+        int  allIncome=0;
+        int  allSellNum=0;
+        int allFantai=0;
+
+//            处理信息
+        for(int i=0;i<lengthOfGotList;i++)
+        {
+//                this table income
+            List<Dish> DishList=OrderList.get(i).getDishes();
+            int forTimesForDishes=DishList.size();
+            for(int l=0;l<forTimesForDishes;l++)
+            {
+                allIncome+=DishList.get(l).getPrice();
+            }
+//                this table dish number
+            allSellNum+=forTimesForDishes;
+            allFantai+=1;
+        }
+//            总订单数/天数/桌数
+        allFantai/=getDayNumber(startnow,endnow);
+        allFantai/=tableNumber;
+        statistics.setIncome(allIncome);
+        statistics.setSellNum(allFantai);
+        statistics.setFantai(allFantai);
+        return statistics;
+    }
+
+
+    @Override
+    public Statistics queryAllStatisticsByYear(Date startTime, Date endTime)
+    {
         //         还需要处理一下得到的数据，将他们按照年份计算求和或求均值
         // ——startTime不变，endTime不变，income求和，sellNum求和，fantai求均值=求和+除去个数？=总共有的餐次数除去餐桌数除去天数
         Calendar StartTime=Calendar.getInstance();//先将data转为calendar
@@ -45,61 +87,18 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService{
 
         int startYear=StartTime.get(Calendar.YEAR);
         int endYear=EndTime.get(Calendar.YEAR);
-//        int startMonth=StartTime.get(Calendar.MONTH);
-//        int endMonth=EndTime.get(Calendar.MONTH);
-//        int startDay=StartTime.get(Calendar.DAY_OF_MONTH);
-//        int endDay=EndTime.get(Calendar.DAY_OF_MONTH);
-
-
-        int lengthOfGotList=0;
-        List<Order> OrderList=null;
-        Statistics statistics=new Statistics();
+        List<Statistics> StatisticsList= new ArrayList<Statistics>();
 
         //        如果开始时间与结束时间在同一年，就只算这一年内的从开始时间到结束时间的经营情况
         if(endYear==startYear)
         {
-//        开始时间比要求的开始时间晚或相当
-            criteria.andTimeGreaterThanOrEqualTo(startTime);
-//        结束时间比要求的结束时间早或相当
-            criteria.andTimeLessThanOrEqualTo(endTime);
-            OrderList= orderMapper.selectByExample(example);
-            lengthOfGotList=OrderList.size();//所有信息的条目数
-
-            statistics.setstartTime(startTime);
-            statistics.setendTime(endTime);
-
-            int  allIncome=0;
-            int  allSellNum=0;
-            int allFantai=0;
-//            处理信息
-            for(int i=0;i<lengthOfGotList;i++)
-            {
-//                this table income
-                List<Dish> DishList=OrderList.get(i).getDishes();
-                int forTimesForDishes=DishList.size();
-                for(int l=0;l<forTimesForDishes;l++)
-                {
-                    allIncome+=DishList.get(l).getPrice();
-                }
-//                this table dish number
-                allSellNum+=forTimesForDishes;
-                allFantai+=1;
-            }
-//            总订单数/天数/桌数
-            allFantai/=getDayNumber(startTime,endTime);
-            allFantai/=tableNumber;
-            statistics.setIncome(allIncome);
-            statistics.setSellNum(allFantai);
-            statistics.setFantai(allFantai);
-
-            StatisticsList.add(statistics);
+            StatisticsList.add(getData(startTime,endTime));
         }
         else
         {
 
 //        根据日期，算出循环的年数，每一年算出各自一年的经营情况，
             int forTimes=endYear-startYear+1;
-
             Date startnow = null;
             Date endnow = null;
             int year=0;
@@ -112,8 +111,6 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService{
                 {
                     //第一年按照开始时间到年末算
                     startnow=startTime;
-                    criteria.andTimeGreaterThanOrEqualTo(startnow);
-                    statistics.setstartTime(startnow);
 
                     //计算年末
                     StartTimeForChange=Calendar.getInstance();
@@ -122,8 +119,6 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService{
                     StartTimeForChange.set(year,12,31);
                     endnow=StartTimeForChange.getTime();
 
-                    criteria.andTimeLessThanOrEqualTo(endnow);
-                    statistics.setendTime(endnow);
                 }
                 else if(i==(forTimes-1) )//末尾一年，如果是末尾一轮，就用endTime作为结束
                 {
@@ -132,14 +127,8 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService{
                     year+=1;
                     StartTimeForChange.set(year,1,1);
                     startnow=StartTimeForChange.getTime();
-                    //        开始时间比要求的开始时间晚或相当
-                    criteria.andTimeGreaterThanOrEqualTo(startnow);
-                    statistics.setstartTime(startnow);
 
-
-                    //        结束时间比要求的结束时间早或相当
-                    criteria.andTimeLessThanOrEqualTo(endTime);
-                    statistics.setendTime(endTime);
+                    endnow=endTime;
                 }
                 else//其余年
                 {
@@ -149,48 +138,12 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService{
                     year+=1;
                     StartTimeForChange.set(year,1,1);
                     startnow=StartTimeForChange.getTime();
-                    //        开始时间比要求的开始时间晚或相当
-                    criteria.andTimeGreaterThanOrEqualTo(startnow);
-                    statistics.setstartTime(startnow);
 
                     StartTimeForChange.set(year,12,31);
                     endnow=StartTimeForChange.getTime();
-                    //        结束时间比要求的结束时间早或相当
-                    criteria.andTimeLessThanOrEqualTo(endnow);
-                    statistics.setendTime(endnow);
                 }
 
-                OrderList= orderMapper.selectByExample(example);
-                lengthOfGotList=OrderList.size();
-
-                int  allIncome=0;
-                int  allSellNum=0;
-                int allFantai=0;
-
-//            处理信息
-                for(int j=0;j<lengthOfGotList;j++)
-                {
-//                this table income
-                    List<Dish> DishList=OrderList.get(i).getDishes();
-                    int forTimesForDishes=DishList.size();
-                    for(int l=0;l<forTimesForDishes;l++)
-                    {
-                        allIncome+=DishList.get(l).getPrice();
-                    }
-//                this table dish number
-                    allSellNum+=forTimesForDishes;
-                    allFantai+=1;
-                }
-//            总订单数/天数/桌数
-                allFantai/=getDayNumber(startnow,endnow);
-                allFantai/=tableNumber;
-                statistics.setIncome(allIncome);
-                statistics.setSellNum(allFantai);
-                statistics.setFantai(allFantai);
-
-                //        整理得到一条新的数据，最后汇总到一个新的list当中，最终输出
-                StatisticsList.add(statistics);
-                //
+                StatisticsList.add(getData(startnow,endnow));
             }
         }
 
@@ -206,10 +159,8 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService{
 //___________________________________________________________________________________________________________________________
 
     @Override
-    public Statistics queryAllStatisticsByMonth(Date startTime, Date endTime) {
-
-        OrderExample example =new  OrderExample();
-        OrderExample.Criteria criteria=example.createCriteria();
+    public Statistics queryAllStatisticsByMonth(Date startTime, Date endTime)
+    {
 
         //最后的结果存放处
         List<Statistics> StatisticsList= new ArrayList<Statistics>();
@@ -225,13 +176,7 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService{
         int endYear=EndTime.get(Calendar.YEAR);
         int startMonth=StartTime.get(Calendar.MONTH);
         int endMonth=EndTime.get(Calendar.MONTH);
-//        int startDay=StartTime.get(Calendar.DAY_OF_MONTH);
-//        int endDay=EndTime.get(Calendar.DAY_OF_MONTH);
 
-        int lengthOfGotList=0;
-        List<Order> OrderList=null;
-
-        Statistics statistics=new Statistics();
         Date startnow = null;
         Date endnow = null;
         int year=0;
@@ -247,43 +192,7 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService{
             if(endMonth==startMonth)
             {
 
-//        开始时间比要求的开始时间晚或相当
-                criteria.andTimeGreaterThanOrEqualTo(startTime);
-//        结束时间比要求的结束时间早或相当
-                criteria.andTimeLessThanOrEqualTo(endTime);
-
-                OrderList= orderMapper.selectByExample(example);
-                lengthOfGotList=OrderList.size();//所有信息的条目数
-
-                statistics.setstartTime(startTime);
-                statistics.setendTime(endTime);
-                int  allIncome=0;
-                int  allSellNum=0;
-                int allFantai=0;
-
-//            处理信息
-                for(int i=0;i<lengthOfGotList;i++)
-                {
-
-//                this table income
-                    List<Dish> DishList=OrderList.get(i).getDishes();
-                    int forTimesForDishes=DishList.size();
-                    for(int l=0;l<forTimesForDishes;l++)
-                    {
-                        allIncome+=DishList.get(l).getPrice();
-                    }
-//                this table dish number
-                    allSellNum+=forTimesForDishes;
-                    allFantai+=1;
-                }
-//            总订单数/天数/桌数
-                allFantai/=getDayNumber(startnow,endnow);
-                allFantai/=tableNumber;
-                statistics.setIncome(allIncome);
-                statistics.setSellNum(allFantai);
-                statistics.setFantai(allFantai);
-
-                StatisticsList.add(statistics);
+                StatisticsList.add(getData(startTime,endTime));
             }
             else//同一年，不同月
             {
@@ -294,8 +203,6 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService{
                     {
                         //第一月按照开始时间到月末算
                         startnow=startTime;
-                        criteria.andTimeGreaterThanOrEqualTo(startnow);
-                        statistics.setstartTime(startnow);
 
                         //计算月末
                         StartTimeForChange=Calendar.getInstance();
@@ -304,9 +211,6 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService{
                         month=StartTimeForChange.get(Calendar.MONTH);
                         StartTimeForChange.set(year,month,monthDay[month]);
                         endnow=StartTimeForChange.getTime();
-
-                        criteria.andTimeLessThanOrEqualTo(endnow);
-                        statistics.setendTime(endnow);
                     }
                     else if(i==(endMonth-startMonth+1))
                     {
@@ -317,13 +221,8 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService{
                         month+=1;
                         StartTimeForChange.set(year,month,1);
                         startnow=StartTimeForChange.getTime();
-                        criteria.andTimeGreaterThanOrEqualTo(startnow);
-                        statistics.setstartTime(startnow);
 
                         endnow=endTime;
-                        criteria.andTimeLessThanOrEqualTo(endnow);
-                        statistics.setendTime(endnow);
-
                     }
                     else
                     {
@@ -335,48 +234,12 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService{
                         month+=1;
                         StartTimeForChange.set(year,month,1);
                         startnow=StartTimeForChange.getTime();
-                        criteria.andTimeGreaterThanOrEqualTo(startnow);
-                        statistics.setstartTime(startnow);
 
                         //月末
                         StartTimeForChange.set(year,month,monthDay[month]);
                         endnow=StartTimeForChange.getTime();
-                        criteria.andTimeLessThanOrEqualTo(endnow);
-                        statistics.setendTime(endnow);
-
                     }
-
-                    OrderList= orderMapper.selectByExample(example);
-                    lengthOfGotList=OrderList.size();//所有信息的条目数
-
-                    statistics.setstartTime(startnow);
-                    statistics.setendTime(endnow);
-                    int  allIncome=0;
-                    int  allSellNum=0;
-                    int allFantai=0;
-//            处理信息
-                    for(int j=0;j<lengthOfGotList;j++)
-                    {
-
-//                this table income
-                        List<Dish> DishList=OrderList.get(i).getDishes();
-                        int forTimesForDishes=DishList.size();
-                        for(int l=0;l<forTimesForDishes;l++)
-                        {
-                            allIncome+=DishList.get(l).getPrice();
-                        }
-//                this table dish number
-                        allSellNum+=forTimesForDishes;
-                        allFantai+=1;
-                    }
-//            总订单数/天数/桌数
-                    allFantai/=getDayNumber(startTime,endTime);
-                    allFantai/=tableNumber;
-                    statistics.setIncome(allIncome);
-                    statistics.setSellNum(allFantai);
-                    statistics.setFantai(allFantai);
-
-                    StatisticsList.add(statistics);
+                    StatisticsList.add(getData(startnow,endnow));
                 }
             }
 
@@ -399,8 +262,6 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService{
                         {
                             //第一月按照开始时间到月末算
                             startnow=startTime;
-                            criteria.andTimeGreaterThanOrEqualTo(startnow);
-                            statistics.setstartTime(startnow);
 
                             //计算月末
                             StartTimeForChange=Calendar.getInstance();
@@ -409,9 +270,6 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService{
                             month=StartTimeForChange.get(Calendar.MONTH);
                             StartTimeForChange.set(year,month,monthDay[month]);
                             endnow=StartTimeForChange.getTime();
-
-                            criteria.andTimeLessThanOrEqualTo(endnow);
-                            statistics.setendTime(endnow);
                         }
                         else//普通月，以及年末也算在内
                         {
@@ -422,48 +280,13 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService{
                             month+=1;
                             StartTimeForChange.set(year,month,1);
                             startnow=StartTimeForChange.getTime();
-                            criteria.andTimeGreaterThanOrEqualTo(startnow);
-                            statistics.setstartTime(startnow);
 
                             //月末
                             StartTimeForChange.set(year,month,monthDay[month]);
                             endnow=StartTimeForChange.getTime();
-                            criteria.andTimeLessThanOrEqualTo(endnow);
-                            statistics.setendTime(endnow);
                         }
 
-                        OrderList = orderMapper.selectByExample(example);
-                        lengthOfGotList=OrderList.size();//所有信息的条目数//
-                        statistics.setstartTime(startnow);
-                        statistics.setendTime(endnow);
-
-                        int allIncome = 0;
-                        int allSellNum = 0;
-                        int allFantai = 0;
-
-//            处理信息
-                        for (int k = 0; k < lengthOfGotList; k++)
-                        {
-//                this table income
-                            List<Dish> DishList=OrderList.get(i).getDishes();
-                            int forTimesForDishes=DishList.size();
-                            for(int l=0;l<forTimesForDishes;l++)
-                            {
-                                allIncome+=DishList.get(l).getPrice();
-                            }
-//                this table dish number
-                            allSellNum+=forTimesForDishes;
-                            allFantai+=1;
-                        }
-//            总订单数/天数/桌数
-                        allFantai/=getDayNumber(startTime,endTime);
-                        allFantai/=tableNumber;
-                        statistics.setIncome(allIncome);
-                        statistics.setSellNum(allFantai);
-                        statistics.setFantai(allFantai);
-
-                        //        整理得到一条新的数据，最后汇总到一个新的list当中，最终输出
-                        StatisticsList.add(statistics);
+                        StatisticsList.add(getData(startnow,endnow));
                     }
                 }
                 else if(i==(forTimes-1) )//末尾一年，如果是末尾一轮，就用endTime作为结束
@@ -481,15 +304,9 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService{
 //                            StartTimeForChange.setTime((Date) endnow);
                             StartTimeForChange.set(year, month, 1);
                             startnow = StartTimeForChange.getTime();
-                            //        开始时间比要求的开始时间晚或相当
-                            criteria.andTimeGreaterThanOrEqualTo(startnow);
-                            statistics.setstartTime(startnow);
 
                             StartTimeForChange.set(year, month, monthDay[month]);
                             endnow = StartTimeForChange.getTime();
-                            //        结束时间比要求的结束时间早或相当
-                            criteria.andTimeLessThanOrEqualTo(endTime);
-                            statistics.setendTime(endTime);
                         }
                         else  if (j==forTimesForMonth-1)
                         {
@@ -500,14 +317,8 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService{
                             month+=1;
                             StartTimeForChange.set(year, month, 1);
                             startnow = StartTimeForChange.getTime();
-                            //        开始时间比要求的开始时间晚或相当
-                            criteria.andTimeGreaterThanOrEqualTo(startnow);
-                            statistics.setstartTime(startnow);
 
                             endnow = endTime;
-                            //        结束时间比要求的结束时间早或相当
-                            criteria.andTimeLessThanOrEqualTo(endTime);
-                            statistics.setendTime(endTime);
                         }
                         else
                         {
@@ -518,47 +329,12 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService{
                             month+=1;
                             StartTimeForChange.set(year, month, 1);
                             startnow = StartTimeForChange.getTime();
-                            //        开始时间比要求的开始时间晚或相当
-                            criteria.andTimeGreaterThanOrEqualTo(startnow);
-                            statistics.setstartTime(startnow);
 
                             StartTimeForChange.set(year,month,monthDay[month]);
                             endnow=StartTimeForChange.getTime();
-                            criteria.andTimeLessThanOrEqualTo(endnow);
-                            statistics.setendTime(endnow);
                         }
                     }
-
-                    OrderList= orderMapper.selectByExample(example);
-                    lengthOfGotList=OrderList.size();
-
-                    int  allIncome=0;
-                    int  allSellNum=0;
-                    int allFantai=0;
-
-//            处理信息
-                    for(int j=0;j<lengthOfGotList;j++)
-                    {
-//                this table income
-                        List<Dish> DishList=OrderList.get(i).getDishes();
-                        int forTimesForDishes=DishList.size();
-                        for(int l=0;l<forTimesForDishes;l++)
-                        {
-                            allIncome+=DishList.get(l).getPrice();
-                        }
-//                this table dish number
-                        allSellNum+=forTimesForDishes;
-                        allFantai+=1;
-                    }
-//            总订单数/天数/桌数
-                    allFantai/=getDayNumber(startTime,endTime);
-                    allFantai/=tableNumber;
-                    statistics.setIncome(allIncome);
-                    statistics.setSellNum(allFantai);
-                    statistics.setFantai(allFantai);
-
-//        整理得到一条新的数据，最后汇总到一个新的list当中，最终输出
-                    StatisticsList.add(statistics);
+                    StatisticsList.add(getData(startnow,endnow));
 
                 }
                 else//其余年
@@ -576,41 +352,7 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService{
 
                     for(int j=0;j<forTimesForMonth;j++) {
 
-
-                        criteria.andTimeGreaterThanOrEqualTo(startnow);
-                        statistics.setstartTime(startnow);
-                        criteria.andTimeLessThanOrEqualTo(endnow);
-                        statistics.setendTime(endnow);
-
-                        OrderList = orderMapper.selectByExample(example);
-                        lengthOfGotList=OrderList.size();//所有信息的条目数
-
-                        int allIncome = 0;
-                        int allSellNum = 0;
-                        int allFantai = 0;
-//            处理信息
-                        for (int k = 0; k < lengthOfGotList; k++)
-                        {
-//                this table income
-                            List<Dish> DishList=OrderList.get(i).getDishes();
-                            int forTimesForDishes=DishList.size();
-                            for(int l=0;l<forTimesForDishes;l++)
-                            {
-                                allIncome+=DishList.get(l).getPrice();
-                            }
-//                this table dish number
-                            allSellNum+=forTimesForDishes;
-                            allFantai+=1;
-                        }
-//            总订单数/天数/桌数
-                        allFantai/=getDayNumber(startTime,endTime);
-                        allFantai/=tableNumber;
-                        statistics.setIncome(allIncome);
-                        statistics.setSellNum(allFantai);
-                        statistics.setFantai(allFantai);
-
-//        整理得到一条新的数据，最后汇总到一个新的list当中，最终输出
-                        StatisticsList.add(statistics);
+                        StatisticsList.add(getData(startnow,endnow));
 
                         //月初
                         StartTimeForChange.setTime(endnow);
@@ -637,10 +379,6 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService{
     @Override
     public Statistics queryAllStatisticsByDay(Date startTime, Date endTime) {
 
-        OrderExample example =new  OrderExample();
-        OrderExample.Criteria criteria=example.createCriteria();
-
-        //最后的结果存放处
         List<Statistics> StatisticsList= new ArrayList<Statistics>();
 
         //         还需要处理一下得到的数据，将他们按照年份计算求和或求均值
@@ -657,10 +395,6 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService{
         int startDay=StartTime.get(Calendar.DAY_OF_MONTH);
         int endDay=EndTime.get(Calendar.DAY_OF_MONTH);
 
-        int lengthOfGotList=0;
-        List<Order> OrderList=null;
-
-        Statistics statistics=new Statistics();
         Date startnow = null;
         Date endnow = null;
         int year=0;
@@ -696,45 +430,7 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService{
 //                      同一天
                         endnow=startnow;
                     }
-//        开始时间比要求的开始时间晚或相当
-                    criteria.andTimeGreaterThanOrEqualTo(startnow);
-//        结束时间比要求的结束时间早或相当
-                    criteria.andTimeLessThanOrEqualTo(endnow);
-
-                    OrderList= orderMapper.selectByExample(example);
-                    lengthOfGotList=OrderList.size();//所有信息的条目数
-
-                    statistics.setstartTime(startnow);
-                    statistics.setendTime(endnow);
-
-                    int  allIncome=0;
-                    int  allSellNum=0;
-                    int allFantai=0;
-
-//            处理信息
-                    for(int i=0;i<lengthOfGotList;i++)
-                    {
-
-//                this table income
-                        List<Dish> DishList=OrderList.get(i).getDishes();
-                        int forTimesForDishes=DishList.size();
-                        for(int l=0;l<forTimesForDishes;l++)
-                        {
-                            allIncome+=DishList.get(l).getPrice();
-                        }
-//                this table dish number
-                        allSellNum+=forTimesForDishes;
-                        allFantai+=1;
-
-                    }
-//            总订单数/天数/桌数
-                    allFantai/=getDayNumber(startnow,endnow);
-                    allFantai/=tableNumber;
-                    statistics.setIncome(allIncome);
-                    statistics.setSellNum(allFantai);
-                    statistics.setFantai(allFantai);
-
-                    StatisticsList.add(statistics);
+                    StatisticsList.add(getData(startnow,endnow));
                 }
 
             }
@@ -747,8 +443,6 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService{
                     {
                         //第一月按照开始时间到月末算
                         startnow=startTime;
-                        criteria.andTimeGreaterThanOrEqualTo(startnow);
-                        statistics.setstartTime(startnow);
 
                         //计算月末
                         StartTimeForChange=Calendar.getInstance();
@@ -757,9 +451,6 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService{
                         month=StartTimeForChange.get(Calendar.MONTH);
                         StartTimeForChange.set(year,month,monthDay[month]);
                         endnow=StartTimeForChange.getTime();
-
-                        criteria.andTimeLessThanOrEqualTo(endnow);
-                        statistics.setendTime(endnow);
                     }
                     else if(i==(endMonth-startMonth+1))
                     {
@@ -770,13 +461,8 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService{
                         month+=1;
                         StartTimeForChange.set(year,month,1);
                         startnow=StartTimeForChange.getTime();
-                        criteria.andTimeGreaterThanOrEqualTo(startnow);
-                        statistics.setstartTime(startnow);
 
                         endnow=endTime;
-                        criteria.andTimeLessThanOrEqualTo(endnow);
-                        statistics.setendTime(endnow);
-
                     }
                     else
                     {
@@ -788,14 +474,10 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService{
                         month+=1;
                         StartTimeForChange.set(year,month,1);
                         startnow=StartTimeForChange.getTime();
-                        criteria.andTimeGreaterThanOrEqualTo(startnow);
-                        statistics.setstartTime(startnow);
 
                         //月末
                         StartTimeForChange.set(year,month,monthDay[month]);
                         endnow=StartTimeForChange.getTime();
-                        criteria.andTimeLessThanOrEqualTo(endnow);
-                        statistics.setendTime(endnow);
 
                     }
 
@@ -824,45 +506,7 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService{
 //                      同一天
                             endnow=startnow;
                         }
-//        开始时间比要求的开始时间晚或相当
-                        criteria.andTimeGreaterThanOrEqualTo(startnow);
-//        结束时间比要求的结束时间早或相当
-                        criteria.andTimeLessThanOrEqualTo(endnow);
-
-                        OrderList= orderMapper.selectByExample(example);
-                        lengthOfGotList=OrderList.size();//所有信息的条目数
-
-                        statistics.setstartTime(startnow);
-                        statistics.setendTime(endnow);
-
-                        int  allIncome=0;
-                        int  allSellNum=0;
-                        int allFantai=0;
-
-//            处理信息
-                        for(int n=0;n<lengthOfGotList;n++)
-                        {
-
-//                this table income
-                            List<Dish> DishList=OrderList.get(n).getDishes();
-                            int forTimesForDishes=DishList.size();
-                            for(int l=0;l<forTimesForDishes;l++)
-                            {
-                                allIncome+=DishList.get(l).getPrice();
-                            }
-//                this table dish number
-                            allSellNum+=forTimesForDishes;
-                            allFantai+=1;
-
-                        }
-//            总订单数/天数/桌数
-                        allFantai/=getDayNumber(startnow,endnow);
-                        allFantai/=tableNumber;
-                        statistics.setIncome(allIncome);
-                        statistics.setSellNum(allFantai);
-                        statistics.setFantai(allFantai);
-
-                        StatisticsList.add(statistics);
+                        StatisticsList.add(getData(startnow,endnow));
                     }
 
                 }
@@ -887,8 +531,6 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService{
                         {
                             //第一月按照开始时间到月末算
                             startnow=startTime;
-                            criteria.andTimeGreaterThanOrEqualTo(startnow);
-                            statistics.setstartTime(startnow);
 
                             //计算月末
                             StartTimeForChange=Calendar.getInstance();
@@ -897,9 +539,6 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService{
                             month=StartTimeForChange.get(Calendar.MONTH);
                             StartTimeForChange.set(year,month,monthDay[month]);
                             endnow=StartTimeForChange.getTime();
-
-                            criteria.andTimeLessThanOrEqualTo(endnow);
-                            statistics.setendTime(endnow);
                         }
                         else//普通月，以及年末也算在内
                         {
@@ -910,14 +549,10 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService{
                             month+=1;
                             StartTimeForChange.set(year,month,1);
                             startnow=StartTimeForChange.getTime();
-                            criteria.andTimeGreaterThanOrEqualTo(startnow);
-                            statistics.setstartTime(startnow);
 
                             //月末
                             StartTimeForChange.set(year,month,monthDay[month]);
                             endnow=StartTimeForChange.getTime();
-                            criteria.andTimeLessThanOrEqualTo(endnow);
-                            statistics.setendTime(endnow);
                         }
 
                         StartTimeForChange.setTime(startnow);
@@ -940,43 +575,7 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService{
 //                      同一天
                                 endnow = startnow;
                             }
-//        开始时间比要求的开始时间晚或相当
-                            criteria.andTimeGreaterThanOrEqualTo(startnow);
-//        结束时间比要求的结束时间早或相当
-                            criteria.andTimeLessThanOrEqualTo(endnow);
-
-                            OrderList = orderMapper.selectByExample(example);
-                            lengthOfGotList = OrderList.size();//所有信息的条目数
-
-                            statistics.setstartTime(startnow);
-                            statistics.setendTime(endnow);
-
-                            int allIncome = 0;
-                            int allSellNum = 0;
-                            int allFantai = 0;
-
-//            处理信息
-                            for (int n = 0; n < lengthOfGotList; n++) {
-
-//                this table income
-                                List<Dish> DishList = OrderList.get(n).getDishes();
-                                int forTimesForDishes = DishList.size();
-                                for (int l = 0; l < forTimesForDishes; l++) {
-                                    allIncome += DishList.get(l).getPrice();
-                                }
-//                this table dish number
-                                allSellNum += forTimesForDishes;
-                                allFantai += 1;
-
-                            }
-//            总订单数/天数/桌数
-                            allFantai /= getDayNumber(startnow, endnow);
-                            allFantai /= tableNumber;
-                            statistics.setIncome(allIncome);
-                            statistics.setSellNum(allFantai);
-                            statistics.setFantai(allFantai);
-
-                            StatisticsList.add(statistics);
+                            StatisticsList.add(getData(startnow,endnow));
                         }
                     }
                 }
@@ -995,15 +594,9 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService{
 //                            StartTimeForChange.setTime((Date) endnow);
                             StartTimeForChange.set(year, month, 1);
                             startnow = StartTimeForChange.getTime();
-                            //        开始时间比要求的开始时间晚或相当
-                            criteria.andTimeGreaterThanOrEqualTo(startnow);
-                            statistics.setstartTime(startnow);
 
                             StartTimeForChange.set(year, month, monthDay[month]);
                             endnow = StartTimeForChange.getTime();
-                            //        结束时间比要求的结束时间早或相当
-                            criteria.andTimeLessThanOrEqualTo(endTime);
-                            statistics.setendTime(endTime);
                         }
                         else  if (j==forTimesForMonth-1)
                         {
@@ -1014,14 +607,8 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService{
                             month+=1;
                             StartTimeForChange.set(year, month, 1);
                             startnow = StartTimeForChange.getTime();
-                            //        开始时间比要求的开始时间晚或相当
-                            criteria.andTimeGreaterThanOrEqualTo(startnow);
-                            statistics.setstartTime(startnow);
 
                             endnow = endTime;
-                            //        结束时间比要求的结束时间早或相当
-                            criteria.andTimeLessThanOrEqualTo(endTime);
-                            statistics.setendTime(endTime);
                         }
                         else
                         {
@@ -1032,14 +619,9 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService{
                             month+=1;
                             StartTimeForChange.set(year, month, 1);
                             startnow = StartTimeForChange.getTime();
-                            //        开始时间比要求的开始时间晚或相当
-                            criteria.andTimeGreaterThanOrEqualTo(startnow);
-                            statistics.setstartTime(startnow);
 
                             StartTimeForChange.set(year,month,monthDay[month]);
                             endnow=StartTimeForChange.getTime();
-                            criteria.andTimeLessThanOrEqualTo(endnow);
-                            statistics.setendTime(endnow);
                         }
                     }
 
@@ -1064,43 +646,7 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService{
 //                      同一天
                             endnow = startnow;
                         }
-//        开始时间比要求的开始时间晚或相当
-                        criteria.andTimeGreaterThanOrEqualTo(startnow);
-//        结束时间比要求的结束时间早或相当
-                        criteria.andTimeLessThanOrEqualTo(endnow);
-
-                        OrderList = orderMapper.selectByExample(example);
-                        lengthOfGotList = OrderList.size();//所有信息的条目数
-
-                        statistics.setstartTime(startnow);
-                        statistics.setendTime(endnow);
-
-                        int allIncome = 0;
-                        int allSellNum = 0;
-                        int allFantai = 0;
-
-//            处理信息
-                        for (int n = 0; n < lengthOfGotList; n++) {
-
-//                this table income
-                            List<Dish> DishList = OrderList.get(n).getDishes();
-                            int forTimesForDishes = DishList.size();
-                            for (int l = 0; l < forTimesForDishes; l++) {
-                                allIncome += DishList.get(l).getPrice();
-                            }
-//                this table dish number
-                            allSellNum += forTimesForDishes;
-                            allFantai += 1;
-
-                        }
-//            总订单数/天数/桌数
-                        allFantai /= getDayNumber(startnow, endnow);
-                        allFantai /= tableNumber;
-                        statistics.setIncome(allIncome);
-                        statistics.setSellNum(allFantai);
-                        statistics.setFantai(allFantai);
-
-                        StatisticsList.add(statistics);
+                        StatisticsList.add(getData(startnow,endnow));
                     }
 
                 }
@@ -1142,45 +688,7 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService{
 //                      同一天
                             endnow=startnow;
                         }
-//        开始时间比要求的开始时间晚或相当
-                        criteria.andTimeGreaterThanOrEqualTo(startnow);
-//        结束时间比要求的结束时间早或相当
-                        criteria.andTimeLessThanOrEqualTo(endnow);
-
-                        OrderList= orderMapper.selectByExample(example);
-                        lengthOfGotList=OrderList.size();//所有信息的条目数
-
-                        statistics.setstartTime(startnow);
-                        statistics.setendTime(endnow);
-
-                        int  allIncome=0;
-                        int  allSellNum=0;
-                        int allFantai=0;
-
-//            处理信息
-                        for(int n=0;n<lengthOfGotList;n++)
-                        {
-
-//                this table income
-                            List<Dish> DishList=OrderList.get(n).getDishes();
-                            int forTimesForDishes=DishList.size();
-                            for(int l=0;l<forTimesForDishes;l++)
-                            {
-                                allIncome+=DishList.get(l).getPrice();
-                            }
-//                this table dish number
-                            allSellNum+=forTimesForDishes;
-                            allFantai+=1;
-
-                        }
-//            总订单数/天数/桌数
-                        allFantai/=getDayNumber(startnow,endnow);
-                        allFantai/=tableNumber;
-                        statistics.setIncome(allIncome);
-                        statistics.setSellNum(allFantai);
-                        statistics.setFantai(allFantai);
-
-                        StatisticsList.add(statistics);
+                        StatisticsList.add(getData(startnow,endnow));
 
                         //月初
                         StartTimeForChange.setTime(endnow);
