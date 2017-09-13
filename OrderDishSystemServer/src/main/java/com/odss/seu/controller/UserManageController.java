@@ -8,8 +8,13 @@ import com.odss.seu.vo.ViewLevel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "/user")
@@ -54,4 +59,22 @@ public class UserManageController {
     public void deleteUser(@PathVariable Integer userId) {
         userManageService.deleteUser(userId);
     }
+
+    //管理员管理照片
+    @RequestMapping(value = "/photo")
+    public void uploadPhoto(@RequestPart("photo") MultipartFile multipartFile, HttpServletRequest request) {
+        System.out.println("uploadPhoto");
+        if (!multipartFile.isEmpty()) {
+            try {
+                String filepath = request.getSession().getServletContext().getRealPath("/") + "upload\\" +
+                        UUID.randomUUID().toString().replaceAll("-", "") + multipartFile.getOriginalFilename();
+                multipartFile.transferTo(new File(filepath));
+                System.out.println(filepath);
+                request.getSession().setAttribute("photo", filepath);
+            } catch (IOException exception) {
+                exception.printStackTrace();
+            }
+        }
+    }
+
 }
