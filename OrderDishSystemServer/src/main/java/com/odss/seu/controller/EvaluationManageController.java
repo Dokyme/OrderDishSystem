@@ -8,18 +8,20 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 
+//api and sql checked
 @RestController
-@RequestMapping(value="/evaluation")
-public class EvaluateController {
+@RequestMapping(value = "/evaluation")
+public class EvaluationManageController {
+
     private EvaluateService evaluateService;
 
     @Autowired
-    public EvaluateController(EvaluateService evaluateService){
+    public EvaluationManageController(EvaluateService evaluateService) {
         this.evaluateService = evaluateService;
     }
 
-    @RequestMapping(value = "/{orderId}",method =RequestMethod.PUT)
-    public void updateEvaluate(@PathVariable Integer orderId, @RequestBody Evaluation evaluation) {
+    @RequestMapping(value = "/{orderId}",method = RequestMethod.PUT)
+    public void updateEvaluate(@PathVariable Integer orderId,@RequestBody Evaluation evaluation) {
         evaluateService.commitEvaluate(orderId, evaluation);
     }
 

@@ -13,17 +13,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+//api and sql checked
 @RestController
 @RequestMapping(value = "/cooking")
-public class OrderInfoController {
+public class CookingManageController {
 
     private ArrangeCookingService arrangeCookingService;
-    private ServeDishService serveDishService;
 
     @Autowired
-    public OrderInfoController(ArrangeCookingService arrangeCookingService, ServeDishService serveDishService) {
+    public CookingManageController(ArrangeCookingService arrangeCookingService) {
         this.arrangeCookingService = arrangeCookingService;
-        this.serveDishService = serveDishService;
     }
 
     //后厨查询所有需要烹饪的菜品列表。
@@ -37,12 +36,6 @@ public class OrderInfoController {
     @RequestMapping(value = "/{orderInfoId}", method = RequestMethod.PUT)
     public void confirmStartCooking(@PathVariable Integer orderInfoId) {
         arrangeCookingService.confirmNewDishCooking(orderInfoId);
-    }
-
-    //后厨确认烹饪完成，要求上菜。
-    @RequestMapping(value = "/{orderInfoId}", method = RequestMethod.POST)
-    public void confirmFinishCooking(@PathVariable Integer orderInfoId) {
-        serveDishService.requestServeDish(orderInfoId);
     }
 
     //后厨认为食材不足，取消这道菜的烹饪任务。

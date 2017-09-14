@@ -2,6 +2,7 @@ package com.odss.seu.controller;
 
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.google.code.kaptcha.Producer;
 import com.odss.seu.service.UserManageService;
 import com.odss.seu.vo.User;
 import com.odss.seu.vo.ViewLevel;
@@ -21,10 +22,12 @@ import java.util.UUID;
 public class UserManageController {
 
     private UserManageService userManageService;
+    private Producer producer;
 
     @Autowired
-    public UserManageController(UserManageService userManageService) {
+    public UserManageController(UserManageService userManageService, Producer producer) {
         this.userManageService = userManageService;
+        this.producer = producer;
     }
 
     //管理员查询所有用户概要信息的列表。
@@ -66,7 +69,6 @@ public class UserManageController {
         System.out.println("uploadPhoto");
         if (!multipartFile.isEmpty()) {
             try {
-                String filepath = "\\image\\" + UUID.randomUUID().toString().replaceAll("-", "") + multipartFile.getOriginalFilename();
                 multipartFile.transferTo(new File(filepath));
                 System.out.println(filepath);
                 request.getSession().setAttribute("photo", filepath);
