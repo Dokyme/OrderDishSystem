@@ -92,7 +92,11 @@ public class IdentityController {
 
         User user=loginService.login(username, password);//返回登陆结果
         session.setAttribute("user",user.getType());//设置用户的身份
-        if(user.getType()==2)//假设waiter是2
+        Object useridentity=session.getAttribute("user");
+
+        Integer.parseInt(useridentity==null?"":useridentity.toString());
+
+        if(useridentity.equals(2))//假设waiter是2
         {
             session.setAttribute("dishState","notbusy");//设置当前状态为空闲，可以上菜
         }
@@ -109,9 +113,12 @@ public class IdentityController {
         if (state == AuthenticService.State.NONE)//检验是否已经登陆过，如果没有登陆过，说明该用户发送了非法的请求
             throw new InvalidRequestException();
 
-        if(session.getAttribute("user")=="waiter")
+        Object useridentity=session.getAttribute("user");
+        Integer.parseInt(useridentity==null?"":useridentity.toString());
+
+        if(useridentity.equals(2))
         {
-            session.removeAttribute("dishState");//设置当前状态为空闲，可以上菜
+            session.removeAttribute("dishState");
         }
         session.removeAttribute("user");
     }
