@@ -27,7 +27,8 @@ public class OrderController {
 
     //顾客或服务员提交订单。
     @RequestMapping(method = RequestMethod.PUT, consumes = "application/json")
-    public void submitOrder(@RequestBody Order order) {
+    public void submitOrder(@RequestBody Order order)
+    {
         orderDishService.commitNewOrder(order);
     }
 
@@ -45,22 +46,42 @@ public class OrderController {
     public List<Order> queryStaistics(@RequestParam String time) {
         Calendar calendar = Calendar.getInstance();
         Date startTime, endTime;
+        Calendar StartTime,EndTime;
         try {
             SimpleDateFormat simpleDateFormat;
             if (time.length() == 4) {
                 simpleDateFormat = new SimpleDateFormat("yyyy");
                 startTime = simpleDateFormat.parse(time);
-                startTime.setMonth(1);
-                startTime.setDate(1);
+                StartTime=Calendar.getInstance();
+                StartTime.setTime(startTime);
+                int year=StartTime.get(Calendar.YEAR);
+                StartTime.set(year,1,1);
+                startTime=StartTime.getTime();
+
                 endTime = simpleDateFormat.parse(time);
-                endTime.setMonth(12);
-                endTime.setDate(31);
+                EndTime=Calendar.getInstance();
+                EndTime.setTime(endTime);
+                year=EndTime.get(Calendar.YEAR);
+                EndTime.set(year,12,31);
+                endTime=EndTime.getTime();
+
             } else if (time.length() == 7) {
                 simpleDateFormat = new SimpleDateFormat("yyyy-MM");
                 startTime = simpleDateFormat.parse(time);
-                startTime.setDate(1);
+                StartTime=Calendar.getInstance();
+                StartTime.setTime(startTime);
+                int year=StartTime.get(Calendar.YEAR);
+                int month=StartTime.get(Calendar.MONTH);
+                StartTime.set(year,month,1);
+                startTime=StartTime.getTime();
+
                 endTime = simpleDateFormat.parse(time);
-                endTime.setDate(31);
+                EndTime=Calendar.getInstance();
+                EndTime.setTime(endTime);
+                year=EndTime.get(Calendar.YEAR);
+                month=EndTime.get(Calendar.MONTH);
+                EndTime.set(year,month,31);
+                endTime=EndTime.getTime();
             } else {
                 simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 startTime = simpleDateFormat.parse(time);
