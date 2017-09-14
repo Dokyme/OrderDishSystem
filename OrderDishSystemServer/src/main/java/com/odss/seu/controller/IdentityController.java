@@ -28,13 +28,11 @@ import java.io.IOException;
 public class IdentityController {
 
     private LoginService loginService;
-    private AuthenticService authenticService;
     private Producer producer;
 
     @Autowired
-    public IdentityController(LoginService loginService, AuthenticService authenticService, Producer producer) {
+    public IdentityController(LoginService loginService, Producer producer) {
         this.loginService = loginService;
-        this.authenticService = authenticService;
         this.producer = producer;
     }
 
@@ -46,11 +44,6 @@ public class IdentityController {
                       HttpSession session)
     {
         System.out.println(username + password + captcha);
-        AuthenticService.State state = authenticService.check(session);
-        if (state != AuthenticService.State.NONE)//检验是否已经登陆过，如果登陆过，说明该用户发送了非法的请求
-            throw new InvalidRequestException();
-        if (!session.getAttribute(Constants.KAPTCHA_SESSION_CONFIG_KEY).toString().equals(captcha))//检验登陆验证码
-            throw new CaptchaWrongException();
 
         User user=loginService.login(username, password);//返回登陆结果
         session.setAttribute("user",user.getType());//设置用户的身份
@@ -64,13 +57,10 @@ public class IdentityController {
 
     @RequestMapping(method = RequestMethod.POST)
     @JsonView(ViewLevel.Summary.class)
-    public  void logout(HttpSession session)
+    public void logout(HttpSession session)
     {
-        //System.out.println(username + password + captcha);
-        AuthenticService.State state = authenticService.check(session);
-        if (state == AuthenticService.State.NONE)//检验是否已经登陆过，如果没有登陆过，说明该用户发送了非法的请求
-            throw new InvalidRequestException();
-
+        Integer i;
+        i.eq
         if(session.getAttribute("user")=="waiter")
         {
             session.removeAttribute("dishState");//设置当前状态为空闲，可以上菜

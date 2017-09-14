@@ -11,7 +11,7 @@ public class InterceptorForAll extends HandlerInterceptorAdapter {
         private String URI;
         private String method;
 
-        public URIMethodPair(HttpServletRequest request) {
+        public URIMethodPair(HttpServletRequest re  quest) {
             this.URI = request.getRequestURI();
             this.method = request.getMethod();
         }
