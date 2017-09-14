@@ -24,10 +24,10 @@
             <mvc:mapping path="/**/*"/>
             <bean class="com.odss.seu.controller.CrossInterceptor"/>
         </mvc:interceptor>
-        <mvc:interceptor>
-            <mvc:mapping path="/**/*"/>
-            <bean class="com.odss.seu.controller.InterceptorForAll"/>
-        </mvc:interceptor>
+        <!--<mvc:interceptor>-->
+            <!--<mvc:mapping path="/**/*"/>-->
+            <!--<bean class="com.odss.seu.controller.InterceptorForAll"/>-->
+        <!--</mvc:interceptor>-->
     </mvc:interceptors>
 
 </beans>
