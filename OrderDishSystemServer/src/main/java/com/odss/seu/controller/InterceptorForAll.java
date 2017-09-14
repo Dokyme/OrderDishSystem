@@ -11,17 +11,17 @@ public class InterceptorForAll extends HandlerInterceptorAdapter {
         private String URI;
         private String method;
 
-        public URIMethodPair(HttpServletRequest re  quest) {
+        public URIMethodPair(HttpServletRequest request) {
             this.URI = request.getRequestURI();
             this.method = request.getMethod();
         }
 
-        public boolean isValid(String identity) {
+        public boolean isValid(Integer identity) {
             if (URI.contains("/identity"))
                 return true;
-            else if (identity.equals("manager"))
+            else if (identity.equals(0))
                 return isAdminValid();
-            else if (identity.equals("waiter"))
+            else if (identity.equals(1))
                 return isWaiterValid();
             else
                 return isCookValid();
@@ -83,9 +83,9 @@ public class InterceptorForAll extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         URIMethodPair pair = new URIMethodPair(request);
-        Object identity = request.getSession().getAttribute("name");
+        Object identity = request.getSession().getAttribute("user");
         if (identity != null) {
-            return pair.isValid(identity.toString());
+            return pair.isValid((Integer)identity);
         } else {
             return true;
         }
