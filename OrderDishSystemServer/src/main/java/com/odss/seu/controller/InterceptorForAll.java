@@ -21,7 +21,7 @@ public class InterceptorForAll extends HandlerInterceptorAdapter {
                 return true;
             else if (identity.equals(0))
                 return isAdminValid();
-            else if (identity.equals(1))
+            else if (identity.equals(2))
                 return isWaiterValid();
             else
                 return isCookValid();

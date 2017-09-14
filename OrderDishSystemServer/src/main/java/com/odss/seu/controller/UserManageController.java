@@ -69,7 +69,7 @@ public class UserManageController {
         System.out.println("uploadPhoto");
         if (!multipartFile.isEmpty()) {
             try {
-                String filepath = request.getSession().getServletContext().getRealPath("/") + "upload\\" +
+                String filepath = "C:\\Program Files\\Apache24\\htdocs\\image\\" +
                         UUID.randomUUID().toString().replaceAll("-", "") + multipartFile.getOriginalFilename();
                 multipartFile.transferTo(new File(filepath));
                 System.out.println(filepath);
