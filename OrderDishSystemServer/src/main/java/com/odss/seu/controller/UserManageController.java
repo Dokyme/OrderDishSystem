@@ -3,6 +3,7 @@ package com.odss.seu.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.google.code.kaptcha.Producer;
+import com.odss.seu.service.UploadPictureService;
 import com.odss.seu.service.UserManageService;
 import com.odss.seu.vo.User;
 import com.odss.seu.vo.ViewLevel;
@@ -23,11 +24,13 @@ public class UserManageController {
 
     private UserManageService userManageService;
     private Producer producer;
+    private UploadPictureService uploadPictureService;
 
     @Autowired
-    public UserManageController(UserManageService userManageService, Producer producer) {
+    public UserManageController(UserManageService userManageService, Producer producer, UploadPictureService uploadPictureService) {
         this.userManageService = userManageService;
         this.producer = producer;
+        this.uploadPictureService = uploadPictureService;
     }
 
     //管理员查询所有用户概要信息的列表。
@@ -53,7 +56,10 @@ public class UserManageController {
     //管理员添加用户。
     @RequestMapping(method = RequestMethod.PUT)
     @JsonView(ViewLevel.SummaryWithDetail.class)
-    public User addNewUser(@RequestBody User user) {
+    public User addNewUser(@RequestBody User user, HttpServletRequest request) {
+        Object photo = request.getSession().getAttribute("photo");
+        if (photo != null)
+            user.setPhoto(photo.toString());
         return userManageService.addNewUser(user);
     }
 
@@ -66,18 +72,9 @@ public class UserManageController {
     //管理员管理照片
     @RequestMapping(value = "/photo")
     public void uploadPhoto(@RequestPart("photo") MultipartFile multipartFile, HttpServletRequest request) {
-        System.out.println("uploadPhoto");
-        if (!multipartFile.isEmpty()) {
-            try {
-                String filepath = "C:\\Program Files\\Apache24\\htdocs\\image\\" +
-                        UUID.randomUUID().toString().replaceAll("-", "") + multipartFile.getOriginalFilename();
-                multipartFile.transferTo(new File(filepath));
-                System.out.println(filepath);
-                request.getSession().setAttribute("photo", filepath);
-            } catch (IOException exception) {
-                exception.printStackTrace();
-            }
-        }
+        String relativeFilepath = uploadPictureService.upload(multipartFile);
+        if (relativeFilepath != null)
+            request.getSession().setAttribute("photo", relativeFilepath);
     }
 
 }

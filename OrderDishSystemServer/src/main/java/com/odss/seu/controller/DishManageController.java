@@ -3,22 +3,30 @@ package com.odss.seu.controller;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.odss.seu.service.DishManageService;
 import com.odss.seu.service.OrderDishService;
+import com.odss.seu.service.UploadPictureService;
 import com.odss.seu.vo.Dish;
 import com.odss.seu.vo.ViewLevel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "/dish")
 public class DishManageController {
 
     private DishManageService dishManageService;
+    private UploadPictureService uploadPictureService;
 
     @Autowired
-    public DishManageController(DishManageService dishManageService) {
+    public DishManageController(DishManageService dishManageService, UploadPictureService uploadPictureService) {
         this.dishManageService = dishManageService;
+        this.uploadPictureService = uploadPictureService;
     }
 
     //顾客或服务员或管理员界面，罗列所有菜品概要信息。
@@ -51,7 +59,10 @@ public class DishManageController {
     //管理员添加菜品。
     @RequestMapping(method = RequestMethod.PUT)
     @JsonView(ViewLevel.Summary.class)
-    public Dish addNewDish(@RequestBody Dish dish) {
+    public Dish addNewDish(@RequestBody Dish dish, HttpServletRequest request) {
+        Object picture = request.getSession().getAttribute("picture");
+        if (picture != null)
+            dish.setPicture(picture.toString());
         return dishManageService.addDish(dish);
     }
 
@@ -59,6 +70,15 @@ public class DishManageController {
     @RequestMapping(value = "/{dishId}", method = RequestMethod.DELETE)
     public void deleteDishById(@PathVariable Integer dishId) {
         dishManageService.deleteDish(dishId);
+    }
+
+    //管理员管理照片
+    @RequestMapping(value = "/photo")
+    public void uploadPhoto(@RequestPart("photo") MultipartFile multipartFile, HttpServletRequest request) {
+        String relativeFilename = uploadPictureService.upload(multipartFile);
+        if (relativeFilename != null) {
+            request.getSession().setAttribute("picture", relativeFilename);
+        }
     }
 
 }
