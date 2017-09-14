@@ -30,8 +30,7 @@ public class UserManageServiceImpl implements UserManageService {
     }
 
     @Override
-    public void updateUser(Integer userId, User user) {
-        user.setId(userId);
+    public void updateUser(User user) {
         userMapper.updateByPrimaryKey(user);
     }
 

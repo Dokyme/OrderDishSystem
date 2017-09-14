@@ -1,5 +1,7 @@
 package com.odss.seu.vo;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 import java.io.Serializable;
 
 public class Table implements Serializable{
@@ -11,6 +13,7 @@ public class Table implements Serializable{
      *
      * @mbg.generated Fri Sep 08 14:07:18 CST 2017
      */
+    @JsonView(ViewLevel.Summary.class)
     private Integer id;
 
     /**
@@ -20,6 +23,7 @@ public class Table implements Serializable{
      *
      * @mbg.generated Fri Sep 08 14:07:18 CST 2017
      */
+    @JsonView(ViewLevel.Summary.class)
     private Integer personalnum;
 
     /**
@@ -29,6 +33,7 @@ public class Table implements Serializable{
      *
      * @mbg.generated Fri Sep 08 14:07:18 CST 2017
      */
+    @JsonView(ViewLevel.Summary.class)
     private Integer state;
 
     /**

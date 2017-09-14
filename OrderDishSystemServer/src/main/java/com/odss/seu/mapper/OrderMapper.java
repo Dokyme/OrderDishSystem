@@ -3,7 +3,6 @@ package com.odss.seu.mapper;
 import com.odss.seu.vo.Order;
 import com.odss.seu.vo.OrderExample;
 import java.util.List;
-
 import org.apache.ibatis.annotations.Param;
 
 public interface OrderMapper {
@@ -52,7 +51,6 @@ public interface OrderMapper {
      * This method corresponds to the database table ods_order
      *
      * @mbg.generated Fri Sep 08 14:07:18 CST 2017
-     * @param example
      */
     List<Order> selectByExample(OrderExample example);
 

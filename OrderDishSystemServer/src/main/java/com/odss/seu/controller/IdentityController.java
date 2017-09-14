@@ -23,60 +23,22 @@ import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-//api checked
 @Controller
 @RequestMapping(value = "/identity")
 public class IdentityController {
 
     private LoginService loginService;
     private AuthenticService authenticService;
-    private Producer kcaptchaProducer;
+    private Producer producer;
 
     @Autowired
     public IdentityController(LoginService loginService, AuthenticService authenticService, Producer producer) {
         this.loginService = loginService;
         this.authenticService = authenticService;
-        this.kcaptchaProducer = producer;
+        this.producer = producer;
     }
 
-    @RequestMapping(value = "/captcha", method = RequestMethod.GET)
-    @ResponseBody
-    public void captcha(HttpServletResponse response, HttpSession session) throws IOException {
-        response.setHeader("Cache-Control", "no-store");
-        response.setHeader("Pragma", "no-cache");
-        response.setDateHeader("Expires", 0);
-        response.setContentType("image/jpeg");
-        String capText = kcaptchaProducer.createText();
-        BufferedImage bi = this.kcaptchaProducer.createImage(capText);
-        ServletOutputStream out = response.getOutputStream();
-        try {
-            session.setAttribute(Constants.KAPTCHA_SESSION_CONFIG_KEY, capText);//在该用户的session中记录他的验证码值
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        ImageIO.write(bi, "jpeg", out);
-    }
-
-    @RequestMapping(method = RequestMethod.GET)
-    public String renderLoginPage(HttpSession session) {
-        AuthenticService.State state = authenticService.check(session);
-        switch (state) {
-            //如果已经登陆过，则直接返回该角色对应的页面。
-            case CUSTOMER:
-                break;
-            case COOKER:
-                break;
-            case ADMIN:
-                break;
-            case WAITER:
-                break;
-            case NONE:
-                return "login";
-        }
-        return "login";
-    }
-
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST, produces = "application/json")
     @JsonView(ViewLevel.Summary.class)
     public User login(@RequestParam(value = "username") String username,
                       @RequestParam(value = "password") String password,
@@ -94,9 +56,9 @@ public class IdentityController {
         session.setAttribute("user",user.getType());//设置用户的身份
         Object useridentity=session.getAttribute("user");
 
-        Integer.parseInt(useridentity==null?"":useridentity.toString());
+        Integer userIdentity=Integer.parseInt(useridentity==null?"":useridentity.toString());
 
-        if(useridentity.equals(2))//假设waiter是2
+        if(userIdentity.equals(2))//假设waiter是2
         {
             session.setAttribute("dishState","notbusy");//设置当前状态为空闲，可以上菜
         }
@@ -114,12 +76,30 @@ public class IdentityController {
             throw new InvalidRequestException();
 
         Object useridentity=session.getAttribute("user");
-        Integer.parseInt(useridentity==null?"":useridentity.toString());
+        Integer userIdentity=Integer.parseInt(useridentity==null?"":useridentity.toString());
 
-        if(useridentity.equals(2))
+        if(userIdentity.equals(2))
         {
             session.removeAttribute("dishState");
         }
         session.removeAttribute("user");
+    }
+
+    @RequestMapping(value = "/captcha", method = RequestMethod.GET)
+    public @ResponseBody
+    void captcha(HttpServletResponse response, HttpSession session) throws IOException {
+        response.setHeader("Cache-Control", "no-store");
+        response.setHeader("Pragma", "no-cache");
+        response.setDateHeader("Expires", 0);
+        response.setContentType("image/jpeg");
+        String capText = this.producer.createText();
+        BufferedImage bi = this.producer.createImage(capText);
+        ServletOutputStream out = response.getOutputStream();
+        try {
+            session.setAttribute(Constants.KAPTCHA_SESSION_CONFIG_KEY, capText);//在该用户的session中记录他的验证码值
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        ImageIO.write(bi, "jpeg", out);
     }
 }

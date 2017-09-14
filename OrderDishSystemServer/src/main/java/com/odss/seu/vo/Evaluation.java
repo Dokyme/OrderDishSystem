@@ -1,15 +1,19 @@
 package com.odss.seu.vo;
 
-public class Evaluation {
+import com.fasterxml.jackson.annotation.JsonView;
+
+import java.io.Serializable;
+
+public class Evaluation implements Serializable {
+    private static final long serialVersionUID =1L;
+    @JsonView(ViewLevel.Summary.class)
     private Integer cookSpeed;
+    @JsonView(ViewLevel.Summary.class)
     private Integer serveAttitude;
+    @JsonView(ViewLevel.Summary.class)
     private Integer dishQuality;
 
-    public Evaluation(Integer cookSpeed, Integer serveAttitude, Integer dishQuality) {
-        this.cookSpeed = cookSpeed;
-        this.serveAttitude = serveAttitude;
-        this.dishQuality = dishQuality;
-    }
+
 
     public Integer getCookSpeed() {
         return cookSpeed;

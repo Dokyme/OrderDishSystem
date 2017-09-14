@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class `QuerySellingServiceImpl implements QuerySellingService {
+public class QuerySellingServiceImpl implements QuerySellingService {
 
     private OrderMapper orderMapper;
 
@@ -20,8 +20,7 @@ public class `QuerySellingServiceImpl implements QuerySellingService {
 
     @Override
     public List<Order> queryAllOrders() {
-//        return orderMapper.selectByExample(new OrderExample());
-        return null;
+        return orderMapper.selectByExample(new OrderExample());
     }
 
     @Override
