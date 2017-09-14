@@ -3,10 +3,7 @@ package com.odss.seu.controller;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.google.code.kaptcha.Constants;
 import com.google.code.kaptcha.Producer;
-import com.odss.seu.service.AuthenticService;
 import com.odss.seu.service.LoginService;
-import com.odss.seu.service.exception.CaptchaWrongException;
-import com.odss.seu.service.exception.InvalidRequestException;
 import com.odss.seu.vo.User;
 import com.odss.seu.vo.ViewLevel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,19 +38,18 @@ public class IdentityController {
     public User login(@RequestParam(value = "username") String username,
                       @RequestParam(value = "password") String password,
                       @RequestParam(value = "captcha") String captcha,
-                      HttpSession session)
-    {
+                      HttpSession session) {
         System.out.println(username + password + captcha);
 
-        User user=loginService.login(username, password);//返回登陆结果
-        session.setAttribute("user",user.getType());//设置用户的身份
-        Object useridentity=session.getAttribute("user");
+        User user = loginService.login(username, password);//返回登陆结果
+        session.setAttribute("user", user.getType());//设置用户的身份
+        Object useridentity = session.getAttribute("user");
 
-        Integer userIdentity=Integer.parseInt(useridentity==null?"":useridentity.toString());
+        Integer userIdentity = Integer.parseInt(useridentity == null ? "" : useridentity.toString());
 
-        if(userIdentity.equals(2))//假设waiter是2
+        if (userIdentity.equals(2))//假设waiter是2
         {
-            session.setAttribute("dishState","notbusy");//设置当前状态为空闲，可以上菜
+            session.setAttribute("busy", Boolean.FALSE);//设置当前状态为空闲，可以上菜
         }
         return user;
     }
@@ -61,15 +57,12 @@ public class IdentityController {
 
     @RequestMapping(method = RequestMethod.POST)
     @JsonView(ViewLevel.Summary.class)
-    public void logout(HttpSession session)
-    {
-        //System.out.println(username + password + captcha);
-        Object useridentity=session.getAttribute("user");
-        Integer userIdentity=Integer.parseInt(useridentity==null?"":useridentity.toString());
+    public void logout(HttpSession session) {
+        Object useridentity = session.getAttribute("user");
+        Integer userIdentity = Integer.parseInt(useridentity == null ? "" : useridentity.toString());
 
-        if(userIdentity.equals(2))
-        {
-            session.removeAttribute("dishState");
+        if (userIdentity.equals(2)) {
+            session.removeAttribute("busy");
         }
         session.removeAttribute("user");
     }

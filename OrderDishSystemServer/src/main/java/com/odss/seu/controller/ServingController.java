@@ -3,7 +3,6 @@ package com.odss.seu.controller;
 
 import com.odss.seu.service.ServeDishService;
 import com.odss.seu.vo.OrderInfo;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,12 +29,17 @@ public class ServingController {
     //服务员轮询是否需要上菜
     @RequestMapping(method = RequestMethod.GET)
     public OrderInfo polling(HttpServletRequest request) {
+        Object busy = request.getSession().getAttribute("busy");
+        if (busy != null && busy.equals(Boolean.FALSE)) {
+            return serveDishService.fetchOne();
+        }
         return null;
     }
 
     //服务员确认已经上菜
     @RequestMapping(value = "/{orderInfoId}", method = RequestMethod.POST)
-    public void confirmServing(@PathVariable Integer orderInfoId) {
+    public void confirmServing(@PathVariable Integer orderInfoId, HttpServletRequest request) {
+        request.getSession().setAttribute("busy", Boolean.FALSE);
         serveDishService.confirmDishServing(orderInfoId);
     }
 

@@ -1,8 +1,10 @@
 package com.odss.seu.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.odss.seu.mapper.OrderMapper;
 import com.odss.seu.service.OrderDishService;
 import com.odss.seu.vo.Order;
+import com.odss.seu.vo.OrderExample;
 import com.odss.seu.vo.SellingStatistics;
 import com.odss.seu.vo.ViewLevel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,18 +21,17 @@ import java.util.List;
 public class OrderController {
 
     private OrderDishService orderDishService;
-    private QuerySellingService querySellingService;
+    private OrderMapper orderMapper;
 
     @Autowired
-    public OrderController(OrderDishService orderDishService, QuerySellingService querySellingService) {
+    public OrderController(OrderDishService orderDishService, OrderMapper orderMapper) {
         this.orderDishService = orderDishService;
-        this.querySellingService = querySellingService;
+        this.orderMapper = orderMapper;
     }
 
     //顾客或服务员提交订单。
     @RequestMapping(method = RequestMethod.PUT, consumes = "application/json")
-    public void submitOrder(@RequestBody Order order)
-    {
+    public void submitOrder(@RequestBody Order order) {
         orderDishService.commitNewOrder(order);
     }
 
@@ -48,42 +49,42 @@ public class OrderController {
     public List<Order> queryStaistics(@RequestParam String time) {
         Calendar calendar = Calendar.getInstance();
         Date startTime, endTime;
-        Calendar StartTime,EndTime;
+        Calendar StartTime, EndTime;
         try {
             SimpleDateFormat simpleDateFormat;
             if (time.length() == 4) {
                 simpleDateFormat = new SimpleDateFormat("yyyy");
                 startTime = simpleDateFormat.parse(time);
-                StartTime=Calendar.getInstance();
+                StartTime = Calendar.getInstance();
                 StartTime.setTime(startTime);
-                int year=StartTime.get(Calendar.YEAR);
-                StartTime.set(year,1,1);
-                startTime=StartTime.getTime();
+                int year = StartTime.get(Calendar.YEAR);
+                StartTime.set(year, 1, 1);
+                startTime = StartTime.getTime();
 
                 endTime = simpleDateFormat.parse(time);
-                EndTime=Calendar.getInstance();
+                EndTime = Calendar.getInstance();
                 EndTime.setTime(endTime);
-                year=EndTime.get(Calendar.YEAR);
-                EndTime.set(year,12,31);
-                endTime=EndTime.getTime();
+                year = EndTime.get(Calendar.YEAR);
+                EndTime.set(year, 12, 31);
+                endTime = EndTime.getTime();
 
             } else if (time.length() == 7) {
                 simpleDateFormat = new SimpleDateFormat("yyyy-MM");
                 startTime = simpleDateFormat.parse(time);
-                StartTime=Calendar.getInstance();
+                StartTime = Calendar.getInstance();
                 StartTime.setTime(startTime);
-                int year=StartTime.get(Calendar.YEAR);
-                int month=StartTime.get(Calendar.MONTH);
-                StartTime.set(year,month,1);
-                startTime=StartTime.getTime();
+                int year = StartTime.get(Calendar.YEAR);
+                int month = StartTime.get(Calendar.MONTH);
+                StartTime.set(year, month, 1);
+                startTime = StartTime.getTime();
 
                 endTime = simpleDateFormat.parse(time);
-                EndTime=Calendar.getInstance();
+                EndTime = Calendar.getInstance();
                 EndTime.setTime(endTime);
-                year=EndTime.get(Calendar.YEAR);
-                month=EndTime.get(Calendar.MONTH);
-                EndTime.set(year,month,31);
-                endTime=EndTime.getTime();
+                year = EndTime.get(Calendar.YEAR);
+                month = EndTime.get(Calendar.MONTH);
+                EndTime.set(year, month, 31);
+                endTime = EndTime.getTime();
             } else {
                 simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 startTime = simpleDateFormat.parse(time);
@@ -97,6 +98,8 @@ public class OrderController {
     }
 
     public List<Order> queryOrdersWithRange(Date startTime, Date endTime) {
-        return null;
+        OrderExample example = new OrderExample();
+        example.createCriteria().andTimeBetween(startTime, endTime);
+        return orderMapper.selectByExample(example);
     }
 }
