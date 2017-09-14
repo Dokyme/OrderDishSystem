@@ -31,13 +31,13 @@ public class UserManageController {
     @RequestMapping(method = RequestMethod.GET)
     @JsonView(ViewLevel.Summary.class)
     public List<User> queryAllUser() {
-        List<User> users= userManageService.queryAllUsers();
+        List<User> users = userManageService.queryAllUsers();
         return users;
     }
 
-    @RequestMapping(value = "/{userId}",method = RequestMethod.GET)
+    @RequestMapping(value = "/{userId}", method = RequestMethod.GET)
     @JsonView(ViewLevel.SummaryWithDetail.class)
-    public User queryUserDetail(@PathVariable Integer userId){
+    public User queryUserDetail(@PathVariable Integer userId) {
         return userManageService.queryUserDetail(userId);
     }
 
@@ -66,8 +66,7 @@ public class UserManageController {
         System.out.println("uploadPhoto");
         if (!multipartFile.isEmpty()) {
             try {
-                String filepath = request.getSession().getServletContext().getRealPath("/") + "upload\\" +
-                        UUID.randomUUID().toString().replaceAll("-", "") + multipartFile.getOriginalFilename();
+                String filepath = "\\image\\" + UUID.randomUUID().toString().replaceAll("-", "") + multipartFile.getOriginalFilename();
                 multipartFile.transferTo(new File(filepath));
                 System.out.println(filepath);
                 request.getSession().setAttribute("photo", filepath);
