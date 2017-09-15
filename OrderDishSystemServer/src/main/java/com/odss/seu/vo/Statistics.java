@@ -20,7 +20,7 @@ public class Statistics implements Serializable {
     private String time;
 
     @JsonView(ViewLevel.Summary.class)
-    private Integer income;
+    private Float income;
 
     @JsonView(ViewLevel.Summary.class)
     private Integer sellNum;
@@ -50,12 +50,12 @@ public class Statistics implements Serializable {
     }
 
 
-    public void setIncome(Integer income)
+    public void setIncome(Float income)
     {
         this.income=income;
     }
 
-    public Integer getIncome()
+    public Float getIncome()
     {
         return income;
     }
