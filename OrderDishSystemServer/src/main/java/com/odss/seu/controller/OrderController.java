@@ -45,52 +45,38 @@ public class OrderController {
 
     //管理员查询所有订单统计数据。
     @RequestMapping(value = "/statistics", method = RequestMethod.GET)
-    @JsonView(ViewLevel.Summary.class)
+    @JsonView(ViewLevel.SummaryWithDetail.class)
     public List<Order> queryStaistics(@RequestParam String time) {
-        Calendar calendar = Calendar.getInstance();
         Date startTime, endTime;
-        Calendar StartTime, EndTime;
+        Calendar cStartTime = Calendar.getInstance();
+        Calendar cEndTime = Calendar.getInstance();
+
         try {
             SimpleDateFormat simpleDateFormat;
             if (time.length() == 4) {
                 simpleDateFormat = new SimpleDateFormat("yyyy");
                 startTime = simpleDateFormat.parse(time);
-                StartTime = Calendar.getInstance();
-                StartTime.setTime(startTime);
-                int year = StartTime.get(Calendar.YEAR);
-                StartTime.set(year, 1, 1);
-                startTime = StartTime.getTime();
-
                 endTime = simpleDateFormat.parse(time);
-                EndTime = Calendar.getInstance();
-                EndTime.setTime(endTime);
-                year = EndTime.get(Calendar.YEAR);
-                EndTime.set(year, 12, 31);
-                endTime = EndTime.getTime();
-
+                cStartTime.setTime(startTime);
+                cStartTime.set(cStartTime.get(Calendar.YEAR), Calendar.JANUARY, 1);
+                cEndTime.setTime(endTime);
+                cEndTime.set(cEndTime.get(Calendar.YEAR), Calendar.DECEMBER, 31);
             } else if (time.length() == 7) {
                 simpleDateFormat = new SimpleDateFormat("yyyy-MM");
                 startTime = simpleDateFormat.parse(time);
-                StartTime = Calendar.getInstance();
-                StartTime.setTime(startTime);
-                int year = StartTime.get(Calendar.YEAR);
-                int month = StartTime.get(Calendar.MONTH);
-                StartTime.set(year, month, 1);
-                startTime = StartTime.getTime();
-
                 endTime = simpleDateFormat.parse(time);
-                EndTime = Calendar.getInstance();
-                EndTime.setTime(endTime);
-                year = EndTime.get(Calendar.YEAR);
-                month = EndTime.get(Calendar.MONTH);
-                EndTime.set(year, month, 31);
-                endTime = EndTime.getTime();
+                cStartTime.setTime(startTime);
+                cStartTime.set(Calendar.DATE, 1);
+                cEndTime.setTime(endTime);
+                cEndTime.set(Calendar.DATE, cEndTime.getActualMaximum(Calendar.DATE));
             } else {
                 simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 startTime = simpleDateFormat.parse(time);
+                cStartTime.setTime(startTime);
                 endTime = simpleDateFormat.parse(time);
+                cEndTime.setTime(endTime);
             }
-            return queryOrdersWithRange(startTime, endTime);
+            return queryOrdersWithRange(cStartTime.getTime(), cEndTime.getTime());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -98,6 +84,18 @@ public class OrderController {
     }
 
     public List<Order> queryOrdersWithRange(Date startTime, Date endTime) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(startTime);
+        calendar.set(Calendar.HOUR, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        startTime = calendar.getTime();
+        calendar.setTime(endTime);
+        calendar.set(Calendar.HOUR, 24);
+        calendar.set(Calendar.MINUTE, 59);
+        calendar.set(Calendar.SECOND, 59);
+        endTime = calendar.getTime();
+
         OrderExample example = new OrderExample();
         example.createCriteria().andTimeBetween(startTime, endTime);
         return orderMapper.selectByExample(example);

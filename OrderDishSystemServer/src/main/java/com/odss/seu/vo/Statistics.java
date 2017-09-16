@@ -26,7 +26,7 @@ public class Statistics implements Serializable {
     private Integer sellNum;
 
     @JsonView(ViewLevel.Summary.class)
-    private Integer fantai;//翻台率
+    private Float fantai;//翻台率
 
     public void setstartTime(Date startTime)
     {
@@ -72,12 +72,12 @@ public class Statistics implements Serializable {
     }
 
 
-    public void setFantai(Integer fantai)
+    public void setFantai(Float fantai)
     {
         this.fantai=fantai;
     }
 
-    public Integer getFantai()
+    public Float getFantai()
     {
         return fantai;
     }

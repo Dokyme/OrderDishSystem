@@ -39,15 +39,15 @@ public class IdentityController {
                       @RequestParam(value = "password") String password,
                       @RequestParam(value = "captcha") String captcha,
                       HttpSession session) {
-        System.out.println(username + password + captcha);
 
         User user = loginService.login(username, password);//返回登陆结果
         session.setAttribute("user", user.getType());//设置用户的身份
         Object useridentity = session.getAttribute("user");
-
+        Object captcha=session.getAttribute(Constants.KAPTCHA_SESSION_CONFIG_KEY);
+        if(captcha!=null)
         Integer userIdentity = Integer.parseInt(useridentity == null ? "" : useridentity.toString());
 
-        if (userIdentity.equals(2))//假设waiter是2
+        if (userIdentity.equals(UserType.WAITER.ordinal()))//假设waiter是2
         {
             session.setAttribute("busy", Boolean.FALSE);//设置当前状态为空闲，可以上菜
         }

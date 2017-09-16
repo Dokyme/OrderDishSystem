@@ -109,7 +109,7 @@
           This element was generated on Fri Sep 08 14:07:18 CST 2017.
         -->
         o.ID o_id, o.Table o_table, o.Time o_time, o.State o_state, o.DishQuality o_dishquality, o.CookSpeed
-        o_cookspeed, o.ServeAttitude o_serverattitude,
+        o_cookspeed, o.ServeAttitude o_serveattitude,
         oi.DishState oi_dishstate,
         d.ID d_id,d.Name d_name,d.Description d_description,d.Picture d_picture,d.Price d_price,d.Recommend d_recommend,
         dt.ID dt_id,dt.Name dt_name
