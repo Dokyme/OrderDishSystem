@@ -7,6 +7,7 @@ import com.odss.seu.vo.Dish;
 import com.odss.seu.vo.DishExample;
 import com.odss.seu.vo.Order;
 import com.odss.seu.vo.OrderInfo;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,7 @@ import java.util.List;
 
 @Service
 public class OrderDishServiceImpl implements OrderDishService {
+    public static Logger lo = Logger.getLogger(OrderDishServiceImpl.class);
 
     private DishMapper dishMapper;
     private OrderMapper orderMapper;
@@ -30,6 +32,7 @@ public class OrderDishServiceImpl implements OrderDishService {
 
     @Override
     public List<Dish> queryAllDish() {
+        lo.info("查询所有菜品成功");
         return dishMapper.selectByExample(new DishExample());
     }
 
@@ -43,10 +46,12 @@ public class OrderDishServiceImpl implements OrderDishService {
             orderInfo.setDish(order.getDishes().get(i));
             orderInfoMapper.insert(orderInfo);
         }
+        lo.info("追加菜品成功");
     }
 
     @Override
     public Order queryOrder(Integer orderId) {
+        lo.info("查询ID为"+orderId+"的菜品成功");
         return orderMapper.selectByPrimaryKey(orderId);
     }
 }

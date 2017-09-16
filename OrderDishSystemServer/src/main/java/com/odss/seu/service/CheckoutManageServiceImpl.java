@@ -5,6 +5,7 @@ import com.odss.seu.vo.Checkout;
 import com.odss.seu.vo.Dish;
 import com.odss.seu.vo.Order;
 import com.odss.seu.vo.OrderExample;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ import java.util.List;
 @Service
 public class CheckoutManageServiceImpl implements CheckoutManageService{
 
+    public static Logger lo= Logger.getLogger(CheckoutManageServiceImpl.class);
     private OrderMapper orderMapper;
 
     @Autowired
@@ -37,6 +39,7 @@ public class CheckoutManageServiceImpl implements CheckoutManageService{
             checkouts.add(checkout);
         }
 
+        lo.info("查询未付款的账单成功");
         return checkouts;
     }
 
@@ -45,10 +48,12 @@ public class CheckoutManageServiceImpl implements CheckoutManageService{
         Order order = orderMapper.selectByPrimaryKey(orderId);
         order.setState(OrderState.CHECKOUT.ordinal());
         orderMapper.updateByPrimaryKey(order);
+        lo.info("确付款的账单成功");
     }
 
     public void deleteCheckout(Integer orderId){
         orderMapper.deleteByPrimaryKey(orderId);
+        lo.info("删除账单成功");
     }
 
     public float calculate(Order orders){
