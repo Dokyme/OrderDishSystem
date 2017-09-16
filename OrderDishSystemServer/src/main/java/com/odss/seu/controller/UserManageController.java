@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -56,8 +57,8 @@ public class UserManageController {
     //管理员添加用户。
     @RequestMapping(method = RequestMethod.PUT)
     @JsonView(ViewLevel.SummaryWithDetail.class)
-    public User addNewUser(@RequestBody User user, HttpServletRequest request) {
-        Object photo = request.getSession().getAttribute("photo");
+    public User addNewUser(@RequestBody User user, HttpSession session) {
+        Object photo = session.getAttribute("photo");
         if (photo != null)
             user.setPhoto(photo.toString());
         return userManageService.addNewUser(user);

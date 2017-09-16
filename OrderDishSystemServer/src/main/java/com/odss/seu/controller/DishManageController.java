@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -59,8 +60,8 @@ public class DishManageController {
     //管理员添加菜品。
     @RequestMapping(method = RequestMethod.PUT)
     @JsonView(ViewLevel.Summary.class)
-    public Dish addNewDish(@RequestBody Dish dish, HttpServletRequest request) {
-        Object picture = request.getSession().getAttribute("picture");
+    public Dish addNewDish(@RequestBody Dish dish, HttpSession session) {
+        Object picture = session.getAttribute("picture");
         if (picture != null)
             dish.setPicture(picture.toString());
         return dishManageService.addDish(dish);
@@ -74,10 +75,10 @@ public class DishManageController {
 
     //管理员管理照片
     @RequestMapping(value = "/photo")
-    public void uploadPhoto(@RequestPart("photo") MultipartFile multipartFile, HttpServletRequest request) {
+    public void uploadPhoto(@RequestPart("photo") MultipartFile multipartFile, HttpSession session) {
         String relativeFilename = uploadPictureService.upload(multipartFile);
         if (relativeFilename != null) {
-            request.getSession().setAttribute("picture", relativeFilename);
+            session.setAttribute("picture", relativeFilename);
         }
     }
 

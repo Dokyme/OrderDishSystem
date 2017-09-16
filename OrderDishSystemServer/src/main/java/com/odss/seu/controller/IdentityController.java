@@ -4,8 +4,10 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.google.code.kaptcha.Constants;
 import com.google.code.kaptcha.Producer;
 import com.odss.seu.service.LoginService;
+import com.odss.seu.service.exception.CaptchaWrongException;
 import com.odss.seu.vo.User;
 import com.odss.seu.vo.ViewLevel;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,9 +22,12 @@ import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+
 @Controller
 @RequestMapping(value = "/identity")
 public class IdentityController {
+
+    public static Logger lo = Logger.getLogger(IdentityController.class);
 
     private LoginService loginService;
     private Producer producer;
@@ -39,14 +44,13 @@ public class IdentityController {
                       @RequestParam(value = "password") String password,
                       @RequestParam(value = "captcha") String captcha,
                       HttpSession session) {
-
         User user = loginService.login(username, password);//返回登陆结果
         session.setAttribute("user", user.getType());//设置用户的身份
         Object useridentity = session.getAttribute("user");
-        Object captcha=session.getAttribute(Constants.KAPTCHA_SESSION_CONFIG_KEY);
-        if(captcha!=null)
+        Object captchaInSession = session.getAttribute(Constants.KAPTCHA_SESSION_CONFIG_KEY);
+        if (captcha == null || !captchaInSession.toString().equals(captcha))
+            throw new CaptchaWrongException();
         Integer userIdentity = Integer.parseInt(useridentity == null ? "" : useridentity.toString());
-
         if (userIdentity.equals(UserType.WAITER.ordinal()))//假设waiter是2
         {
             session.setAttribute("busy", Boolean.FALSE);//设置当前状态为空闲，可以上菜
