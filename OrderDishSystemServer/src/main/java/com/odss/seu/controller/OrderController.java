@@ -5,10 +5,8 @@ import com.odss.seu.mapper.OrderMapper;
 import com.odss.seu.service.OrderDishService;
 import com.odss.seu.vo.Order;
 import com.odss.seu.vo.OrderExample;
-import com.odss.seu.vo.SellingStatistics;
 import com.odss.seu.vo.ViewLevel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
@@ -40,7 +38,12 @@ public class OrderController {
     @JsonView(ViewLevel.SummaryWithDetail.class)
     public Order queryOrderDetailById(@PathVariable Integer orderId) {
         return orderDishService.queryOrder(orderId);
+    }
 
+    @RequestMapping(method = RequestMethod.GET)
+    @JsonView(ViewLevel.SummaryWithDetail.class)
+    public Order queryOrderDetailByTable(@RequestParam("table") Integer tableNum) {
+        return orderDishService.queryOrderByTable(tableNum);
     }
 
     //管理员查询所有订单统计数据。

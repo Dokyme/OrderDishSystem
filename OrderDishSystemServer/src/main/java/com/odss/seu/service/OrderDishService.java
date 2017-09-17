@@ -11,4 +11,6 @@ public interface OrderDishService {
     void commitNewOrder(Order order);
 
     Order queryOrder(Integer orderId);
+
+    Order queryOrderByTable(Integer tableNum);
 }

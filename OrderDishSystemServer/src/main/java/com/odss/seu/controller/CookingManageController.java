@@ -25,7 +25,7 @@ public class CookingManageController {
         this.arrangeCookingService = arrangeCookingService;
     }
 
-    //后厨查询所有需要烹饪的菜品列表。
+    //后厨查询所有需要烹饪和正在烹饪的菜品列表。
     @RequestMapping(method = RequestMethod.GET)
     @JsonView(ViewLevel.Summary.class)
     public List<OrderInfo> queryAllOrderInfos() {
