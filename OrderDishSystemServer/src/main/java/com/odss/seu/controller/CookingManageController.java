@@ -22,6 +22,7 @@ public class CookingManageController {
 
     @Autowired
     public CookingManageController(ArrangeCookingService arrangeCookingService) {
+        System.out.println("getttttttttttttttthereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
         this.arrangeCookingService = arrangeCookingService;
     }
 
@@ -29,18 +30,21 @@ public class CookingManageController {
     @RequestMapping(method = RequestMethod.GET)
     @JsonView(ViewLevel.Summary.class)
     public List<OrderInfo> queryAllOrderInfos() {
+        System.out.println("queryyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy");
         return arrangeCookingService.queryAllCookingTasks();
     }
 
     //后厨确认开始烹饪。
     @RequestMapping(value = "/{orderInfoId}", method = RequestMethod.PUT)
     public void confirmStartCooking(@PathVariable Integer orderInfoId) {
+        System.out.println("starttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt");
         arrangeCookingService.confirmNewDishCooking(orderInfoId);
     }
 
     //后厨认为食材不足，取消这道菜的烹饪任务。
     @RequestMapping(value = "/{orderInfoId}", method = RequestMethod.DELETE)
     public void cancelCooking(@PathVariable Integer orderInfoId) {
+        System.out.println("daleteeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
         arrangeCookingService.cancelDishCooking(orderInfoId);
     }
 }

@@ -48,7 +48,9 @@ public class IdentityController {
         User user=loginService.login(username, password);//返回登陆结果
         session.setAttribute("user",user.getType());//设置用户的身份
         Object useridentity=session.getAttribute("user");
-
+//----------------------
+        System.out.println("get There");
+//        --------------------------
         Integer userIdentity=Integer.parseInt(useridentity==null?"":useridentity.toString());
 
         if(userIdentity.equals(2))//假设waiter是2

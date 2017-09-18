@@ -20,6 +20,9 @@
         </property>
     </bean>
 
+    <!--&lt;!&ndash; 该 BeanPostProcessor 将自动对标注 @Autowired 的 Bean 进行注入 &ndash;&gt;-->
+    <!--<bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>-->
+
     <!-- 引入配置文件 -->
     <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="location" value="classpath:db.properties" />

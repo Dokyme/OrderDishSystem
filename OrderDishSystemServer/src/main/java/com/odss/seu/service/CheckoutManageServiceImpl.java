@@ -1,10 +1,8 @@
 package com.odss.seu.service;
 
 import com.odss.seu.mapper.OrderMapper;
-import com.odss.seu.vo.Checkout;
-import com.odss.seu.vo.Dish;
-import com.odss.seu.vo.Order;
-import com.odss.seu.vo.OrderExample;
+import com.odss.seu.mapper.TableMapper;
+import com.odss.seu.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +13,12 @@ import java.util.List;
 public class CheckoutManageServiceImpl implements CheckoutManageService{
 
     private OrderMapper orderMapper;
+    private TableMapper tableMapper;
 
     @Autowired
-    public CheckoutManageServiceImpl(OrderMapper orderMapper) {
+    public CheckoutManageServiceImpl(OrderMapper orderMapper,TableMapper tableMapper) {
         this.orderMapper = orderMapper;
+        this.tableMapper=tableMapper;
     }
 
     @Override
@@ -45,6 +45,10 @@ public class CheckoutManageServiceImpl implements CheckoutManageService{
         Order order = orderMapper.selectByPrimaryKey(orderId);
         order.setState(OrderState.CHECKOUT.ordinal());
         orderMapper.updateByPrimaryKey(order);
+        int tableId=order.getTable();
+        Table table = tableMapper.selectByPrimaryKey(tableId);
+        table.setState(TableState.EMPTY.ordinal());
+        tableMapper.updateByPrimaryKey(table);
     }
 
     public void deleteCheckout(Integer orderId){
