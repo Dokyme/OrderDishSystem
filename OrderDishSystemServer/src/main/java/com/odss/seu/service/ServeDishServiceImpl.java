@@ -16,7 +16,8 @@ public class ServeDishServiceImpl implements ServeDishService {
     private OrderInfoMapper orderInfoMapper;
 
     @Autowired
-    public ServeDishServiceImpl(OrderInfoMapper orderInfoMapper) {
+    public ServeDishServiceImpl(OrderInfoMapper orderInfoMapper)
+    {
         this.orderInfoMapper = orderInfoMapper;
     }
 

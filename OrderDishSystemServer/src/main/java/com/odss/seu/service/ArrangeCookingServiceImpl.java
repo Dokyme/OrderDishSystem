@@ -36,6 +36,7 @@ public class ArrangeCookingServiceImpl implements ArrangeCookingService {
     //后厨查询所有需要烹饪和正在烹饪（为1）的菜品列表。
     @Override
     public List<OrderInfo> queryAllCookingTasks() {
+        System.out.println("gettheretwoooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
         OrderInfoExample example = new OrderInfoExample();
         example.createCriteria().andDishstateIn(Arrays.asList(DishState.WAITING_COOKING.ordinal(), DishState.COOKING.ordinal()));
         lo.info("查询所有需要烹饪和正在烹饪（为1）的菜品列表");

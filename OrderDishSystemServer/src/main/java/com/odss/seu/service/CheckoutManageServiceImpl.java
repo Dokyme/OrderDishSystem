@@ -1,6 +1,8 @@
 package com.odss.seu.service;
 
 import com.odss.seu.mapper.OrderMapper;
+import com.odss.seu.mapper.TableMapper;
+import com.odss.seu.vo.*;
 import com.odss.seu.vo.Checkout;
 import com.odss.seu.vo.Dish;
 import com.odss.seu.vo.Order;
@@ -17,10 +19,12 @@ public class CheckoutManageServiceImpl implements CheckoutManageService{
 
     public static Logger lo= Logger.getLogger(CheckoutManageServiceImpl.class);
     private OrderMapper orderMapper;
+    private TableMapper tableMapper;
 
     @Autowired
-    public CheckoutManageServiceImpl(OrderMapper orderMapper) {
+    public CheckoutManageServiceImpl(OrderMapper orderMapper,TableMapper tableMapper) {
         this.orderMapper = orderMapper;
+        this.tableMapper=tableMapper;
     }
 
     @Override
@@ -48,7 +52,10 @@ public class CheckoutManageServiceImpl implements CheckoutManageService{
         Order order = orderMapper.selectByPrimaryKey(orderId);
         order.setState(OrderState.CHECKOUT.ordinal());
         orderMapper.updateByPrimaryKey(order);
-        lo.info("确付款的账单成功");
+        int tableId=order.getTable();
+        Table table = tableMapper.selectByPrimaryKey(tableId);
+        table.setState(TableState.EMPTY.ordinal());
+        tableMapper.updateByPrimaryKey(table);
     }
 
     public void deleteCheckout(Integer orderId){
