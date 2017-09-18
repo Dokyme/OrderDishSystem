@@ -1,6 +1,8 @@
 package com.odss.seu.controller;
 
+import com.odss.seu.service.exception.RequestForbiddenException;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -19,12 +21,17 @@ public class InterceptorForAll extends HandlerInterceptorAdapter {
         public boolean isValid(Integer identity) {
             if (URI.contains("/identity"))
                 return true;
-            else if (identity.equals(0))
-                return isAdminValid();
-            else if (identity.equals(2))
-                return isWaiterValid();
-            else
-                return isCookValid();
+            else if (identity.equals(0)) {
+                if (!isAdminValid())
+                    throw new RequestForbiddenException();
+            } else if (identity.equals(2)) {
+                if (!isWaiterValid())
+                    throw new RequestForbiddenException();
+            } else {
+                if (!isCookValid())
+                    throw new RequestForbiddenException();
+            }
+            return true;
         }
 
         private boolean isAdminValid() {
@@ -37,7 +44,7 @@ public class InterceptorForAll extends HandlerInterceptorAdapter {
             } else if (method.equals("DELETE")) {
                 return URI.contains("/checkout/") || URI.contains("/dish/") || URI.contains("/user/");
             } else {
-                return false;
+                throw new RequestForbiddenException();
             }
         }
 
@@ -51,13 +58,13 @@ public class InterceptorForAll extends HandlerInterceptorAdapter {
             } else if (method.equals("DELETE")) {
                 return URI.contains("/cooking/");
             } else {
-                return false;
+                throw new RequestForbiddenException();
             }
         }
 
         private boolean isWaiterValid() {
             if (method.equals("GET")) {
-                return URI.contains("/dish") || URI.contains("/table");
+                return URI.contains("/dish") || URI.contains("/table")||URI.contains("/serving");
             } else if (method.equals("POST")) {
                 return URI.contains("/serving/") || URI.contains("/table/");
             } else if (method.equals("PUT")) {
@@ -65,7 +72,7 @@ public class InterceptorForAll extends HandlerInterceptorAdapter {
             } else if (method.equals("DELETE")) {
                 return URI.contains("/table/");
             } else {
-                return false;
+                throw new RequestForbiddenException();
             }
         }
 
@@ -85,7 +92,7 @@ public class InterceptorForAll extends HandlerInterceptorAdapter {
         URIMethodPair pair = new URIMethodPair(request);
         Object identity = request.getSession().getAttribute("user");
         if (identity != null) {
-            return pair.isValid((Integer)identity);
+            return pair.isValid((Integer) identity);
         } else {
             return true;
         }

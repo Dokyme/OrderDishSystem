@@ -69,6 +69,7 @@ public class IdentityController {
             session.removeAttribute("busy");
         }
         session.removeAttribute("user");
+        session.invalidate();
     }
 
     @RequestMapping(value = "/captcha", method = RequestMethod.GET)

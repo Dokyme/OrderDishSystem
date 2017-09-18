@@ -7,6 +7,8 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ServeDishServiceImpl implements ServeDishService {
 
@@ -31,7 +33,10 @@ public class ServeDishServiceImpl implements ServeDishService {
     public OrderInfo fetchOne() {
         OrderInfoExample example = new OrderInfoExample();
         example.createCriteria().andDishstateEqualTo(DishState.WAITING_SERVING.ordinal());
-        OrderInfo orderInfo = orderInfoMapper.selectByExample(example).get(0);
+        List<OrderInfo> orderInfos = orderInfoMapper.selectByExample(example);
+        if (orderInfos == null || orderInfos.size() == 0)
+            return null;
+        OrderInfo orderInfo = orderInfos.get(0);
         orderInfo.setDishstate(DishState.SERVING.ordinal());
         orderInfoMapper.updateByPrimaryKey(orderInfo);
         lo.info("        ");
