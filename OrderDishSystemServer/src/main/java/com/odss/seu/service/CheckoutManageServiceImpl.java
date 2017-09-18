@@ -3,6 +3,11 @@ package com.odss.seu.service;
 import com.odss.seu.mapper.OrderMapper;
 import com.odss.seu.mapper.TableMapper;
 import com.odss.seu.vo.*;
+import com.odss.seu.vo.Checkout;
+import com.odss.seu.vo.Dish;
+import com.odss.seu.vo.Order;
+import com.odss.seu.vo.OrderExample;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +17,7 @@ import java.util.List;
 @Service
 public class CheckoutManageServiceImpl implements CheckoutManageService{
 
+    public static Logger lo= Logger.getLogger(CheckoutManageServiceImpl.class);
     private OrderMapper orderMapper;
     private TableMapper tableMapper;
 
@@ -37,6 +43,7 @@ public class CheckoutManageServiceImpl implements CheckoutManageService{
             checkouts.add(checkout);
         }
 
+        lo.info("查询未付款的账单成功");
         return checkouts;
     }
 
@@ -53,6 +60,7 @@ public class CheckoutManageServiceImpl implements CheckoutManageService{
 
     public void deleteCheckout(Integer orderId){
         orderMapper.deleteByPrimaryKey(orderId);
+        lo.info("删除账单成功");
     }
 
     public float calculate(Order orders){

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 //api and sql checked
-@Controller
+@RestController
 @RequestMapping(value = "/evaluation")
 public class EvaluationManageController {
 

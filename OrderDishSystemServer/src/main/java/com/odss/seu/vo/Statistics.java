@@ -17,13 +17,13 @@ public class Statistics implements Serializable {
     private String time;
 
     @JsonView(ViewLevel.Summary.class)
-    private float income;
+    private Float income;
 
     @JsonView(ViewLevel.Summary.class)
     private Integer sellNum;
 
     @JsonView(ViewLevel.Summary.class)
-    private Integer fantai;//翻台率
+    private Float fantai;//翻台率
 
 
     public void setTime(String time)
@@ -38,34 +38,12 @@ public class Statistics implements Serializable {
 
 
 
-//    public void setstartTime(Date startTime)
-//    {
-//        this.startTime=startTime;
-//    }
-//
-//    public Date getstartTime()
-//    {
-//        return startTime;
-//    }
-//
-//
-//    public void setendTime(Date endTime)
-//    {
-//        this.endTime=endTime;
-//    }
-//
-//    public Date getendTime()
-//    {
-//        return endTime;
-//    }
 
-
-    public void setIncome(float income)
+    public void setIncome(Float income)
     {
         this.income=income;
     }
-
-    public float getIncome()
+    public Float getIncome()
     {
         return income;
     }
@@ -82,12 +60,12 @@ public class Statistics implements Serializable {
     }
 
 
-    public void setFantai(Integer fantai)
+    public void setFantai(Float fantai)
     {
         this.fantai=fantai;
     }
 
-    public Integer getFantai()
+    public Float getFantai()
     {
         return fantai;
     }
