@@ -12,7 +12,7 @@ import java.util.List;
 @Service
 public class UserManageServiceImpl implements UserManageService {
 
-    public static Logger lo= Logger.getLogger(UserManageServiceImpl.class);
+    public static Logger lo = Logger.getLogger(UserManageServiceImpl.class);
 
     private UserMapper userMapper;
 
@@ -23,33 +23,33 @@ public class UserManageServiceImpl implements UserManageService {
 
     @Override
     public List<User> queryAllUsers() {
-        List<User> users= userMapper.selectByExample(new UserExample());
+        List<User> users = userMapper.selectByExample(new UserExample());
         lo.info("查询所有员工信息成功");
         return users;
     }
 
     @Override
     public User queryUserDetail(Integer userId) {
-        lo.info("查询ID为"+userId+"的员工信息成功");
+        lo.info("查询ID为" + userId + "的员工信息成功");
         return userMapper.selectByPrimaryKey(userId);
     }
 
     @Override
     public void updateUser(User user) {
-        lo.info("更新ID为"+user.getId()+"的员工信息成功");
-        userMapper.updateByPrimaryKey(user);
+        lo.info("更新ID为" + user.getId() + "的员工信息成功");
+        userMapper.updateByPrimaryKeySelective(user);
     }
 
     @Override
     public void deleteUser(Integer userId) {
-        lo.info("删除ID为"+userId+"的员工信息成功");
+        lo.info("删除ID为" + userId + "的员工信息成功");
         userMapper.deleteByPrimaryKey(userId);
     }
 
     @Override
     public User addNewUser(User user) {
         userMapper.insert(user);
-        lo.info("添加ID为"+user.getId()+"的员工信息成功");
+        lo.info("添加ID为" + user.getId() + "的员工信息成功");
         return user;
     }
 }

@@ -50,7 +50,8 @@ public class OrderDishServiceImpl implements OrderDishService {
     public Order queryOrderByTable(Integer tableNum) {
         OrderExample orderExample = new OrderExample();
         orderExample.createCriteria().andTableEqualTo(tableNum).andStateEqualTo(OrderState.WAITING_CHECKOUT.ordinal());
-        return orderMapper.selectByExample(orderExample).get(0);
+        Order order = orderMapper.selectByExample(orderExample).get(0);
+        return order;
     }
 
     @Override

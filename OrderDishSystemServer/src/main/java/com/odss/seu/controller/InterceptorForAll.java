@@ -36,7 +36,7 @@ public class InterceptorForAll extends HandlerInterceptorAdapter {
 
         private boolean isAdminValid() {
             if (method.equals("GET")) {
-                return URI.contains("/checkout") || URI.contains("/statistics") || URI.contains("/order") || URI.contains("/dish/") || URI.contains("/user/");
+                return URI.contains("/checkout") || URI.contains("/statistics") || URI.contains("/order") || URI.contains("/dish") || URI.contains("/user");
             } else if (method.equals("POST")) {
                 return URI.contains("/checkout/") || URI.contains("/dish/") || URI.contains("/user/") || URI.contains("/user") || URI.contains("/dish");
             } else if (method.equals("PUT")) {

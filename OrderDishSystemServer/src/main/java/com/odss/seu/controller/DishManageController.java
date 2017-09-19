@@ -53,8 +53,16 @@ public class DishManageController {
 
     //管理员修改菜品信息。
     @RequestMapping(method = RequestMethod.POST)
-    public void updateDish(@RequestBody Dish dish) {
-        dishManageService.updateDish(dish);
+    public void updateDish(@RequestBody Dish dish, HttpSession session) {
+        Object picture = session.getAttribute("picture");
+        if (picture != null) {
+            dish.setPicture(picture.toString());
+            dishManageService.updateDish(dish);
+            session.removeAttribute("picture");
+        } else {
+            dishManageService.updateDish(dish);
+        }
+
     }
 
     //管理员添加菜品。
@@ -62,9 +70,16 @@ public class DishManageController {
     @JsonView(ViewLevel.Summary.class)
     public Dish addNewDish(@RequestBody Dish dish, HttpSession session) {
         Object picture = session.getAttribute("picture");
-        if (picture != null)
+        Dish dish1;
+        if (picture != null) {
             dish.setPicture(picture.toString());
-        return dishManageService.addDish(dish);
+            dish1 = dishManageService.addDish(dish);
+            session.removeAttribute("picture");
+            return dish1;
+        } else {
+            return dishManageService.addDish(dish);
+        }
+
     }
 
     //管理员删除菜品。
@@ -75,10 +90,10 @@ public class DishManageController {
 
     //管理员管理照片
     @RequestMapping(value = "/photo")
-    public void uploadPhoto(@RequestPart("photo") MultipartFile multipartFile, HttpSession session) {
+    public void uploadPhoto(@RequestPart("photo") MultipartFile multipartFile, HttpServletRequest request) {
         String relativeFilename = uploadPictureService.upload(multipartFile);
         if (relativeFilename != null) {
-            session.setAttribute("picture", relativeFilename);
+            request.getSession().setAttribute("picture", relativeFilename);
         }
     }
 

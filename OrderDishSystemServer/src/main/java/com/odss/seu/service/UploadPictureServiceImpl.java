@@ -8,25 +8,31 @@ import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
-@Service
-public class UploadPictureServiceImpl implements UploadPictureService {
-    public static Logger lo= Logger.getLogger(UploadPictureServiceImpl.class);
 
-    private static final String relativePath = "/image/";
-    private static final String abosolutePath = "C:\\Program Files\\Apache24\\htdocs\\image\\";
+public class UploadPictureServiceImpl implements UploadPictureService {
+    public static Logger lo = Logger.getLogger(UploadPictureServiceImpl.class);
+
+    private String relativePath;
+    private String imageDirPath;
+
+    public UploadPictureServiceImpl(String webRootPath) {
+        this.imageDirPath = webRootPath + "\\image\\";
+        this.relativePath = "/image/";
+    }
 
     @Override
     public String upload(MultipartFile file) {
         if (!file.isEmpty()) {
             try {
                 String filename = UUID.randomUUID().toString().replaceAll("-", "") + file.getOriginalFilename();
-                file.transferTo(new File(abosolutePath + filename));
-                System.out.println(abosolutePath + filename);
-                lo.info("上传图片成功");
+                file.transferTo(new File(imageDirPath + filename));
+                lo.info("上传图片成功" + imageDirPath + filename);
+                System.out.println(imageDirPath + filename);
+                System.out.println(relativePath + filename);
                 return relativePath + filename;
             } catch (IOException exception) {
                 lo.info("上传图片失败");
-                exception.printStackTrace();
+                lo.error(exception.getStackTrace());
             }
         }
         return null;

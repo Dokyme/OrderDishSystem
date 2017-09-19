@@ -50,8 +50,15 @@ public class UserManageController {
 
     //管理员修改用户信息。
     @RequestMapping(method = RequestMethod.POST)
-    public void updateUser(@RequestBody User user) {
-        userManageService.updateUser(user);
+    public void updateUser(@RequestBody User user, HttpSession session) {
+        Object photo = session.getAttribute("photo");
+        if (photo != null) {
+            user.setPhoto(photo.toString());
+            userManageService.updateUser(user);
+            session.removeAttribute("photo");
+        } else {
+            userManageService.updateUser(user);
+        }
     }
 
     //管理员添加用户。
@@ -59,8 +66,13 @@ public class UserManageController {
     @JsonView(ViewLevel.SummaryWithDetail.class)
     public User addNewUser(@RequestBody User user, HttpSession session) {
         Object photo = session.getAttribute("photo");
-        if (photo != null)
+        User user1;
+        if (photo != null) {
             user.setPhoto(photo.toString());
+            user1 = userManageService.addNewUser(user);
+            session.removeAttribute("photo");
+            return user1;
+        }
         return userManageService.addNewUser(user);
     }
 

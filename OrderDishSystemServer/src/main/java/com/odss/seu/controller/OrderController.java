@@ -68,10 +68,11 @@ public class OrderController {
                 simpleDateFormat = new SimpleDateFormat("yyyy-MM");
                 startTime = simpleDateFormat.parse(time);
                 endTime = simpleDateFormat.parse(time);
+                endTime.setDate(28);
                 cStartTime.setTime(startTime);
                 cStartTime.set(Calendar.DATE, 1);
                 cEndTime.setTime(endTime);
-                cEndTime.set(Calendar.DATE, cEndTime.getActualMaximum(Calendar.DATE));
+                cEndTime.set(Calendar.DATE, 28);
             } else {
                 simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 startTime = simpleDateFormat.parse(time);

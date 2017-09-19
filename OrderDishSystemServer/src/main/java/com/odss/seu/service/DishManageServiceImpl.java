@@ -12,7 +12,7 @@ import java.util.List;
 @Service
 public class DishManageServiceImpl implements DishManageService {
 
-    public static Logger lo= Logger.getLogger(DishManageServiceImpl.class);
+    public static Logger lo = Logger.getLogger(DishManageServiceImpl.class);
     private DishMapper dishMapper;
 
     @Autowired
@@ -28,26 +28,27 @@ public class DishManageServiceImpl implements DishManageService {
 
     @Override
     public Dish queryDishDetail(Integer dishId) {
-        lo.info("查询ID为"+dishId+"的菜品成功");
+        lo.info("查询ID为" + dishId + "的菜品成功");
         return dishMapper.selectByPrimaryKey(dishId);
     }
 
     @Override
     public Dish addDish(Dish dish) {
-        lo.info("添加ID为"+dish.getId()+"的菜品成功");
+        lo.info("添加ID为" + dish.getId() + "的菜品成功");
         dishMapper.insert(dish);
         return dish;
     }
 
     @Override
     public void updateDish(Dish dish) {
-        lo.info("更新ID为"+dish.getId()+"的菜品成功");
-        dishMapper.updateByPrimaryKey(dish);
+        lo.info("更新ID为" + dish.getId() + "的菜品成功");
+        dishMapper.updateByPrimaryKeySelective(dish);
+
     }
 
     @Override
     public void deleteDish(Integer dishId) {
-        lo.info("删除ID为"+dishId+"的菜品成功");
+        lo.info("删除ID为" + dishId + "的菜品成功");
         dishMapper.deleteByPrimaryKey(dishId);
     }
 }

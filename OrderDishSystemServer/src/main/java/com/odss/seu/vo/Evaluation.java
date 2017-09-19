@@ -5,15 +5,13 @@ import com.fasterxml.jackson.annotation.JsonView;
 import java.io.Serializable;
 
 public class Evaluation implements Serializable {
-    private static final long serialVersionUID =1L;
+    private static final long serialVersionUID = 1L;
     @JsonView(ViewLevel.Summary.class)
     private Integer cookSpeed;
     @JsonView(ViewLevel.Summary.class)
     private Integer serveAttitude;
     @JsonView(ViewLevel.Summary.class)
     private Integer dishQuality;
-
-
 
     public Integer getCookSpeed() {
         return cookSpeed;

@@ -5,12 +5,13 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
     <context:annotation-config/>
+
     <bean class="org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration">
         <property name="maxInactiveIntervalInSeconds" value="600"/>
     </bean>
 
     <bean class="org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory">
-    <property name="hostName" value="127.0.0.1"/>
+        <property name="hostName" value="127.0.0.1"/>
     </bean>
 
     <bean id="captchaProducer" class="com.google.code.kaptcha.impl.DefaultKaptcha">
@@ -30,48 +31,30 @@
         </property>
     </bean>
 
-    <!--&lt;!&ndash; 该 BeanPostProcessor 将自动对标注 @Autowired 的 Bean 进行注入 &ndash;&gt;-->
-    <!--<bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>-->
-
-    <!-- 引入配置文件 -->
-    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    <bean id="dbPropertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="location" value="classpath:db.properties"/>
     </bean>
 
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-        <property name="driverClassName" value="${driver}"/>
-        <property name="url" value="${url}"/>
-        <property name="username" value="${username}"/>
-        <property name="password" value="${password}"/>
-        <!-- 初始化连接大小 -->
-        <property name="initialSize" value="${initialSize}" />
-        <!-- 连接池最大数量 -->
-        <property name="maxActive" value="${maxActive}" />
-        <!-- 连接池最大空闲 -->
-        <property name="maxIdle" value="${maxIdle}" />
-        <!-- 连接池最小空闲 -->
-        <property name="minIdle" value="${minIdle}" />
-        <!-- 获取连接最大等待时间 -->
-        <property name="maxWait" value="${maxWait}" />
+        <property name="driverClassName" value="${db.driver}"/>
+        <property name="url" value="${db.url}"/>
+        <property name="username" value="${db.username}"/>
+        <property name="password" value="${db.password}"/>
+        <property name="initialSize" value="${db.initialSize}"/>
+        <property name="maxActive" value="${db.maxActive}"/>
+        <property name="maxIdle" value="${db.maxIdle}"/>
+        <property name="minIdle" value="${db.minIdle}"/>
+        <property name="maxWait" value="${db.maxWait}"/>
     </bean>
 
-    <!-- 3.配置SqlSessionFactory对象 -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-        <!--&lt;!&ndash; 注入数据库连接池 &ndash;&gt;-->
         <property name="dataSource" ref="dataSource"/>
-
-        <property name="configLocation" value="classpath:mybatis-config.xml"/>
-        <!--&lt;!&ndash; 扫描entity包 使用别名 &ndash;&gt;-->
-        <!--<property name="typeAliasesPackage" value="com.soecode.lyf.entity" />-->
-        <!-- 扫描sql配置文件:mapper需要的xml文件 -->
+        <property name="configLocation" value="classpath:mybatisConfig.xml"/>
         <property name="mapperLocations" value="classpath:mapper/*.xml"/>
     </bean>
 
-    <!-- 4.配置扫描Dao接口包，动态实现Dao接口，注入到spring容器中 -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <!-- 注入sqlSessionFactory -->
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
-        <!-- 给出需要扫描Dao接口包 -->
         <property name="basePackage" value="com.odss.seu.mapper"/>
     </bean>
 </beans>

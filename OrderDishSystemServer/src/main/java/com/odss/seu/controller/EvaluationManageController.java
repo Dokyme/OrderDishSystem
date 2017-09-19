@@ -20,9 +20,9 @@ public class EvaluationManageController {
         this.evaluateService = evaluateService;
     }
 
-    @RequestMapping(value = "/{orderId}",method = RequestMethod.PUT)
-    public void updateEvaluate(@PathVariable Integer orderId,@RequestBody Evaluation evaluation) {
-        evaluateService.commitEvaluate(orderId, evaluation);
+    @RequestMapping(value = "/{table}",method = RequestMethod.PUT)
+    public void updateEvaluate(@PathVariable Integer table,@RequestBody Evaluation evaluation) {
+        evaluateService.commitEvaluate(table, evaluation);
     }
 
 }

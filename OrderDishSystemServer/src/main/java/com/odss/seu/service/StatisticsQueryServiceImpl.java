@@ -48,7 +48,7 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService {
         int numOfTables = 0;
         statistics.setSellNum(0);
         statistics.setIncome(0f);
-        statistics.setFantai(0);
+        statistics.setFantai(0f);
         for (Order order : orders) {
             statistics.setSellNum(statistics.getSellNum() + order.getDishes().size());
             statistics.setIncome(statistics.getIncome() + calculateTotal(order));
